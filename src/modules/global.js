@@ -18,7 +18,8 @@ global.playerObject = {};                           // Store the player object
 global.sceneManager = new SceneManager();           // Store the scene manager
 
 global.ctx.imageSmoothingEnabled = false;           // Disable image smoothing for pixel art
-global.ctx.font = "";             // Set the default font
+global.ctx.font = "";                               // Set the default font
+
 
 // GLOBAL FUNCTIONS
 
@@ -45,7 +46,6 @@ global.init = function () {
 
     global.sceneManager.changeScene(new MainMenu());
    
-
     console.log("Game initialized");
 }
 

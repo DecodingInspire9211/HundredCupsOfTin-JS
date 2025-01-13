@@ -1,9 +1,11 @@
 import { Scene } from "./scene.js";
 
 export class SceneManager {
-    currentScene = null;
+    constructor() {
+        this.currentScene = null;
+    }
 
-    changeScene(newScene) {
+    changeScene(newScene = typeof Scene) {
         if (this.currentScene) {
             this.currentScene.destroy();
         }
@@ -12,15 +14,15 @@ export class SceneManager {
         this.currentScene.init();
     }
 
-    update() {
+    update(deltaTime) {
         if (this.currentScene) {
-            this.currentScene.update();
+            this.currentScene.update(deltaTime);
         }
     }
 
     render(ctx) {
         if (this.currentScene) {
-            this.currentScene.render()
+            this.currentScene.render(ctx)
         }
     }
 }

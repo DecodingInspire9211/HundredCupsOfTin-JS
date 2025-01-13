@@ -28,9 +28,9 @@ export class Scene {
     }
 
     destroy() {
-        if (this.destroyObjects()) {
-            console.log(`Scene ${this.sceneName} destroyed`);
-        }
+        // if (this.destroyObjects()) {
+        //     console.log(`Scene ${this.sceneName} destroyed`);
+        // }
     }
 
     createObjects() {

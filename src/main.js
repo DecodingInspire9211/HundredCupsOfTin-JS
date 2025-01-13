@@ -18,6 +18,7 @@ function gameLoop(totalRunningTime) {
     // UPDATE
 
     global.sceneManager.update();
+    
 
     // RENDER
 

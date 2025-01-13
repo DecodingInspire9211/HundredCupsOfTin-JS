@@ -1,3 +1,6 @@
+import { BaseUI } from "../../modules/ui/baseUI.js";
+import { global } from "../../modules/global.js";
+
 export class Button extends BaseUI {
     x;
     y;
@@ -21,16 +24,16 @@ export class Button extends BaseUI {
         this.backgroundColor = backgroundColor;
         this.onClick = onClick;
 
-        this.canvas.addEventListener("click", this.handleClick.bind(this));
+        global.canvas.addEventListener("click", this.handleClick.bind(this));
     }
 
-    render() {
-        this.ctx.fillStyle = this.backgroundColor;
-        this.ctx.fillRect(this.x, this.y, this.width, this.height);
-
-        this.ctx.font = `${this.fontSize}px Pixelify Sans`;
-        this.ctx.fillStyle = this.fontColor;
-        this.ctx.fillText(this.text, this.x + 10, this.y + 20);
+    render = function() {
+        global.ctx.fillStyle = this.backgroundColor;
+        global.ctx.fillRect(this.x, this.y, this.width, this.height);
+        
+        global.ctx.font = `${this.fontSize}px Pixelify Sans`;
+        global.ctx.fillStyle = this.fontColor;
+        global.ctx.fillText(this.text, this.x + 10, this.y + 20);
     }
 
     isClicked(mouseX, mouseY) {

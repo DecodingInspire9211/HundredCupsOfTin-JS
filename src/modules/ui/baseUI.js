@@ -20,23 +20,16 @@ export class BaseUI {
         this.backgroundColor = backgroundColor;
     }
 
-    render() {
+    update = function() {
+        
+    }
+
+    render = function(ctx) {
         ctx.fillStyle = `${this.backgroundColor || 'black'}`;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.ctx.fillRect(this.x, this.y, this.width, this.height);
 
         ctx.fillStyle = `${this.fontColor || 'white'}`;
         ctx.font = `${this.fontSize}px Pixelify Sans`;
         ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
-    }
-
-    destroy() {
-        this.x = null;
-        this.y = null;
-        this.width = null;
-        this.height = null;
-        this.text = null;
-        this.fontSize = null;
-        this.fontColor = null;
-        this.backgroundColor = null;
     }
 }
