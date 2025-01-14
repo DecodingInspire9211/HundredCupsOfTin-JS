@@ -1,15 +1,18 @@
+import { global } from "../global.ts";
+
 export class BaseUI {
-    x;
-    y;
-    width;
-    height;
+    active: boolean = true;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 
-    text;
-    fontSize;
-    fontColor;
-    backgroundColor;
+    text: string;
+    fontSize: number;
+    fontColor: string;
+    backgroundColor: string;
 
-    constructor(x, y, width, height, text, fontSize, fontColor, backgroundColor) {
+    constructor(x: number, y: number, width: number, height: number, text: string, fontSize: number, fontColor: string, backgroundColor: string) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -18,18 +21,21 @@ export class BaseUI {
         this.fontSize = fontSize;
         this.fontColor = fontColor;
         this.backgroundColor = backgroundColor;
+
+        global.allGameObjects.push(this);
     }
 
     update = function() {
-        
+
     }
 
-    render = function(ctx) {
+    render(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = `${this.backgroundColor || 'black'}`;
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
         ctx.fillStyle = `${this.fontColor || 'white'}`;
         ctx.font = `${this.fontSize}px Pixelify Sans`;
         ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
+
     }
 }

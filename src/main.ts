@@ -1,16 +1,15 @@
-import { global } from "./modules/global.js";
-
-// TODO: Implement Initialisation of the game
+import { global } from "./modules/global.ts";
 
 global.init();
 
-function gameLoop(totalRunningTime) {
+function gameLoop(totalRunningTime: number) {  
+
     // PREPARE FOR RENDERING
     global.clearCanvas();
     global.updateCanvasSize();
 
     // STATS
-    global.dt(totalRunningTime);
+    global.updateDeltaTime(totalRunningTime);
     global.updateFPS();
 
     global.ctx.font = "16px Pixelify Sans";
@@ -18,16 +17,13 @@ function gameLoop(totalRunningTime) {
     global.ctx.fillText(`FPS: ${Math.round(global.fps)} - ∂t: ${global.deltaTime}`, global.getCanvasBounds().left+64, global.getCanvasBounds().bottom-80);
     global.ctx.fillText(`left: ${global.getCanvasBounds().left}\ntop: ${global.getCanvasBounds().top}\nright: ${global.getCanvasBounds().right}\nbottom: ${global.getCanvasBounds().bottom}\n`, global.getCanvasBounds().left+64, global.getCanvasBounds().bottom-64);
 
-    // UPDATE
 
-    global.sceneManager.update();
-    
+    // update
+    global.sceneManager.update(global.deltaTime);
 
-    // RENDER
+    // render
+    global.sceneManager.render(global.ctx!);
 
-    global.sceneManager.render(global.ctx);
-
-    // REQUEST ANIMATION FRAME
     requestAnimationFrame(gameLoop);
 }
 

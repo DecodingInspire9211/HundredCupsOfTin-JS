@@ -1,30 +1,63 @@
-import { global } from "../../modules/global.js";
+// @ts-ignore
+import { global } from "../global.ts";
 
 export class BaseGameObj {
-    active = true;
-    name = "";
-    x = 100;
-    y = 500;
-    previousX = 0;
-    previousY = 0;
-    width = 50;
-    height = 50;
+    /// public properties
+    public name: string = "";
 
-    animationData = {
+    public active : boolean = true;
+
+    public x: number = 0;
+    public y: number = 0;
+
+    private previousX: number = 0;
+    private previousY: number = 0;
+
+    public width: number = 0;
+    public height: number = 0;
+
+
+    /// internal properties
+    animationData: any = {
         "animationSprites": [],
         "timePerSprite": 0.08,
-        "currentSpriteElapsedTime": 0,
+        "elapsedSpriteTime": 0,
+        "currentSpriteIndex": 0,
         "firstSpriteIndex": 0,
         "lastSpriteIndex": 0,
-        "currentSpriteIndex": 0
     };
 
-    storePositionOfPreviousFrame = function () {
+    constructor(name: string, x: number, y: number, width: number, height: number) {
+        this.name = name;
+        
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
+        this.previousX = x;
+        this.previousY = y;
+
+        global.allGameObjects.push(this);
+    };
+
+    /// essential methods
+
+    update = function() {
+    
+    };
+
+    render = function() {
+        let sprite = this.getNextSprite();
+        global.ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+    };
+
+    storePositionOfPreviousFrame = () => {
         this.previousX = this.x;
         this.previousY = this.y;
-    }
+    };
 
-    getBoxBounds = function () {
+    getBoxBounds = () => {
         let bounds = {
             left: this.x,
             right: this.x + this.width,
@@ -32,18 +65,9 @@ export class BaseGameObj {
             bottom: this.y + this.height
         }
         return bounds;
-    };
+    }
 
-    update = function () { 
-
-    };
-
-    draw = function () {
-        let sprite = this.getNextSprite();
-        global.ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
-    };
-
-    getNextSprite = function () {
+    getNextSprite = () => {
         this.animationData.currentSpriteElapsedTime += global.deltaTime;
 
         if (this.animationData.currentSpriteElapsedTime >= this.animationData.timePerSprite) {
@@ -56,33 +80,33 @@ export class BaseGameObj {
         return this.animationData.animationSprites[this.animationData.currentSpriteIndex];
     };
 
-
-    loadImages = function (imageSources) {
+    loadImages = (imageSources) => {
         /* first load images from path */
 
         for (let i = 0; i < imageSources.length; i++) {
             let image = new Image();
             image.src = imageSources[i];
-    
+
             /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
             this.animationData.animationSprites.push(image);
         }
-
     };
 
-    loadImagesFromSpritesheet(spritesheetPath, cols, rows) {
+
+
+    loadImagesFromSpritesheet = (spritesheetPath, cols, rows) => {
         // Calculate the number of rows and columns
         //const cols = Math.floor(spritesheetWidth / singleSpriteWidth);
         //const rows = Math.floor(spritesheetHeight / singleSpriteHeight);
         const totalSprites = cols * rows;
-    
+
         // Pre-create an array with `Image` objects for all sprites
         this.animationData.animationSprites = Array.from({ length: totalSprites }, () => new Image());
-    
+
         // Load the spritesheet
         const spritesheet = new Image();
         spritesheet.src = spritesheetPath;
-    
+
         // Add a "load" event listener to the spritesheet
         spritesheet.addEventListener("load", () => {
             const spritesheetWidth = spritesheet.width;
@@ -100,7 +124,7 @@ export class BaseGameObj {
             // Loop through each sprite's row and column position
             for (let row = 0; row < rows; row++) {
                 for (let col = 0; col < cols; col++) {
-                
+
                     // Clear the temporary canvas and draw the specific sprite region from the spritesheet
                     tempSpritesheetCtx.clearRect(0, 0, singleSpriteWidth, singleSpriteHeight);
                     tempSpritesheetCtx.drawImage(
@@ -114,7 +138,7 @@ export class BaseGameObj {
                         singleSpriteWidth,
                         singleSpriteHeight
                     );
-    
+
                     // assign it to the corresponding Image object
                     const index = row * cols + col;
                     this.animationData.animationSprites[index].src = tempSpritesheetCanvas.toDataURL();
@@ -131,15 +155,5 @@ export class BaseGameObj {
 
     reactToCollision = function(collidingObject) {
 
-    }
-
-    constructor(x, y, width, height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.previousX = x;
-        this.previousY = y;
-        global.allGameObjects.push(this);
     }
 }

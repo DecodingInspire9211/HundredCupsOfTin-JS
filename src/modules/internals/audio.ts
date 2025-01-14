@@ -1,12 +1,14 @@
-export class Audio {
-    constructor(src, loop = false, volume = 1) {
+export class AudioClass {
+    audio: HTMLAudioElement;
+
+    constructor(src: string, loop: boolean, volume: number) {
         this.audio = new Audio(src);
         this.audio.loop = loop;
         this.audio.volume = volume;
     }
 
     play() {
-        this.audio.play();
+        this.audio.play().then(r => {}  ).catch(e => console.log(e));
     }
 
     pause() {
