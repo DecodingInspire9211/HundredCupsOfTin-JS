@@ -2,6 +2,7 @@ import { BaseUI } from "../../modules/ui/baseUI.js";
 import { global } from "../../modules/global.js";
 
 export class Button extends BaseUI {
+    active = true;
     x;
     y;
     width;
@@ -27,14 +28,14 @@ export class Button extends BaseUI {
         global.canvas.addEventListener("click", this.handleClick.bind(this));
     }
 
-    render = function() {
-        global.ctx.fillStyle = this.backgroundColor;
-        global.ctx.fillRect(this.x, this.y, this.width, this.height);
+    render = function(ctx) {        
+        ctx.fillStyle = this.backgroundColor;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
         
-        global.ctx.font = `${this.fontSize}px Pixelify Sans`;
-        global.ctx.fillStyle = this.fontColor;
-        global.ctx.fillText(this.text, this.x + 10, this.y + 20);
-    }
+        ctx.font = `${this.fontSize}px Pixelify Sans`;
+        ctx.fillStyle = this.fontColor;
+        ctx.fillText(this.text, this.x + this.width / 2 - global.ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
+    }       
 
     isClicked(mouseX, mouseY) {
         return mouseX > this.x &&
@@ -45,7 +46,9 @@ export class Button extends BaseUI {
 
     handleClick(event) {
         if (this.isClicked(event.offsetX, event.offsetY)) {
-            this.onClick();
+            if (this.onClick()) {
+                return true;
+            }
         }
     }
 }

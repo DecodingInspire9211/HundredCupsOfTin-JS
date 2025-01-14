@@ -2,6 +2,7 @@ import { MainMenu } from "../components/scenes/MainMenu.js";
 import { SceneManager } from "./scenemanagement/scenemanager.js";
 
 import { loadFont } from "./internals/loadFont.js";
+import { GameWorld } from "../components/scenes/GameWorld.js";
 
 const global = {};
 
@@ -12,6 +13,10 @@ global.ctx = global.canvas.getContext("2d");        // Get the 2D context of the
 global.previousTRT = 0;                             // Store the previous timestamp
 global.fps = 0;                                     // Store the frames per second
 global.deltaTime = 0;                               // Store the delta time
+// global.allGameObjects = {
+//     GameObject: "",
+//     Scene: "",
+// };                                               // Store all game objects
 global.allGameObjects = [];                         // Store all game objects
 global.playerObject = {};                           // Store the player object
 
@@ -44,7 +49,9 @@ global.init = function () {
     loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
     global.ctx.font = "16px Pixelify Sans";
 
-    global.sceneManager.changeScene(new MainMenu());
+    //global.sceneManager.changeScene(new MainMenu());
+    global.sceneManager.changeScene(new GameWorld());
+
    
     console.log("Game initialized");
 }

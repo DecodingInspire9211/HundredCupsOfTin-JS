@@ -26,7 +26,7 @@ export class BaseUI {
 
     render = function(ctx) {
         ctx.fillStyle = `${this.backgroundColor || 'black'}`;
-        this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillRect(this.x, this.y, this.width, this.height);
 
         ctx.fillStyle = `${this.fontColor || 'white'}`;
         ctx.font = `${this.fontSize}px Pixelify Sans`;

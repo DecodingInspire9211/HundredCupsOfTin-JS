@@ -13,43 +13,43 @@ export class Scene {
         this.resetObjects = function () { };
     }
 
-    init() {
+    init = function() {
         this.createObjects();
         console.log(`Scene ${this.sceneName} initialized`);
 
     }
 
-    update() {
+    update = function() {
 
     }
 
-    render() {
+    render = function(ctx) {
 
     }
 
-    destroy() {
-        // if (this.destroyObjects()) {
-        //     console.log(`Scene ${this.sceneName} destroyed`);
-        // }
-    }
-
-    createObjects() {
-    }
-
-    destroyObjects(sceneObjects) {
-        // Check if there are objects in the scene, if so, destroy them
-        if (this.sceneObjects.length > 0) {
-            // This foreach will call the destroy method of each object inside sceneObjects!
-            this.sceneObjects.forEach(object => {
-                object.destroy();
-            });
-
-            // Clear the sceneObjects array
-            this.sceneObjects = [];
-
-            // Return true to indicate that the objects were destroyed
-            return true;
+    destroy = function() {
+        if (this.destroyObjects()) {
+            console.log(`Scene ${this.sceneName} destroyed`);
         }
+    }
+
+    createObjects = function() {
+    }
+
+    destroyObjects = function(sceneObjects) {
+        // // Check if there are objects in the scene, if so, destroy them
+        // if (this.sceneObjects.length > 0) {
+        //     // This foreach will call the destroy method of each object inside sceneObjects!
+        //     this.sceneObjects.forEach(object => {
+        //         object.destroy();
+        //     });
+
+        //     // Clear the sceneObjects array
+        //     this.sceneObjects = [];
+
+        //     // Return true to indicate that the objects were destroyed
+        //     return true;
+        // }
     }
 
     resetObjects() {

@@ -1,6 +1,6 @@
 Initialisation of Project
 =========================
-13. Jänner 2025 - 14:23
+13. Jänner 2025 - 09:23
 
 * add file structure
 * add src
@@ -28,3 +28,9 @@ Initialisation of Project
 * add CHANGELOG.md
 * add index.html
 * README.md
+
+END - 17:31
+
+Implementation of Game World
+============================
+14. Jänner 2025 - 10:27
