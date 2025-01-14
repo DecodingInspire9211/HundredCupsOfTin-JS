@@ -1,2 +1,2 @@
-# HundredCupsOfTin-JS
-Twelve Months: Hundred Cups of Tin as a university project
+# Twelve Months: Hundred Cups of Tin
+### Author: **Kenneth William Beier**

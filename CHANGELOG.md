@@ -6,7 +6,7 @@ Initialisation of Project
 * add src
     * components
         * scenes
-            * MainMenu.js
+            * MainMenu.ts
         * ui
             * button.js
             * ui.js     (UI Library)
@@ -23,7 +23,7 @@ Initialisation of Project
         * ui
             * baseUIobj.js
         * global.js
-    * main.js
+    * main.ts
     * style.css
 * add CHANGELOG.md
 * add index.html
@@ -31,6 +31,6 @@ Initialisation of Project
 
 END - 17:31
 
-Implementation of Game World
+Rewriting everything into TypeScript
 ============================
 14. Jänner 2025 - 10:27
