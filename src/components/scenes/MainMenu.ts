@@ -39,7 +39,7 @@ export class MainMenu extends Scene {
 
     }
 
-    init = function() {
+    init = () => {
         this.createObjects();
 
         console.log(this.theme);
@@ -52,7 +52,7 @@ export class MainMenu extends Scene {
 
     }
 
-    render = function(ctx) {
+    render = (ctx) => {
         for(let i = 0; i < this.sceneObjects.length; i++) {
             this.sceneObjects[i].render(ctx);
         }
@@ -63,15 +63,15 @@ export class MainMenu extends Scene {
         //destroyObjects();
     }
 
-    createObjects = function() {
+    createObjects = () => {
         //const title = new Image("src/components/imgs/title.png", (global.canvas.width / 2) - 128, 32, 256, 64);
-        const start = new Button((global.canvas.width / 2) - 128, global.canvas.height / 2 - 128, 256, 64, "Start", 20, "black", "beige", () => {
+        const start = new Button((global.canvas!.width / 2) - 128, global.canvas!.height / 2 - 128, 256, 64, "Start", 20, "black", "beige", () => {
             global.sceneManager.changeScene(new GameWorld());
         });
-        const options = new Button((global.canvas.width / 2) - 128, (global.canvas.height / 2) - 64 + this.gap, 256, 64, "Options", 20, "black", "beige", () => {
+        const options = new Button((global.canvas!.width / 2) - 128, (global.canvas!.height / 2) - 64 + this.gap, 256, 64, "Options", 20, "black", "beige", () => {
             console.log("options");
         });
-        const quit = new Button((global.canvas.width / 2) - 128, (global.canvas.height / 2) + (this.gap * 2), 256, 64, "Quit", 20, "black", "beige", () => {
+        const quit = new Button((global.canvas!.width / 2) - 128, (global.canvas!.height / 2) + (this.gap * 2), 256, 64, "Quit", 20, "black", "beige", () => {
             console.log("quit");
         });
 

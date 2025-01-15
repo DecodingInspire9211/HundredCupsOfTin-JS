@@ -1,62 +1,43 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
-import { UI } from "../ui/ui.ts";
-import { global } from "../../modules/global.ts";
-import { Button } from "../ui/button.ts";
-import { MainMenu } from "./MainMenu.ts";
 
+import {Map} from "../../types/level.ts";
+import {Player} from "../../modules/gameobjs/player.ts";
 export class GameWorld extends Scene {
-
-    gap = 12;
 
     constructor() {
         super();
-        this.sceneName = "GameWorld";
-        this.sceneObjects = [];
-
-        // this.return = new Button(this.gap, this.gap, 64, 64, "<-", 20, "black", "beige", () => {
-        //     global.sceneManager.changeScene(new MainMenu());
-        // });
-
-        // this.sceneObjects.push(this.return);
-
-        console.log(`Scene ${this.sceneName} constructed`);
     }
 
-    init = function() {
+    init = () => {
         this.createObjects();
-
-        // let theme = new Audio('src/components/audio/TwelveMonths - Hundred Cups of Tin.mp3', false, 0.5);
-        // theme.play();
-
         console.log(`Scene ${this.sceneName} initialized`);
     }
 
-    update = function() {
-
+    update = () => {
+        this.player.update();
     }
 
-    render = function(ctx) {
-        // if(this.sceneObjects.active) {
-        //     for(let i = 0; i < this.sceneObjects.length; i++) {
-        //         this.sceneObjects[i].render(ctx);
-        //     }
-        // }
+    render = (ctx: CanvasRenderingContext2D) => {
+        //this.map.flat().forEach(tile => tile.node.render())
+
+        //this.player.render(ctx);
+
 
         for(let i = 0; i < this.sceneObjects.length; i++) {
-            if(this.sceneObjects[i].active === true)
+            if(this.sceneObjects[i]!.active === true)
             {
                 this.sceneObjects[i].render(ctx);
-
+                console.log(`Object ${this.sceneObjects[i].name} rendered`);
             }
         }
     }
 
-    destroy = function() {
+    destroy = () => {
         // if (this.destroyObjects()) {
         //     console.log(`Scene ${this.sceneName} destroyed`);
         // }
         this.sceneObjects.forEach(object => {
-            this.sceneObjects[object].active = false;
+            //this.sceneObjects[object].active = false;
         });
     }
 
@@ -66,7 +47,12 @@ export class GameWorld extends Scene {
              global.sceneManager.changeScene(new MainMenu());
         });
 
+        const gameArea = new GameArea(global.canvas!.width/2, global.canvas!.height/2);
+
+
+
         this.sceneObjects.push(ret);
+        this.sceneObjects.push(gameArea);
 
         this.sceneObjects.forEach(object => {
             console.log(`Object ${object} created`);

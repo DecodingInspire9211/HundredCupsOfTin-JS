@@ -10,7 +10,7 @@ export class Image extends BaseUI {
 
     source;
 
-    constructor(source, x = 0, y = 0, width = 128, height = 128) {
+    constructor(source: string, x: number = 0, y: number = 0, width: number = 128, height:number = 128) {
         super(x, y, width, height, "", 0, "", "");
         this.source = source;
 
@@ -20,7 +20,13 @@ export class Image extends BaseUI {
         this.height = height;
     }
 
-    render = function(ctx) {        
-        ctx.drawImage(this.source, this.x, this.y, this.width, this.height);
+    render = (ctx: CanvasRenderingContext2D) => {
+        let img = new Image(this.source);
+
+        img.onerror = () => {
+            console.error(`Error occured`)
+        }
+
+        ctx.drawImage(, this.x, this.y, this.width, this.height);
     }       
 }

@@ -13,8 +13,7 @@ export class Button extends BaseUI {
     backgroundColor: string;
     onClick: () => any;
 
-    isClicked: (mouseX: number, mouseY: number) => boolean;
-    handleClick: (event: MouseEvent) => void;
+    canvas = global.canvas;
 
     constructor(
         x: number,
@@ -38,7 +37,7 @@ export class Button extends BaseUI {
         this.backgroundColor = backgroundColor;
         this.onClick = onClick;
 
-        global.canvas.addEventListener('click', this.handleClick.bind(this));
+        this.canvas!.addEventListener('click', this.handleClick.bind(this));
     }
 
     render(ctx: CanvasRenderingContext2D): void {
@@ -51,14 +50,14 @@ export class Button extends BaseUI {
     }
 
 
-    isClicked(mouseX: number, mouseY: number): boolean {
+    isClicked = (mouseX: number, mouseY: number): boolean => {
         return mouseX >= this.x &&
         mouseY >= this.y &&
         mouseX <= this.x + this.width &&
         mouseY <= this.y + this.height;
     }
 
-    handleClick(event: MouseEvent): void {
+    handleClick = (event: MouseEvent): void => {
         if (this.isClicked(event.offsetX, event.offsetY)) {
             console.log("Button clicked!");
             this.onClick();

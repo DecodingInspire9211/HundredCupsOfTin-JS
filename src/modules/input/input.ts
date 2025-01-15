@@ -1,41 +1,31 @@
-import { global } from "../global.js";
+export class Input {
+    private keys: Set<string>;
+    private KeyUpCallback: Array<(key: string) => void> = [];
 
-function move(event: KeyboardEvent) {
-    // event is declared but its value is never read
+    constructor() {
+        this.keys = new Set();
+        window.addEventListener('keydown', (e) => this.keys.add(e.key));
+        window.addEventListener('keyup', (e) => {
+            this.keys.delete(e.key);
 
-    // // Example Movement for the PacMan Game
-    // switch(event.key) {
-    //     case "d":
-    //         global.playerObject.xVelocity = 100;
-    //         global.playerObject.yVelocity = 0;
-    //         //global.playerObject.switchCurrentSprites(0, 2);
-    //         break;
-    //     case "a":
-    //         global.playerObject.xVelocity = -100;
-    //         global.playerObject.yVelocity = 0;
-    //         //global.playerObject.switchCurrentSprites(6, 8);
-    //         break;
-    //     case "w":
-    //         global.playerObject.xVelocity = 0;
-    //         global.playerObject.yVelocity = -100;
-    //         //global.playerObject.switchCurrentSprites(9, 11);
-    //         break;
-    //     case "s":
-    //         global.playerObject.xVelocity = 0;
-    //         global.playerObject.yVelocity = 100;
-    //         //global.playerObject.switchCurrentSprites(3, 5);
-    //         break;
-    // }
+            this.KeyUpCallback.forEach(callback => callback(e.key));
+        });
+    }
+
+    isKeyPress(key: string): boolean {
+        return  this.keys.has(key);
+    }
+
+    addKeyUpCallback(callback: (key:string) => void)
+    {
+        return this.KeyUpCallback.push(callback);
+    }
+
+    static onKeyPress(key: string, callback: (key: string) => void) {
+        return window.addEventListener('keydown', (e) => {
+            if(e.key === key) {
+                callback(e.key)
+            }
+        });
+    }
 }
-
-function stop() {
-
-    //if you just want to move as long as the player presses a key
-    global.playerObject.xVelocity = 0;
-    global.playerObject.yVelocity = 0;
-}
-
-document.addEventListener("keypress", move);
-
-//if you just want to move as long as the player presses a key:
-document.addEventListener("keyup", stop);

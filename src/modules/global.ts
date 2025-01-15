@@ -2,7 +2,7 @@ import { BaseGameObj } from "./baseGameObj.ts";
 import { SceneManager } from "./SceneManagement/sceneManager.ts";
 
 import { MainMenu } from "../components/scenes/MainMenu.ts";
-//import { GameWorld } from "./components/scenes/GameWorld.ts";
+import { GameWorld } from "../components/scenes/GameWorld.ts";
 
 import { loadFont } from "./internals/loadFont.ts";
 
@@ -43,14 +43,14 @@ const global: Global = {
       this.getCanvasBounds();
 
       loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
-      this.ctx.font = "16px Pixelify Sans";
+      this.ctx!.font = "16px Pixelify Sans";
 
-      this.sceneManager.changeScene(new MainMenu());
-      //global.sceneManager.changeScene(new GameWorld());
+      //this.sceneManager.changeScene(new MainMenu());
+      this.sceneManager.changeScene(new GameWorld());
     },
 
     clearCanvas: function () {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx!.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
 
     updateCanvasSize: function () {
