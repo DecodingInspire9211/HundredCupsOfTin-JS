@@ -1,9 +1,7 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
-import { UI } from "../ui/ui.ts";
 import { global } from "../../modules/global.ts";
 import { AudioClass} from "../../modules/internals/audio";
 import { Button } from "../ui/button.ts";
-import { Image } from "../ui/image.ts";
 import { GameWorld } from "./GameWorld.ts";
 
 export class MainMenu extends Scene {
@@ -44,7 +42,6 @@ export class MainMenu extends Scene {
 
         console.log(this.theme);
 
-
         console.log(`Scene ${this.sceneName} initialized`);
     }
 
@@ -52,7 +49,7 @@ export class MainMenu extends Scene {
 
     }
 
-    render = (ctx) => {
+    render = (ctx: CanvasRenderingContext2D) => {
         for(let i = 0; i < this.sceneObjects.length; i++) {
             this.sceneObjects[i].render(ctx);
         }

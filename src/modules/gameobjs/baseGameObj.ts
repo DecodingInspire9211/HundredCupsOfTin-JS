@@ -1,6 +1,5 @@
 // @ts-ignore
 import { global } from "../global.ts";
-import {TILE_SIZE} from "../../../lib/constants.ts";
 
 export class BaseGameObj {
     /// public properties
@@ -10,19 +9,14 @@ export class BaseGameObj {
 
     public x: number = 0;
     public y: number = 0;
-    public tileX: number = 0;
-    public tileY: number = 0;
+    // public tileX: number = 0;
+    // public tileY: number = 0;
 
-    private previousX: number = 0;
-    private previousY: number = 0;
+    //private previousX: number = 0;
+    //private previousY: number = 0;
 
     public width: number = 0;
     public height: number = 0;
-
-    tile_size = TILE_SIZE;
-    direction: 'up' | 'down' | 'left' | 'right' = 'down';
-
-
 
     /// internal properties
     animationData: any = {
@@ -54,7 +48,7 @@ export class BaseGameObj {
     
     };
 
-    render = function(ctx) {
+    render = function(ctx: CanvasRenderingContext2D) {
         let sprite = this.getNextSprite();
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
     };
