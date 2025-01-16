@@ -55,9 +55,13 @@ export class MainMenu extends Scene {
         }
     }
 
-    destroy = function() {
+    destroy = () => {
         //this.theme.stop();
         //destroyObjects();
+
+        for(let i = 0; i < this.sceneObjects.length; i++) {
+            this.sceneObjects[i].destroy();
+        }
     }
 
     createObjects = () => {

@@ -40,13 +40,22 @@ export class Button extends BaseUI {
         this.canvas!.addEventListener('click', this.handleClick.bind(this));
     }
 
-    render(ctx: CanvasRenderingContext2D): void {
-        ctx.fillStyle = `${this.backgroundColor}`;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
 
-        ctx.fillStyle = `${this.fontColor}`;
-        ctx.font = `${this.fontSize}px Pixelify Sans`;
-        ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
+
+    render(ctx: CanvasRenderingContext2D): void {
+        if(this.active)
+        {
+            ctx.fillStyle = `${this.backgroundColor}`;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+
+            ctx.fillStyle = `${this.fontColor}`;
+            ctx.font = `${this.fontSize}px Pixelify Sans`;
+            ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
+        }
+    }
+
+    destroy = (): void => {
+        this.active = false;
     }
 
 
@@ -58,9 +67,13 @@ export class Button extends BaseUI {
     }
 
     handleClick = (event: MouseEvent): void => {
-        if (this.isClicked(event.offsetX, event.offsetY)) {
-            console.log("Button clicked!");
-            this.onClick();
+        if(this.active)
+        {
+            if (this.isClicked(event.offsetX, event.offsetY)) {
+                console.log("Button clicked!");
+                this.onClick();
+            }
         }
+
     }
 }

@@ -5,6 +5,7 @@ import { MainMenu } from "../components/scenes/MainMenu.ts";
 import { GameWorld } from "../components/scenes/GameWorld.ts";
 
 import { loadFont } from "./internals/loadFont.ts";
+import {KeyHandler} from "./input/keyHandler.ts";
 
 interface Global {
     canvas: HTMLCanvasElement | null;
@@ -23,6 +24,7 @@ interface Global {
     getCanvasBounds: () => { left: number; right: number; top: number; bottom: number };
     checkCollisionWithAnyOther: (source: any) => void;
     detectBoxCollision: (gameObject1: any, gameObject2: any) => boolean;
+    handleInput: KeyHandler;
 
     updateFPS: () => void;
     updateDeltaTime: (totalRunningTime: number) => void;
@@ -37,6 +39,9 @@ const global: Global = {
     allGameObjects: [] as BaseGameObj[],
     playerObject: {},
     sceneManager: new SceneManager(),
+
+    handleInput : new KeyHandler(),
+
 
     init: function() {
       this.updateCanvasSize();

@@ -5,15 +5,22 @@ import { TILE_SIZE } from "../../../lib/constants.ts";
 import {Floor} from "../../gameObjects/floor.ts";
 import {global} from "../../modules/global.ts";
 import {MainMenu} from "./MainMenu.ts";
+import {Grid} from "../../modules/gameobjs/grid.ts";
+import {Player} from "../../gameObjects/player.ts";
+import {Counter} from "../../gameObjects/counter.ts";
 
 export class GameWorld extends Scene {
 
-
+    gap = 12;
+    player: Player;
+    grid: Grid;
 
     constructor() {
         super();
         this.sceneName = "Game World";
         this.sceneObjects = [];
+        this.grid = new Grid(12);
+        this.player = new Player("Player", "Knox", "Janáček",0,0,TILE_SIZE, TILE_SIZE * 2, this.grid);
     }
 
     init = () => {
@@ -22,12 +29,13 @@ export class GameWorld extends Scene {
     }
 
     update = () => {
+        this.player.update(this.grid)
     }
 
     render = (ctx: CanvasRenderingContext2D) => {
         //this.map.flat().forEach(tile => tile.node.render())
 
-        //this.player.render(ctx);
+        this.player.render(ctx);
 
         for(let i = 0; i < this.sceneObjects.length; i++) {
             if(this.sceneObjects[i]!.active === true)
@@ -53,20 +61,37 @@ export class GameWorld extends Scene {
              global.sceneManager.changeScene(new MainMenu());
         });
 
-        for(let i = 0; i < 12; i++) {
-            let wall = new Wall(`Wall${i}`, TILE_SIZE + (64 * i), TILE_SIZE, TILE_SIZE, TILE_SIZE * 2);
-            this.sceneObjects.push(wall);
-        }
+        // for(let j = 0; j < 12; j++) {
+        //     for(let k = 0; k < 12; k++)
+        //     {
+        //         let floor = new Floor(`Floor${j + k}`, TILE_SIZE + (64 * k), TILE_SIZE + (TILE_SIZE * 2) + (64 * j), TILE_SIZE, TILE_SIZE)
+        //         this.sceneObjects.push(floor);
+        //     }
+        // }
 
-        for(let j = 0; j < 12; j++) {
-            for(let k = 0; k < 12; k++)
-            {
-                let floor = new Floor(`Floor${j + k}`, TILE_SIZE + (64 * k), TILE_SIZE + (TILE_SIZE * 2) + (64 * j), TILE_SIZE, TILE_SIZE)
+        for(let y = 0; y < this.grid.tiles; y++) {
+            for(let x = 0; x < this.grid.tiles; x++) {
+                this.grid.setPos(x, y);
+                let floor = new Floor(`Floor${x + y}`, this.grid.x, this.grid.y, TILE_SIZE, TILE_SIZE);
                 this.sceneObjects.push(floor);
             }
         }
 
+        for(let x = 0; x < this.grid.tiles; x++) {
+            this.grid.setPos(x, 0)
+            let wall = new Wall(`Wall${x}`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2);
+            this.sceneObjects.push(wall);
+        }
+
+        for(let x = 6; x < this.grid.tiles; x++) {
+            this.grid.setPos(x, 2)
+            let counter = new Counter(`Wall${x}`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5);
+            this.sceneObjects.push(counter);
+        }
+
+
         this.sceneObjects.push(ret);
+        this.sceneObjects.push(this.player);
 
         // this.sceneObjects.forEach(object => {
         //     //console.log(`Object ${object} created`);
