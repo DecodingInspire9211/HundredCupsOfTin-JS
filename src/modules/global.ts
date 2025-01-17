@@ -40,12 +40,14 @@ const global: Global = {
     playerObject: {},
     sceneManager: new SceneManager(),
 
-    handleInput : new KeyHandler(),
+    //handleInput : new KeyHandler(),
 
 
     init: function() {
       this.updateCanvasSize();
       this.getCanvasBounds();
+
+      this.handleInput = new KeyHandler();
 
       loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
       this.ctx!.font = "16px Pixelify Sans";
@@ -55,7 +57,7 @@ const global: Global = {
     },
 
     clearCanvas: function () {
-        this.ctx!.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
     },
 
     updateCanvasSize: function () {

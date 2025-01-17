@@ -65,7 +65,7 @@ export class MainMenu extends Scene {
     }
 
     createObjects = () => {
-        //const title = new Image("src/components/imgs/title.png", (global.canvas.width / 2) - 128, 32, 256, 64);
+        const title = new Image("src/components/imgs/title.png", (global.canvas.width / 2) - 128, 32, 256, 64);
         const start = new Button((global.canvas!.width / 2) - 128, global.canvas!.height / 2 - 128, 256, 64, "Start", 20, "black", "beige", () => {
             global.sceneManager.changeScene(new GameWorld());
         });
@@ -80,14 +80,14 @@ export class MainMenu extends Scene {
         theme.play();
 
 
-        //this.sceneObjects.push(title);
+        this.sceneObjects.push(title);
         this.sceneObjects.push(start);
         this.sceneObjects.push(options);
         this.sceneObjects.push(quit);
-
-        this.sceneObjects.forEach(object => {
-            //object.init();
-        });
+        //
+        // this.sceneObjects.forEach(object => {
+        //     object.init();
+        // });
     }
 
     // destroyObjects() {

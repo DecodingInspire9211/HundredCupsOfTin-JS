@@ -13,7 +13,7 @@ export class Button extends BaseUI {
     backgroundColor: string;
     onClick: () => any;
 
-    canvas = global.canvas;
+    canvas = global.canvas!;
 
     constructor(
         x: number,

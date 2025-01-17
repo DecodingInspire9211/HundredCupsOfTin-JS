@@ -1,33 +1,67 @@
-import {global} from "../global.ts";
+export enum Key {
+    Up = 1 << 0,
+    Down = 1 << 1,
+    Left = 1 << 2,
+    Right = 1 << 3,
+};
 
 export class KeyHandler {
-    constructor() {
-        document.addEventListener("keydown", this.handleKeyDown);
-        document.addEventListener("keyup", this.handleKeyUp);
 
+    keyBinary: number;
+    constructor() {
+        document.onkeydown = this.handleKeyDown;
+        document.onkeyup = this.handleKeyUp;
+        console.log("Event Listener added");
+
+        this.keyBinary = 0;
     }
 
-    private handleKeyDown = (event: KeyboardEvent) => {
+    handleKeyDown = (event: KeyboardEvent) => {
+        switch (event.key) {
+                case "w":
+                    this.keyBinary! |= Key.Up;
+                    console.log(this.keyBinary);
+                    break;
+                case "s":
+                    this.keyBinary! |= Key.Down;
+                    console.log(this.keyBinary);
+
+                    break;
+                case "a":
+                    this.keyBinary! |= Key.Left;
+                    console.log(this.keyBinary);
+
+                    break;
+                case "d":
+                    this.keyBinary! |= Key.Right;
+                    console.log(this.keyBinary);
+                    break;
+            }
+    }
+
+    handleKeyUp = (event: KeyboardEvent) => {
         switch (event.key) {
             case "w":
-            case "ArrowUp":
+                this.keyBinary &= Key.Up;
+                console.log(this.keyBinary);
                 break;
-
-            case "a":
-            case "ArrowLeft":
-                break;
-
             case "s":
-            case "ArrowDown":
-                break;
+                this.keyBinary &= Key.Down;
+                console.log(this.keyBinary);
 
+                break;
+            case "a":
+                this.keyBinary &= Key.Left;
+                console.log(this.keyBinary);
+
+                break;
             case "d":
-            case "ArrowRight":
+                this.keyBinary &= Key.Right;
+                console.log(this.keyBinary);
+
+
                 break;
         }
-    }
-
-    private handleKeyUp = (event: KeyboardEvent) => {
     }
 
 
