@@ -20,7 +20,7 @@ export class GameWorld extends Scene {
         this.sceneName = "Game World";
         this.sceneObjects = [];
         this.grid = new Grid(12);
-        this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.grid);
+        this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2);
     }
 
     init = () => {

@@ -9,11 +9,9 @@ export class BaseGameObj {
 
     public x: number = 0;
     public y: number = 0;
-    // public tileX: number = 0;
-    // public tileY: number = 0;
 
-    //private previousX: number = 0;
-    //private previousY: number = 0;
+    private previousX: number = 0;
+    private previousY: number = 0;
 
     public width: number = 0;
     public height: number = 0;

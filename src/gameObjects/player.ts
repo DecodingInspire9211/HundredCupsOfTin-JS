@@ -16,21 +16,21 @@ class Player extends BaseGameObj {
     x: number;
     y: number;
 
-    grid: Grid;
-
     // SPEED SCALAR
-    speed: number = 1000;
+    speed: number = 256;
+    velocity: number = 0;
 
-    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, grid: Grid) {
+    previousX: number = 0;
+    previousY: number = 0;
+
+    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number) {
         super(name, x, y, width, height);
 
         this.fullName.nickname = nickname;
         this.fullName.surname = surname;
 
         this.x = x;
-        this.y = y
-
-        this.grid = grid;
+        this.y = y;
     };
 
     public getFullName = () => {
@@ -39,36 +39,44 @@ class Player extends BaseGameObj {
 
     move = () => {
         //console.log(`${this.x} and ${this.y}`);
-        //console.log(`keyfucker${global.handleInput.keyBinary}`);
+
+        this.velocity = this.speed * global.deltaTime;
+
+        let moveX = 0;
+        let moveY = 0;
 
         if ((global.handleInput.keyBinary & Key.Up) === Key.Up) {
-            this.y -= 64; // this.speed * global.deltaTime;
+            moveY -= this.velocity;
         }
         if  ((global.handleInput.keyBinary & Key.Down) === Key.Down)  {
 
-            this.y += 64; // this.speed * global.deltaTime;
+            moveY += this.velocity;
         }
         if ((global.handleInput.keyBinary & Key.Left) === Key.Left) {
-            this.x -= 64; // this.speed * global.deltaTime;
+            moveX -= this.velocity;
         }
         if ((global.handleInput.keyBinary & Key.Right) === Key.Right) {
-            this.x += 64; // this.speed * global.deltaTime;
+            moveX += this.velocity;
         }
 
-        if ((global.handleInput.keyBinary & Key.None) === Key.None) {
-            this.x = this.x;
-            this.y = this.y;
+        if (moveX !== 0 && moveY !== 0) {
+            moveX /= Math.SQRT2;
+            moveY /= Math.SQRT2;
         }
+
+        this.x += moveX;
+        this.y += moveY;
+
         //console.log("No key pressed)");
 
-        global.handleInput.keyBinary = 0 << 0;
+        //global.handleInput.keyBinary = 0 << 0;
     }
 
     update = (): void => {
         this.move();
     }
 
-    render = (ctx) => {
+    render = (ctx: CanvasRenderingContext2D) => {
         // Add player render logic here
         ctx.fillStyle = "green";
         ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -78,8 +86,14 @@ class Player extends BaseGameObj {
 
     }
 
-    reactToCollision = () => {
-
+    reactToCollision = (collidingObject: any) => {
+        switch (collidingObject.name) {
+            case "Wall":
+                this.velocity = 0;
+                this.x = this.previousX;
+                this.y = this.previousY;
+                break;
+        }
     }
 }
 

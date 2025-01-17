@@ -3,14 +3,6 @@ import {global} from "../../modules/global.ts";
 
 export class Button extends BaseUI {
     active: boolean = true;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    text: string;
-    fontSize: number;
-    fontColor: string;
-    backgroundColor: string;
     onClick: () => any;
 
     canvas = global.canvas!;
@@ -27,14 +19,6 @@ export class Button extends BaseUI {
         onClick: () => any
     ) {
         super(x, y, width, height, text, fontSize, fontColor, backgroundColor);
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.text = text;
-        this.fontSize = fontSize;
-        this.fontColor = fontColor;
-        this.backgroundColor = backgroundColor;
         this.onClick = onClick;
 
         this.canvas!.addEventListener('click', this.handleClick.bind(this));

@@ -14,7 +14,7 @@ export class Scene {
         this.sceneObjects = [];
 
         this.init = () => {};
-        this.update = (deltaTime: number) => {};
+        this.update = () => {};
         this.render = (ctx: CanvasRenderingContext2D) => {};
         this.destroy = () => {};
 
