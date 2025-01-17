@@ -40,23 +40,21 @@ class Player extends BaseGameObj {
     move = () => {
         //console.log(`${this.x} and ${this.y}`);
 
-        this.velocity = this.speed * global.deltaTime;
-
         let moveX = 0;
         let moveY = 0;
 
         if ((global.handleInput.keyBinary & Key.Up) === Key.Up) {
-            moveY -= this.velocity;
+            moveY -= this.speed * global.deltaTime;
         }
         if  ((global.handleInput.keyBinary & Key.Down) === Key.Down)  {
 
-            moveY += this.velocity;
+            moveY += this.speed * global.deltaTime;
         }
         if ((global.handleInput.keyBinary & Key.Left) === Key.Left) {
-            moveX -= this.velocity;
+            moveX -= this.speed * global.deltaTime;
         }
         if ((global.handleInput.keyBinary & Key.Right) === Key.Right) {
-            moveX += this.velocity;
+            moveX += this.speed * global.deltaTime;
         }
 
         if (moveX !== 0 && moveY !== 0) {

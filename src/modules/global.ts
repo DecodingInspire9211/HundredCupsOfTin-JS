@@ -36,7 +36,7 @@ const global: Global = {
     previousTRT: 0,
     deltaTime: 0,
     fps: 0,
-    allGameObjects: [] as BaseGameObj[],
+    allGameObjects: [] as any[],
     playerObject: {},
     sceneManager: new SceneManager(),
 
@@ -85,16 +85,16 @@ const global: Global = {
     },
   
     checkCollisionWithAnyOther: function(source) {
-      // for (let i = 0; i < this.allGameObjects.length; i++) {
-      //   let target = this.allGameObjects[i];
-      //   if (target.active) {
-      //     let collisionHappened = this.detectBoxCollision(source, target);
-      //     if (collisionHappened) {
-      //       source.reactToCollision(target);
-      //       target.reactToCollision(source);
-      //     }
-      //   }
-      // }
+      for (let i = 0; i < this.allGameObjects.length; i++) {
+        let target = this.allGameObjects[i];
+        if (target.active) {
+          let collisionHappened = this.detectBoxCollision(source, target);
+          if (collisionHappened) {
+            source.reactToCollision(target);
+            target.reactToCollision(source);
+          }
+        }
+      }
     },
   
     detectBoxCollision: function(gameObject1, gameObject2) {

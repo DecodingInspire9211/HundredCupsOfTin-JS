@@ -26,9 +26,20 @@ export class BaseUI {
         global.allGameObjects.push(this);
     }
 
+    getBoxBounds = () => {
+        return {
+            left: this.x,
+            right: this.x + this.width,
+            top: this.y,
+            bottom: this.y + this.height
+        };
+    }
+
     update = function() {
 
     }
+
+    reactToCollision = function() {}
 
     render(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = `${this.backgroundColor || 'black'}`;
@@ -37,6 +48,5 @@ export class BaseUI {
         ctx.fillStyle = `${this.fontColor || 'white'}`;
         ctx.font = `${this.fontSize}px Pixelify Sans`;
         ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
-
     }
 }

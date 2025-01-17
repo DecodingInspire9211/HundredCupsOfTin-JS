@@ -40,6 +40,7 @@ export class GameWorld extends Scene {
         for(let i = 0; i < this.sceneObjects.length; i++) {
             if(this.sceneObjects[i]!.active === true)
             {
+                global.checkCollisionWithAnyOther(this.sceneObjects[i]);
                 this.sceneObjects[i].render(ctx);
                 //console.log(`Object ${this.sceneObjects[i].name} rendered`);
             }
@@ -72,26 +73,31 @@ export class GameWorld extends Scene {
         for(let y = 0; y < this.grid.tiles; y++) {
             for(let x = 0; x < this.grid.tiles; x++) {
                 this.grid.setPos(x, y);
-                let floor = new Floor(`Floor${x + y}`, this.grid.x, this.grid.y, TILE_SIZE, TILE_SIZE);
+                let floor = new Floor(`Floor`, this.grid.x, this.grid.y, TILE_SIZE, TILE_SIZE);
                 this.sceneObjects.push(floor);
+                global.allGameObjects.push(floor);
             }
         }
 
         for(let x = 0; x < this.grid.tiles; x++) {
             this.grid.setPos(x, 0)
-            let wall = new Wall(`Wall${x}`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2);
+            let wall = new Wall(`Wall`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2);
             this.sceneObjects.push(wall);
+            global.allGameObjects.push(wall);
         }
 
         for(let x = 6; x < this.grid.tiles; x++) {
             this.grid.setPos(x, 2)
-            let counter = new Counter(`Wall${x}`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5);
+            let counter = new Counter(`Counter`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5);
             this.sceneObjects.push(counter);
+            global.allGameObjects.push(counter);
         }
 
 
         this.sceneObjects.push(ret);
+        global.allGameObjects.push(ret);
         this.sceneObjects.push(this.player);
+        global.allGameObjects.push(this.player);
 
         // this.sceneObjects.forEach(object => {
         //     //console.log(`Object ${object} created`);

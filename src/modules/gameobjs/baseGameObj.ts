@@ -1,5 +1,5 @@
 // @ts-ignore
-import { global } from "../global.ts";
+import {global} from "../global.ts";
 
 export class BaseGameObj {
     /// public properties
@@ -26,22 +26,6 @@ export class BaseGameObj {
         "lastSpriteIndex": 0,
     };
 
-    constructor(name: string, x: number, y: number, width: number, height: number) {
-        this.name = name;
-        
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-
-        this.previousX = x;
-        this.previousY = y;
-
-        global.allGameObjects.push(this);
-    };
-
-    /// essential methods
-
     update = function() {
     
     };
@@ -51,19 +35,13 @@ export class BaseGameObj {
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
     };
 
-    storePositionOfPreviousFrame = () => {
-        this.previousX = this.x;
-        this.previousY = this.y;
-    };
-
     getBoxBounds = () => {
-        let bounds = {
+        return {
             left: this.x,
             right: this.x + this.width,
             top: this.y,
             bottom: this.y + this.height
-        }
-        return bounds;
+        };
     }
 
     getNextSprite = () => {
@@ -152,7 +130,26 @@ export class BaseGameObj {
         this.animationData.lastSpriteIndex = lastSpriteIndex;
     }
 
-    reactToCollision = function(collidingObject) {
+    reactToCollision = function(collidingObject: any) {
 
     }
+
+    storePositionOfPreviousFrame(): void {
+        this.previousX = this.x;
+        this.previousY = this.y;
+    }
+
+    constructor(name: string, x: number, y: number, width: number, height: number) {
+        this.name = name;
+
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
+        this.previousX = x;
+        this.previousY = y;
+
+        global.allGameObjects.push(this);
+    };
 }
