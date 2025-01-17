@@ -39,6 +39,8 @@ export class BaseUI {
 
     }
 
+    storePositionOfPreviousFrame = function() {}
+
     reactToCollision = function() {}
 
     render(ctx: CanvasRenderingContext2D) {

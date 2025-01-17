@@ -34,3 +34,6 @@ END - 17:31
 Rewriting everything into TypeScript
 ============================
 14. Jänner 2025 - 10:27
+
+Implement Input, Collisions and GameObjects
+Implement Mechanics

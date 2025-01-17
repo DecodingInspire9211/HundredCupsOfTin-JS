@@ -1,6 +1,6 @@
 import {BaseGameObj} from "../modules/gameobjs/baseGameObj.ts";
 
-export class Wall extends BaseGameObj {
+export class Pseudo extends BaseGameObj {
     public x: number = 0;
     public y: number = 0;
 
@@ -41,11 +41,7 @@ export class Wall extends BaseGameObj {
 
 
     render = (ctx: CanvasRenderingContext2D) => {
-        //ctx.fillStyle = "green";
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
-        let sprite = this.getNextSprite();
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
-
+        ctx.fillStyle = "green";
+        ctx.strokeRect(this.x, (this.y + this.height / 3) - this.height/3, (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
     }
 }

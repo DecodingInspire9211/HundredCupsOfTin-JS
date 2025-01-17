@@ -50,6 +50,8 @@ export class Button extends BaseUI {
         mouseY <= this.y + this.height;
     }
 
+
+
     handleClick = (event: MouseEvent): void => {
         if(this.active)
         {

@@ -9,8 +9,8 @@ export class Counter extends BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
-    constructor(name: string, x: number, y: number, width: number, height: number) {
-        super(name, x, y, width, height);
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number) {
+        super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
         this.y = y;
@@ -32,10 +32,21 @@ export class Counter extends BaseGameObj {
 
     }
 
+    getBoxBounds = () => {
+        return {
+            left: this.x,
+            right: this.x + this.width,
+            top: this.y + (this.height / 3),
+            bottom: this.y + this.height
+        }
+    }
+
 
     render = (ctx: CanvasRenderingContext2D) => {
         ctx.fillStyle = "brown";
         ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.x, (this.y + this.height / 3), (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
         //let sprit = this.getNextSprite();
         //ctx.imageSmoothingEnabled = false;
         //ctx.drawImage(sprit, this.x, this.y, this.width, this.height);

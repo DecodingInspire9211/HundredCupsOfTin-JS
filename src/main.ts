@@ -22,6 +22,7 @@ function gameLoop(totalRunningTime: number) {
     global.sceneManager.update(global.deltaTime);
 
     // render
+    global.allGameObjects.sort((a, b) => a.zOrder - b.zOrder);
     global.sceneManager.render(global.ctx!);
 
     requestAnimationFrame(gameLoop);

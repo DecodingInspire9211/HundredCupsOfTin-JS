@@ -16,6 +16,8 @@ export class BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
+    public zOrder: number = 0; // Add zOrder property
+
     /// internal properties
     animationData: any = {
         "animationSprites": [],
@@ -30,7 +32,7 @@ export class BaseGameObj {
     
     };
 
-    render = function(ctx: CanvasRenderingContext2D) {
+    render = (ctx: CanvasRenderingContext2D) => {
         let sprite = this.getNextSprite();
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
     };
@@ -139,7 +141,7 @@ export class BaseGameObj {
         this.previousY = this.y;
     }
 
-    constructor(name: string, x: number, y: number, width: number, height: number) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder) {
         this.name = name;
 
         this.x = x;
@@ -149,6 +151,8 @@ export class BaseGameObj {
 
         this.previousX = x;
         this.previousY = y;
+
+        this.zOrder = zOrder; // Initialize zOrder
 
         global.allGameObjects.push(this);
     };

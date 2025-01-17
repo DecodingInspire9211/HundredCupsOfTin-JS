@@ -1,20 +1,13 @@
 import {BaseGameObj} from "../modules/gameobjs/baseGameObj.ts";
 
-export class Wall extends BaseGameObj {
+export class WallCounter extends BaseGameObj {
     public x: number = 0;
     public y: number = 0;
+    public tileX: number = 0;
+    public tileY: number = 0;
 
     public width: number = 0;
     public height: number = 0;
-
-    animationData: any = {
-        "animationSprites": [],
-        "timePerSprite": 0.08,
-        "elapsedSpriteTime": 0,
-        "currentSpriteIndex": 0,
-        "firstSpriteIndex": 0,
-        "lastSpriteIndex": 0,
-    }
 
     constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number) {
         super(name, x, y, width, height, zOrder);
@@ -29,7 +22,7 @@ export class Wall extends BaseGameObj {
     loadImages = () => {
         /* first load images from path */
         let image1 = new Image();
-        image1.src = "../src/components/imgs/wall.png";
+        image1.src = "../src/components/imgs/floortest.png";
 
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
         this.animationData.animationSprites.push(image1);
@@ -39,13 +32,24 @@ export class Wall extends BaseGameObj {
 
     }
 
+    getBoxBounds = () => {
+        return {
+            left: this.x,
+            right: this.x + this.width,
+            top: this.y,
+            bottom: this.y + this.height
+        }
+    }
+
 
     render = (ctx: CanvasRenderingContext2D) => {
-        //ctx.fillStyle = "green";
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
-        let sprite = this.getNextSprite();
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        ctx.fillStyle = "brown";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.x, this.y, (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
+        //let sprit = this.getNextSprite();
+        //ctx.imageSmoothingEnabled = false;
+        //ctx.drawImage(sprit, this.x, this.y, this.width, this.height);
 
     }
 }

@@ -20,21 +20,41 @@ class Player extends BaseGameObj {
     speed: number = 256;
     velocity: number = 0;
 
-    previousX: number = 0;
-    previousY: number = 0;
+    private previousX: number = 0;
+    private previousY: number = 0;
 
-    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number) {
-        super(name, x, y, width, height);
+    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number) {
+        super(name, x, y, width, height, zOrder);
 
         this.fullName.nickname = nickname;
         this.fullName.surname = surname;
 
         this.x = x;
         this.y = y;
+        this.getBoxBounds();
     };
 
     public getFullName = () => {
         return this.fullName;
+    }
+
+    getBoxBounds = () => {
+        return {
+            left: this.x,
+            right: this.x + this.width,
+            top: this.y + (this.height / 2),
+            bottom: this.y + this.height
+        }
+    }
+
+    update_player_zOrder(grid: Grid) {
+        if(this.y > ((grid.grid_height / grid.tiles) * 4)) {
+            this.zOrder = 5;
+            console.log("Player zOrder is 5");
+        } else {
+            this.zOrder = 1;
+        }
+
     }
 
     move = () => {
@@ -87,10 +107,14 @@ class Player extends BaseGameObj {
     reactToCollision = (collidingObject: any) => {
         switch (collidingObject.name) {
             case "Wall":
+            case "Counter":
+            case "WallCounter":
+            case "Pseudo":
                 this.velocity = 0;
                 this.x = this.previousX;
                 this.y = this.previousY;
                 break;
+
         }
     }
 }

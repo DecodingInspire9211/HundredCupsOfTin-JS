@@ -8,6 +8,10 @@ import {MainMenu} from "./MainMenu.ts";
 import {Grid} from "../../modules/gameobjs/grid.ts";
 import {Player} from "../../gameObjects/player.ts";
 import {Counter} from "../../gameObjects/counter.ts";
+import {WallCounter} from "../../gameObjects/wallcounter.ts";
+import {Pseudo} from "../../gameObjects/pseudo.ts";
+import {Chair} from "../../gameObjects/chair.ts";
+import {Table} from "../../gameObjects/table.ts";
 
 export class GameWorld extends Scene {
 
@@ -15,13 +19,17 @@ export class GameWorld extends Scene {
     player: Player;
     grid: Grid;
 
+    player_zOrder: number = 2;
+
     constructor() {
         super();
         this.sceneName = "Game World";
         this.sceneObjects = [];
         this.grid = new Grid(12);
-        this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2);
+        this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.player_zOrder);
     }
+
+
 
     init = () => {
         this.createObjects();
@@ -29,6 +37,7 @@ export class GameWorld extends Scene {
     }
 
     update = () => {
+        this.player.update_player_zOrder(this.grid);
         this.player.update()
     }
 
@@ -40,6 +49,7 @@ export class GameWorld extends Scene {
         for(let i = 0; i < this.sceneObjects.length; i++) {
             if(this.sceneObjects[i]!.active === true)
             {
+                this.sceneObjects[i].storePositionOfPreviousFrame();
                 global.checkCollisionWithAnyOther(this.sceneObjects[i]);
                 this.sceneObjects[i].render(ctx);
                 //console.log(`Object ${this.sceneObjects[i].name} rendered`);
@@ -81,23 +91,76 @@ export class GameWorld extends Scene {
 
         for(let x = 0; x < this.grid.tiles; x++) {
             this.grid.setPos(x, 0)
-            let wall = new Wall(`Wall`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2);
+            let wall = new Wall(`Wall`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 1);
             this.sceneObjects.push(wall);
             global.allGameObjects.push(wall);
         }
 
         for(let x = 6; x < this.grid.tiles; x++) {
-            this.grid.setPos(x, 2)
-            let counter = new Counter(`Counter`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5);
+            this.grid.setPos(x, 0.5)
+            let wallCounter = new WallCounter(`WallCounter`, this.grid.x, this.grid.y - (TILE_SIZE * 1.5), TILE_SIZE, TILE_SIZE*2.5, 2);
+            this.sceneObjects.push(wallCounter);
+            global.allGameObjects.push(wallCounter);
+        }
+
+        for(let x = 6; x < this.grid.tiles; x++) {
+            this.grid.setPos(x, 3)
+            let pseudo = new Pseudo(`Pseudo`, this.grid.x, this.grid.y - ((TILE_SIZE / 2)-(TILE_SIZE/2)), TILE_SIZE, TILE_SIZE*1, 2);
+            let counter = new Counter(`Counter`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5, 4);
+            this.sceneObjects.push(pseudo)
             this.sceneObjects.push(counter);
+            global.allGameObjects.push(pseudo);
             global.allGameObjects.push(counter);
         }
 
+        this.grid.setPos(10, 10);
+        let chair = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+
+        this.grid.setPos(9, 10);
+        let table = new Table(`Table`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE * 1.5, 6);
+
+        this.grid.setPos(8, 10);
+        let chair1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+
+        this.grid.setPos(9, 4);
+        let chair2 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+
+        this.grid.setPos(7, 4);
+        let chair3 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+
+        this.grid.setPos(4, 9);
+        let chair4 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        this.grid.setPos(3, 9);
+        let table3 = new Table(`Table`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE * 1.5, 6);
+
+        this.grid.setPos(2, 9);
+        let chair5 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+
+        this.sceneObjects.push(chair);
+        global.allGameObjects.push(chair);
+        this.sceneObjects.push(table);
+        global.allGameObjects.push(table);
+        this.sceneObjects.push(chair1);
+        global.allGameObjects.push(chair1);
+        this.sceneObjects.push(chair2);
+        global.allGameObjects.push(chair2);
+        this.sceneObjects.push(chair3);
+        global.allGameObjects.push(chair3);
+        this.sceneObjects.push(chair4);
+        global.allGameObjects.push(chair4);
+        this.sceneObjects.push(table3);
+        global.allGameObjects.push(table3);
+        this.sceneObjects.push(chair5);
+        global.allGameObjects.push(chair5);
+
+        this.sceneObjects.push(this.player);
+        global.allGameObjects.push(this.player);
 
         this.sceneObjects.push(ret);
         global.allGameObjects.push(ret);
-        this.sceneObjects.push(this.player);
-        global.allGameObjects.push(this.player);
+
+        this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
+
 
         // this.sceneObjects.forEach(object => {
         //     //console.log(`Object ${object} created`);
