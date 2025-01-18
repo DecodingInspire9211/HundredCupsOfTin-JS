@@ -73,7 +73,7 @@ export class BaseGameObj {
 
 
 
-    loadImagesFromSpritesheet = (spritesheetPath, cols, rows) => {
+    loadImagesFromSpritesheet = (spritesheetPath: string, cols: number, rows: number) => {
         // Calculate the number of rows and columns
         //const cols = Math.floor(spritesheetWidth / singleSpriteWidth);
         //const rows = Math.floor(spritesheetHeight / singleSpriteHeight);

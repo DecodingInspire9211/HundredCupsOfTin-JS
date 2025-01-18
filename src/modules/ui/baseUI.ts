@@ -39,6 +39,29 @@ export class BaseUI {
 
     }
 
+    //only added because of time constraints from project
+    animationData: any = {
+        "animationSprites": [],
+        "timePerSprite": 0.08,
+        "elapsedSpriteTime": 0,
+        "currentSpriteIndex": 0,
+        "firstSpriteIndex": 0,
+        "lastSpriteIndex": 0,
+    };
+
+    getNextSprite = () => {
+        this.animationData.currentSpriteElapsedTime += global.deltaTime;
+
+        if (this.animationData.currentSpriteElapsedTime >= this.animationData.timePerSprite) {
+            this.animationData.currentSpriteIndex++;
+            this.animationData.currentSpriteElapsedTime = 0;
+            if (this.animationData.currentSpriteIndex > this.animationData.lastSpriteIndex) {
+                this.animationData.currentSpriteIndex = this.animationData.firstSpriteIndex
+            }
+        }
+        return this.animationData.animationSprites[this.animationData.currentSpriteIndex];
+    };
+
     storePositionOfPreviousFrame = function() {}
 
     reactToCollision = function() {}

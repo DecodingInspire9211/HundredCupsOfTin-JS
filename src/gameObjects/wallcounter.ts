@@ -22,7 +22,7 @@ export class WallCounter extends BaseGameObj {
     loadImages = () => {
         /* first load images from path */
         let image1 = new Image();
-        image1.src = "../src/components/imgs/floortest.png";
+        image1.src = "../src/components/imgs/wallcounter.png";
 
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
         this.animationData.animationSprites.push(image1);
@@ -43,13 +43,12 @@ export class WallCounter extends BaseGameObj {
 
 
     render = (ctx: CanvasRenderingContext2D) => {
-        ctx.fillStyle = "brown";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x, this.y, (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
-        //let sprit = this.getNextSprite();
-        //ctx.imageSmoothingEnabled = false;
-        //ctx.drawImage(sprit, this.x, this.y, this.width, this.height);
-
+        //ctx.fillStyle = "brown";
+        //ctx.fillRect(this.x, this.y, this.width, this.height);
+        //ctx.strokeStyle = "red";
+        //ctx.strokeRect(this.x, this.y, (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
+        let sprit = this.getNextSprite();
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(sprit, this.x, this.y, this.width, this.height);
     }
 }

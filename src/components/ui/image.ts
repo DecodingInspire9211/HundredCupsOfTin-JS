@@ -1,7 +1,6 @@
 import { BaseUI } from "../../modules/ui/baseUI.ts";
-import { global } from "../../modules/global.ts";
 
-export class Image extends BaseUI {
+export class ImageCl extends BaseUI {
     active = true;
     x;
     y;
@@ -34,17 +33,18 @@ export class Image extends BaseUI {
 
     loadImages = () => {
         /* first load images from path */
-        let image2 = new Image();
-        image1.src = "../src/components/imgs/wall.png";
+        let img = new Image();
+        img.src = "../src/components/imgs/title.png";
 
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
-        this.animationData.animationSprites.push(image1);
+        this.animationData.animationSprites.push(img);
     };
 
     update = () => {
 
     }
 
+    destroy = () => {}
 
     render = (ctx: CanvasRenderingContext2D) => {
         //ctx.fillStyle = "green";

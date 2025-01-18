@@ -41,7 +41,7 @@ export class Pseudo extends BaseGameObj {
 
 
     render = (ctx: CanvasRenderingContext2D) => {
-        ctx.fillStyle = "green";
-        ctx.strokeRect(this.x, (this.y + this.height / 3) - this.height/3, (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
+        //ctx.fillStyle = "green";
+        //ctx.strokeRect(this.x, (this.y + this.height / 3) - this.height/3, (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
     }
 }
