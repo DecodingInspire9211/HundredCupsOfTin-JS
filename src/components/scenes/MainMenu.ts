@@ -1,6 +1,6 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
 import { global } from "../../modules/global.ts";
-import { AudioClass} from "../../modules/internals/audio";
+import { AudioClass } from "../../modules/internals/audio.ts";
 import { Button } from "../ui/button.ts";
 import { GameWorld } from "./GameWorld.ts";
 import { ImageCl } from "../ui/image.ts";
@@ -9,7 +9,7 @@ export class MainMenu extends Scene {
 
     gap: number = 12;
     theme: any = null;
-    sceneObjects: any[] = [];
+    sceneObjects: [] = [];
 
     constructor() {
         super();
@@ -78,9 +78,8 @@ export class MainMenu extends Scene {
             console.log("quit");
         });
 
-        const theme = new AudioClass('src/components/audio/TwelveMonths - Hundred Cups of Tin.mp3', false, 0.5);
+        const theme = new AudioClass("tmhcot_nes_fin.mp3", false, 0.5);
         theme.play();
-
 
         this.sceneObjects.push(title);
         this.sceneObjects.push(start);

@@ -12,6 +12,7 @@ import {WallCounter} from "../../gameObjects/wallcounter.ts";
 import {Pseudo} from "../../gameObjects/pseudo.ts";
 import {Chair} from "../../gameObjects/chair.ts";
 import {Table} from "../../gameObjects/table.ts";
+import {AudioClass} from "../../modules/internals/audio.ts";
 
 export class GameWorld extends Scene {
 
@@ -67,6 +68,10 @@ export class GameWorld extends Scene {
     }
 
     createObjects = () => {
+        const theme = new AudioClass("tmhcot_nes_fin.mp3", false, 0.5);
+        theme.play();
+
+
         //TODO: Implement the game
         const ret =  new Button(this.gap, this.gap, 64, 64, "<-", 20, "black", "beige", () => {
              global.sceneManager.changeScene(new MainMenu());
@@ -105,7 +110,7 @@ export class GameWorld extends Scene {
 
         for(let x = 6; x < this.grid.tiles; x++) {
             this.grid.setPos(x, 3)
-            let pseudo = new Pseudo(`Pseudo`, this.grid.x, this.grid.y - ((TILE_SIZE / 2)-(TILE_SIZE/2)), TILE_SIZE, TILE_SIZE*1, 2);
+            let pseudo = new Pseudo(`Pseudo`, this.grid.x, this.grid.y - ((TILE_SIZE / 2)-(TILE_SIZE/2)), TILE_SIZE, TILE_SIZE*0.5, 2);
             let counter = new Counter(`Counter`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5, 4);
             this.sceneObjects.push(pseudo)
             this.sceneObjects.push(counter);
@@ -114,7 +119,7 @@ export class GameWorld extends Scene {
         }
 
         this.grid.setPos(10, 10);
-        let chair = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let chair = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 1);
 
         this.grid.setPos(9, 10);
         let table = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
@@ -123,13 +128,13 @@ export class GameWorld extends Scene {
         let chair1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
 
         this.grid.setPos(9, 4);
-        let chair2 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let chair2 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 3);
 
         this.grid.setPos(7, 4);
-        let chair3 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let chair3 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 3);
 
         this.grid.setPos(4, 9);
-        let chair4 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let chair4 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 1);
         this.grid.setPos(3, 9);
         let table3 = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
 

@@ -7,6 +7,8 @@ export class Chair extends BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
+    public single: number = 0;
+
     animationData = {
         "animationSprites": [],
         "timePerSprite": 0.08,
@@ -17,13 +19,23 @@ export class Chair extends BaseGameObj {
     };
 
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single? : any) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.single = typeof single === "number" ? single : 0;
+
+        if(typeof this.single === "number") {
+            this.animationData.firstSpriteIndex = single;
+            this.animationData.lastSpriteIndex = single;
+        }
+        else {
+            this.animationData.firstSpriteIndex = 0;
+            this.animationData.lastSpriteIndex = 2;
+        }
         //this.loadImages();
         this.loadImagesFromSpritesheet("../src/components/imgs/chairspritesheet.png", 4, 1);
     }
@@ -46,9 +58,16 @@ export class Chair extends BaseGameObj {
     render = (ctx: CanvasRenderingContext2D) => {
         //ctx.fillStyle = "chocolate";
         //ctx.fillRect(this.x, this.y, this.width, this.height);
-        let sprite = this.getNextSprite();
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
 
+        if(typeof this.single === "number") {
+            let stat = this.animationData.animationSprites[this.single];
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(stat, this.x, this.y, this.width, this.height);
+        }
+        else {
+            let sprite = this.getNextSprite();
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        }
     }
 }
