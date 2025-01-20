@@ -7,6 +7,11 @@ export class Wall extends BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
+    collidable: boolean | undefined = true;
+    triggerable: boolean | undefined = false;
+
+    single: number | undefined = 0;
+
     animationData: any = {
         "animationSprites": [],
         "timePerSprite": 0.08,
@@ -16,13 +21,26 @@ export class Wall extends BaseGameObj {
         "lastSpriteIndex": 0,
     }
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single?: number, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
+        this.collidable = collidable;
+        this.triggerable = triggerable;
+
+        if(typeof this.single === "number") {
+            this.animationData.firstSpriteIndex = single;
+            this.animationData.lastSpriteIndex = single;
+        }
+        else {
+            this.animationData.firstSpriteIndex = 0;
+            this.animationData.lastSpriteIndex = 2;
+        }
+
         this.loadImages();
     }
 

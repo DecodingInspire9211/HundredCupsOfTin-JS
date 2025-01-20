@@ -19,8 +19,12 @@ export class Coffeemachine extends BaseGameObj {
 
     timerLabel: Label | undefined;
 
-    constructor(name: string, x: number, y: number, width: number, height:number, zOrder:number, ) {
+    constructor(name: string, x: number, y: number, width: number, height:number, zOrder:number, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
+
+        this.collidable = collidable;
+        this.triggerable = triggerable;
+
         this.loadImages();
     }
     loadImages = () => {
@@ -66,15 +70,7 @@ export class Coffeemachine extends BaseGameObj {
         }
     }
 
-    render = (ctx: CanvasRenderingContext2D) => {
-        let sprite = this.getNextSprite();
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
-        //
-        // if(this.triggers) {
-        //     this.timerLabel = new Label(this.x + 20, this.y, 250, 50, `Brew (E)`, 20, "white");
-        //     this.timerLabel.render(ctx);
-        // }
+    ui = (ctx: CanvasRenderingContext2D) => {
         if(this.brewing) {
             this.timerLabel = new Label(this.x + 20, this.y, 250, 50, `${Math.round(this.timer)} of 3 seconds`, 20, "white");
             this.timerLabel.render(ctx);
@@ -87,6 +83,16 @@ export class Coffeemachine extends BaseGameObj {
             this.timerLabel = new Label(this.x + 20, this.y, 250, 50, `Brew (E)`, 20, "white");
             this.timerLabel.render(ctx);
         }
+    }
 
+    render = (ctx: CanvasRenderingContext2D) => {
+        let sprite = this.getNextSprite();
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        //
+        // if(this.triggers) {
+        //     this.timerLabel = new Label(this.x + 20, this.y, 250, 50, `Brew (E)`, 20, "white");
+        //     this.timerLabel.render(ctx);
+        // }
     };
 }

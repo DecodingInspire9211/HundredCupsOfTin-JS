@@ -5,7 +5,7 @@ export class Button extends BaseUI {
     active: boolean = true;
     onClick: () => any;
 
-    canvas = global.canvas!;
+    canvas = global.ui!;
 
     constructor(
         x: number,
@@ -24,13 +24,14 @@ export class Button extends BaseUI {
         this.canvas!.addEventListener('click', this.handleClick.bind(this));
     }
 
-
-
-    render(ctx: CanvasRenderingContext2D): void {
+    ui(ctx: CanvasRenderingContext2D): void {
         if(this.active)
         {
             ctx.fillStyle = `${this.backgroundColor}`;
             ctx.fillRect(this.x, this.y, this.width, this.height);
+
+            ctx.strokeStyle = "black";
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
 
             ctx.fillStyle = `${this.fontColor}`;
             ctx.font = `${this.fontSize}px Pixelify Sans`;

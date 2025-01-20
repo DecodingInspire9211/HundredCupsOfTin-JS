@@ -28,13 +28,13 @@ export class ImageCl extends BaseUI {
         this.width = width;
         this.height = height;
 
-        this.loadImages();
+        this.loadImages(this.source);
     }
 
-    loadImages = () => {
+    loadImages = (source) => {
         /* first load images from path */
         let img = new Image();
-        img.src = "../src/components/imgs/title.png";
+        img.src = source;
 
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
         this.animationData.animationSprites.push(img);
@@ -46,7 +46,7 @@ export class ImageCl extends BaseUI {
 
     destroy = () => {}
 
-    render = (ctx: CanvasRenderingContext2D) => {
+    ui = (ctx: CanvasRenderingContext2D) => {
         //ctx.fillStyle = "green";
         //ctx.fillRect(this.x, this.y, this.width, this.height);
         let sprite = this.getNextSprite();

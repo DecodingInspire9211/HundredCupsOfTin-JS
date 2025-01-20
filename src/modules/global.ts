@@ -2,13 +2,16 @@ import { BaseGameObj } from "./baseGameObj.ts";
 import { SceneManager } from "./SceneManagement/sceneManager.ts";
 
 import { GameWorld } from "../components/scenes/GameWorld.ts";
+import { SplashScreen} from "../components/scenes/SplashScreen.ts";
 
 import { loadFont } from "./internals/loadFont.ts";
 import {KeyHandler} from "./input/keyHandler.ts";
 
 interface Global {
     canvas: HTMLCanvasElement | null;
+    ui: HTMLCanvasElement | null;
     ctx: CanvasRenderingContext2D | null;
+    uictx: CanvasRenderingContext2D | null;
     previousTRT: number;
     fps: number;
     deltaTime: number;
@@ -38,7 +41,9 @@ interface Global {
 
 const global: Global = {
     canvas: document.querySelector("#canvas")!,
-    ctx: document.querySelector<HTMLCanvasElement>("#canvas")?.getContext("2d") || null,
+    ui: document.querySelector("#ui")!,
+    ctx: document.querySelector<HTMLCanvasElement>("#canvas")?.getContext("2d", {alpha: false}) || null,
+    uictx: document.querySelector<HTMLCanvasElement>("#ui")?.getContext("2d") || null,
     previousTRT: 0,
     deltaTime: 0,
     fps: 0,
@@ -56,19 +61,24 @@ const global: Global = {
         this.handleInput = new KeyHandler();
 
         loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
-        this.ctx!.font = "16px Pixelify Sans";
+        this.uictx!.font = "16px Pixelify Sans";
 
+        this.sceneManager.changeScene(new SplashScreen());
         //this.sceneManager.changeScene(new MainMenu());
-        this.sceneManager.changeScene(new GameWorld());
+        //this.sceneManager.changeScene(new GameWorld());
     },
 
     clearCanvas: function () {
         this.ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
+        this.uictx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
     },
 
     updateCanvasSize: function () {
         this.canvas!.width = window.innerWidth;
         this.canvas!.height = window.innerHeight;
+
+        this.ui!.width = this.canvas!.width;
+        this.ui!.height = this.canvas!.height;
     },
 
     getCanvasBounds: function () {
@@ -91,21 +101,41 @@ const global: Global = {
     },
 
     checkCollisionWithAnyOther: function (source) {
-        for (let i = 0; i < this.allGameObjects.length; i++) {
-            let target = this.allGameObjects[i];
-            if (target.active) {
-                let collisionHappened = this.detectBoxCollision(source, target);
-                if (collisionHappened) {
-                    source.reactToCollision(target);
-                    target.reactToCollision(source);
+        if(source.collidable == false){
+            return;
+        }
+        else {
+            for (let i = 0; i < this.allGameObjects.length; i++) {
+                let target = this.allGameObjects[i];
+
+                if(target.collidable == false){
+                    return;
+                }
+
+                if (target.active) {
+                    let collisionHappened = this.detectBoxCollision(source, target);
+                    if (collisionHappened) {
+                        source.reactToCollision(target);
+                        target.reactToCollision(source);
+                    }
                 }
             }
         }
     },
 
     checkTriggerWithAnyOther: function (source) {
+        if(source.triggerable == false)
+        {
+            return;
+        }
         for (let i = 0; i < this.allGameObjects.length; i++) {
             let target = this.allGameObjects[i];
+
+            if (target.triggerable == false)
+            {
+                return;
+            }
+
             if (target.active) {
                 let collisionHappened = this.detectBoxTrigger(source, target);
                 if (collisionHappened) {

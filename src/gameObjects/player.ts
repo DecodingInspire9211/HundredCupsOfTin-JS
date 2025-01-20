@@ -42,7 +42,7 @@ class Player extends BaseGameObj {
         "currentSpriteIndex": 0
     };
 
-    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, single? : any) {
+    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, single? : any, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
@@ -64,6 +64,10 @@ class Player extends BaseGameObj {
 
         this.getBoxBounds();
         this.getTriggerBounds(trigDist);
+
+        this.collidable = collidable;
+        this.triggerable = triggerable;
+
         this.triggerDistance = trigDist;
         this.wasTriggered = false;
 

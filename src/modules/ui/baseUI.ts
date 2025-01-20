@@ -81,8 +81,9 @@ export class BaseUI {
 
     }
 
+    render() {}
 
-    render(ctx: CanvasRenderingContext2D) {
+    ui(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = `${this.backgroundColor || 'black'}`;
         ctx.fillRect(this.x, this.y, this.width, this.height);
 

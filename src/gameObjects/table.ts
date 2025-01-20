@@ -16,7 +16,7 @@ export class Table extends BaseGameObj {
         "lastSpriteIndex": 0,
     }
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
@@ -24,6 +24,9 @@ export class Table extends BaseGameObj {
         this.width = width;
         this.height = height;
         this.loadImages();
+
+        this.collidable = collidable;
+        this.triggerable = triggerable
     }
 
     loadImages = () => {

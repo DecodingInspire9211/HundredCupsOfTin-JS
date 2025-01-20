@@ -6,6 +6,8 @@ export class BaseGameObj {
     public name: string = "";
 
     public active : boolean = true;
+    public collidable: boolean | undefined = false;
+    public triggerable: boolean | undefined = false;
 
     public x: number = 0;
     public y: number = 0;
@@ -19,6 +21,8 @@ export class BaseGameObj {
     public zOrder: number = 0;
 
     public triggerDistance: number = 0;
+
+
 
     /// internal properties
     animationData: any = {
@@ -38,6 +42,10 @@ export class BaseGameObj {
         let sprite = this.getNextSprite();
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
     };
+
+    interact = () => {
+
+    }
 
     getBoxBounds = () => {
         return {
@@ -161,7 +169,7 @@ export class BaseGameObj {
         this.previousY = this.y;
     }
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, collidable: boolean = false, triggerable: boolean = false) {
         this.name = name;
 
         this.x = x;
@@ -173,6 +181,8 @@ export class BaseGameObj {
         this.previousY = y;
 
         this.zOrder = zOrder; // Initialize zOrder
+        this.collidable = collidable; // Initialize collidable
+        this.triggerable = triggerable
 
         global.allGameObjects.push(this);
     };

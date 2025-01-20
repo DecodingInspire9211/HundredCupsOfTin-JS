@@ -34,13 +34,14 @@ export class GameWorld extends Scene {
         this.grid = new Grid(12);
 
         this.grid.setPos(2, 2);
-        this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.player_zOrder);
+        this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.player_zOrder, 50, 0, true, true);
     }
 
 
 
     init = () => {
         this.createObjects();
+        this.createUI();
         console.log(`Scene ${this.sceneName} initialized`);
     }
 
@@ -88,6 +89,29 @@ export class GameWorld extends Scene {
         }
     }
 
+    interact = () => {
+        for(let i = 0; i < this.sceneObjects.length; i++) {
+            if(this.sceneObjects[i]!.active === true)
+            {
+                if(this.sceneObjects[i]!.collidable)
+                {
+                    global.checkCollisionWithAnyOther(this.sceneObjects[i]);
+                }
+
+                if(this.sceneObjects[i]!.triggerable)
+                {
+                    global.checkTriggerWithAnyOther(this.sceneObjects[i]);
+                }
+            }
+        }
+    }
+
+    ui = (uictx: CanvasRenderingContext2D) => {
+        for(let i = 0; i < this.uiIterator.length; i++) {
+            this.uiIterator[i].ui(uictx);
+        }
+    }
+
     destroy = () => {
         if (this.destroyObjects()) {
              console.log(`Scene ${this.sceneName} destroyed`);
@@ -97,8 +121,8 @@ export class GameWorld extends Scene {
         });
     }
 
-    createObjects = () => {
-        const theme = new AudioClass("/src/components/audio/tmhcot_nes_fin.mp3", true, 0.5);
+    createUI = () => {
+        const theme = new AudioClass("/src/components/audio/tmhcot_nes_fin.ogg", true, 0.5);
 
         //TODO: Implement the game
         const ret =  new Button(this.gap, this.gap, 64, 64, "<-", 20, "black", "beige", () => {
@@ -106,13 +130,12 @@ export class GameWorld extends Scene {
             global.sceneManager.changeScene(new MainMenu());
         });
 
-        // for(let j = 0; j < 12; j++) {
-        //     for(let k = 0; k < 12; k++)
-        //     {
-        //         let floor = new Floor(`Floor${j + k}`, TILE_SIZE + (64 * k), TILE_SIZE + (TILE_SIZE * 2) + (64 * j), TILE_SIZE, TILE_SIZE)
-        //         this.sceneObjects.push(floor);
-        //     }
-        // }
+
+
+        this.uiIterator.push(ret);
+    }
+
+    createObjects = () => {
 
         for(let y = 0; y < this.grid.tiles; y++) {
             for(let x = 0; x < this.grid.tiles; x++) {
@@ -136,7 +159,7 @@ export class GameWorld extends Scene {
 
         for(let x = 6; x < this.grid.tiles; x++) {
             this.grid.setPos(x, 3)
-            let pseudo = new Pseudo(`Pseudo`, this.grid.x, this.grid.y - ((TILE_SIZE / 2)-(TILE_SIZE/2)), TILE_SIZE, TILE_SIZE*0.5, 2);
+            let pseudo = new Pseudo(`Pseudo`, this.grid.x, this.grid.y - ((TILE_SIZE / 2)-(TILE_SIZE/2)), TILE_SIZE, TILE_SIZE*0.5, 2, true, false);
             let counter = new Counter(`Counter`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5, 4);
             this.sceneObjects.push(pseudo)
             this.sceneObjects.push(counter);
@@ -144,30 +167,30 @@ export class GameWorld extends Scene {
         }
 
         this.grid.setPos(10, 10);
-        let chair = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 1);
+        let chair = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 1, true, true);
 
         this.grid.setPos(9, 10);
-        let table = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let table = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, true, true);
 
         this.grid.setPos(8, 10);
-        let chair1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let chair1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, true, true);
 
         this.grid.setPos(9, 4);
-        let chair2 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 3);
+        let chair2 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 3, true, true);
 
         this.grid.setPos(7, 4);
-        let chair3 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 3);
+        let chair3 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 3, true, true);
 
         this.grid.setPos(4, 9);
-        let chair4 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 1);
+        let chair4 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, 1, true, true);
         this.grid.setPos(3, 9);
-        let table3 = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let table3 = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, true, true);
 
         this.grid.setPos(2, 9);
-        let chair5 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
+        let chair5 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6, true, true);
 
         this.grid.setPos(10, 3.5);
-        this.coffeemachine = new Coffeemachine(`Coffeemachine`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE, 6);
+        this.coffeemachine = new Coffeemachine(`Coffeemachine`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE, 6, false, true);
 
         this.sceneObjects.push(chair);
         this.sceneObjects.push(table);
@@ -179,8 +202,6 @@ export class GameWorld extends Scene {
         this.sceneObjects.push(chair5);
 
         this.sceneObjects.push(this.player);
-
-        this.sceneObjects.push(ret);
 
         this.sceneObjects.push(this.coffeemachine);
 

@@ -13,9 +13,9 @@ function gameLoop(totalRunningTime: number) {
     global.updateDeltaTime(totalRunningTime);
     global.updateFPS();
 
-    global.ctx!.font = "16px Pixelify Sans";
-    global.ctx!.fillStyle = "white";
-    global.ctx!.fillText(`FPS: ${Math.round(global.fps)} - ∂t: ${global.deltaTime}`, global.getCanvasBounds().left, global.getCanvasBounds().bottom);
+    global.uictx!.font = "16px Pixelify Sans";
+    global.uictx!.fillStyle = "white";
+    global.uictx!.fillText(`FPS: ${Math.round(global.fps)} - ∂t: ${global.deltaTime}`, global.getCanvasBounds().left, global.getCanvasBounds().bottom);
     //global.ctx!.fillText(`left: ${global.getCanvasBounds().left}\ntop: ${global.getCanvasBounds().top}\nright: ${global.getCanvasBounds().right}\nbottom: ${global.getCanvasBounds().bottom}\n`, global.getCanvasBounds().left+64, global.getCanvasBounds().bottom-64);
 
     // update
@@ -24,6 +24,7 @@ function gameLoop(totalRunningTime: number) {
     // render
     global.allGameObjects.sort((a, b) => a.zOrder - b.zOrder);
     global.sceneManager.render(global.ctx!);
+    global.sceneManager.ui(global.uictx!);
 
     requestAnimationFrame(gameLoop);
 }

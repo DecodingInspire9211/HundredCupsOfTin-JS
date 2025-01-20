@@ -19,7 +19,7 @@ export class Chair extends BaseGameObj {
     };
 
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single? : any) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single? : any, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
@@ -36,6 +36,10 @@ export class Chair extends BaseGameObj {
             this.animationData.firstSpriteIndex = 0;
             this.animationData.lastSpriteIndex = 2;
         }
+
+        this.collidable = collidable;
+        this.triggerable = triggerable;
+
         //this.loadImages();
         this.loadImagesFromSpritesheet("../src/components/imgs/chairspritesheet.png", 4, 1);
     }

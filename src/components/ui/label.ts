@@ -19,7 +19,7 @@ export class Label extends BaseUI {
     }
 
 
-    render(ctx: CanvasRenderingContext2D): void {
+    ui(ctx: CanvasRenderingContext2D): void {
         if(this.active)
         {
             ctx.fillStyle = `${this.fontColor}`;

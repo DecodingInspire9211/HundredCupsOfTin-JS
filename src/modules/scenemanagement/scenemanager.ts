@@ -29,4 +29,17 @@ export class SceneManager {
             this.currScene.render(ctx);
         }
     }
+
+    ui(uictx: CanvasRenderingContext2D)
+    {
+        if (this.currScene) {
+            this.currScene.ui(uictx)
+        }
+    }
+
+    interact() {
+        if (this.currScene) {
+            this.currScene.interact();
+        }
+    }
 }

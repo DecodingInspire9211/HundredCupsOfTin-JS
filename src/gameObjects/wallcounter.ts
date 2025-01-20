@@ -9,7 +9,7 @@ export class WallCounter extends BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
@@ -17,6 +17,9 @@ export class WallCounter extends BaseGameObj {
         this.width = width;
         this.height = height;
         this.loadImages();
+
+        this.collidable = collidable;
+        this.triggerable = triggerable;
     }
 
     loadImages = () => {

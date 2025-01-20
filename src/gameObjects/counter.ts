@@ -9,13 +9,17 @@ export class Counter extends BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
+        this.collidable = collidable;
+        this.triggerable = triggerable;
+
         this.loadImages();
     }
 
