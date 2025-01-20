@@ -1,7 +1,6 @@
 import { BaseGameObj } from "./baseGameObj.ts";
 import { SceneManager } from "./SceneManagement/sceneManager.ts";
 
-import { MainMenu } from "../components/scenes/MainMenu.ts";
 import { GameWorld } from "../components/scenes/GameWorld.ts";
 
 import { loadFont } from "./internals/loadFont.ts";
@@ -22,8 +21,15 @@ interface Global {
     clearCanvas: () => void;
     updateCanvasSize: () => void;
     getCanvasBounds: () => { left: number; right: number; top: number; bottom: number };
+
+    //DETECT COLLISIONS
     checkCollisionWithAnyOther: (source: any) => void;
     detectBoxCollision: (gameObject1: any, gameObject2: any) => boolean;
+
+    //DETECT COLLISIONS
+    checkTriggerWithAnyOther: (source: any) => void;
+    detectBoxTrigger: (gameObject1: any, gameObject2: any) => boolean;
+
     handleInput: KeyHandler;
 
     updateFPS: () => void;
@@ -43,17 +49,17 @@ const global: Global = {
     //handleInput : new KeyHandler(),
 
 
-    init: function() {
-      this.updateCanvasSize();
-      this.getCanvasBounds();
+    init: function () {
+        this.updateCanvasSize();
+        this.getCanvasBounds();
 
-      this.handleInput = new KeyHandler();
+        this.handleInput = new KeyHandler();
 
-      loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
-      this.ctx!.font = "16px Pixelify Sans";
+        loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
+        this.ctx!.font = "16px Pixelify Sans";
 
-      //this.sceneManager.changeScene(new MainMenu());
-      this.sceneManager.changeScene(new GameWorld());
+        //this.sceneManager.changeScene(new MainMenu());
+        this.sceneManager.changeScene(new GameWorld());
     },
 
     clearCanvas: function () {
@@ -64,53 +70,81 @@ const global: Global = {
         this.canvas!.width = window.innerWidth;
         this.canvas!.height = window.innerHeight;
     },
-    
-    getCanvasBounds: function() {
-      return {
-        left: 0,
-        right: this.canvas!.width,
-        top: 0,
-        bottom: this.canvas!.height,
-      };
+
+    getCanvasBounds: function () {
+        return {
+            left: 0,
+            right: this.canvas!.width,
+            top: 0,
+            bottom: this.canvas!.height,
+        };
     },
 
-    updateFPS: function() {
+    updateFPS: function () {
         this.fps = Math.round(1 / global.deltaTime);
     },
 
-    updateDeltaTime (totalRunningTime) {
+    updateDeltaTime(totalRunningTime) {
         let currentTRT = totalRunningTime;
         global.deltaTime = (currentTRT - global.previousTRT) / 1000;
         global.previousTRT = currentTRT;
     },
-  
-    checkCollisionWithAnyOther: function(source) {
-      for (let i = 0; i < this.allGameObjects.length; i++) {
-        let target = this.allGameObjects[i];
-        if (target.active) {
-          let collisionHappened = this.detectBoxCollision(source, target);
-          if (collisionHappened) {
-            source.reactToCollision(target);
-            target.reactToCollision(source);
-          }
+
+    checkCollisionWithAnyOther: function (source) {
+        for (let i = 0; i < this.allGameObjects.length; i++) {
+            let target = this.allGameObjects[i];
+            if (target.active) {
+                let collisionHappened = this.detectBoxCollision(source, target);
+                if (collisionHappened) {
+                    source.reactToCollision(target);
+                    target.reactToCollision(source);
+                }
+            }
         }
-      }
     },
-  
-    detectBoxCollision: function(gameObject1, gameObject2) {
-      let box1 = gameObject1.getBoxBounds();
-      let box2 = gameObject2.getBoxBounds();
-      if (gameObject1 !== gameObject2) {
-        // Add collision detection logic here
-        return (
-          box1.left < box2.right &&
-          box1.right > box2.left &&
-          box1.top < box2.bottom &&
-          box1.bottom > box2.top
-        );
-      }
-      return false;
+
+    checkTriggerWithAnyOther: function (source) {
+        for (let i = 0; i < this.allGameObjects.length; i++) {
+            let target = this.allGameObjects[i];
+            if (target.active) {
+                let collisionHappened = this.detectBoxTrigger(source, target);
+                if (collisionHappened) {
+                    source.reactToTrigger(target);
+                    target.reactToTrigger(source);
+                }
+            }
+        }
     },
-  };
+
+    detectBoxCollision: function (gameObject1, gameObject2) {
+        let box1 = gameObject1.getBoxBounds();
+        let box2 = gameObject2.getBoxBounds();
+        if (gameObject1 !== gameObject2) {
+            // Add collision detection logic here
+            return (
+                box1.left < box2.right &&
+                box1.right > box2.left &&
+                box1.top < box2.bottom &&
+                box1.bottom > box2.top
+            );
+        }
+        return false;
+    },
+
+    detectBoxTrigger: function (gameObject1, gameObject2) {
+        let box1 = gameObject1.getTriggerBounds(gameObject1.triggerDistance);
+        let box2 = gameObject2.getTriggerBounds(gameObject2.triggerDistance);
+        if (gameObject1 !== gameObject2) {
+            // Add collision detection logic here
+            return (
+                box1.left < box2.right &&
+                box1.right > box2.left &&
+                box1.top < box2.bottom &&
+                box1.bottom > box2.top
+            );
+        }
+        return false;
+    },
+};
 
   export { global }

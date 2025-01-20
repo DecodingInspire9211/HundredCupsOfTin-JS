@@ -1,77 +1,53 @@
 export class AudioClass {
-    audioContext: AudioContext;
-    source: AudioBufferSourceNode | null;
-    gainNode: GainNode;
-    buffer: AudioBuffer | null;
+    private audioContext: AudioContext;
+    private buffer: AudioBuffer | null = null;
+    private source: AudioBufferSourceNode | null = null;
+    private gainNode: GainNode;
 
-    // window.AudioContext = window.AudioContext||window.webkitAudioContext; //fix up prefixing
-    // var context = new AudioContext(); //context
-    // var source = context.createBufferSource(); //source node
-    // source.connect(context.destination); //connect source to speakers so we can hear it
-    // var request = new XMLHttpRequest();
-    // request.open('GET', url, true);
-    // request.responseType = 'arraybuffer'; //the  response is an array of bits
-    // request.onload = function() {
-    //     context.decodeAudioData(request.response, function(response) {
-    //         source.buffer = response;
-    //         source.start(0); //play audio immediately
-    //         source.loop = true;
-    //     }, function () { console.error('The request failed.'); } );
-    // }
-    // request.send();
-
-    constructor(src: string, loop: boolean, volume: number) {
-        this.audioContext = new AudioContext();
-        this.source = null;
+    constructor(private url: string, private loop: boolean = false, private volume: number = 1.0) {
+        this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
         this.gainNode = this.audioContext.createGain();
-        this.gainNode.gain.value = volume;
+        this.gainNode.gain.value = this.volume;
         this.gainNode.connect(this.audioContext.destination);
-        this.buffer = null;
 
-        source.connect(context.destination); //connect source to speakers so we can hear it##
-        
-
-        this.loadAudio(src, loop);
+        this.loadAudio().then(() => console.log("Audio loaded")).catch(error => console.error("Error loading audio:", error));
     }
 
-    async loadAudio(src: string, loop: boolean) {
-        const response = await fetch(src);
-        const arrayBuffer = await response.arrayBuffer();
-        this.buffer = await this.audioContext.decodeAudioData(arrayBuffer);
-        this.source = this.audioContext.createBufferSource();
-        this.source.buffer = this.buffer;
-        this.source.loop = loop;
-        this.source.connect(this.gainNode);
-        console.log("Audio loaded");
-    }
-
-    play() {
-        console.log(`Audio ${this.source} and ${this.buffer}`);
-
-
-        if (this.source && this.buffer) {
-            this.source.start(0);
-            console.log(`Audio ${this.source} playing`);
+    private async loadAudio() {
+        try {
+            const response = await fetch(this.url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const arrayBuffer = await response.arrayBuffer();
+            this.buffer = await this.audioContext.decodeAudioData(arrayBuffer);
+        } catch (error) {
+            console.error("Error decoding audio data:", error);
+            throw error;
         }
     }
 
-    pause() {
+    public play() {
+        if (this.buffer) {
+            this.source = this.audioContext.createBufferSource();
+            this.source.buffer = this.buffer;
+            this.source.loop = this.loop;
+            this.source.connect(this.gainNode);
+            this.source.start(0);
+        } else {
+            console.error("Audio buffer is not loaded yet.");
+        }
+    }
+
+    public stop() {
         if (this.source) {
-            this.source.stop();
+            this.source.stop(0);
+            this.source.disconnect();
             this.source = null;
         }
     }
 
-    stop() {
-        this.pause();
-    }
-
-    setVolume(volume: number) {
+    public setVolume(volume: number) {
         this.gainNode.gain.value = volume;
-    }
-
-    destroy() {
-        this.stop();
-        this.audioContext.close();
     }
 }

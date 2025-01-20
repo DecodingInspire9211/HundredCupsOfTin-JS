@@ -32,7 +32,9 @@ export class KeyHandler {
             case "d":
                 this.keyBinary! |= Key.Right;
                 break;
-            case "p":
+            case "e":
+                this.keyBinary! |= Key.Act;
+                break;
 
             // case "Shift":
             //     this.keyBinary |= Key.Shift;
@@ -61,7 +63,10 @@ export class KeyHandler {
             case "d":
                 this.keyBinary &= ~Key.Right;
                 console.log(this.keyBinary);
-
+                break;
+            case "e":
+                this.keyBinary &= ~Key.Act;
+                console.log(this.keyBinary);
                 break;
             // case "Shift":
             //     this.keyBinary &= ~Key.Shift;

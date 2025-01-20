@@ -35,6 +35,15 @@ export class BaseUI {
         };
     }
 
+    getTriggerBounds = (triggerDistance: number) => {
+        return {
+            left: this.getBoxBounds().left + triggerDistance,
+            right: this.getBoxBounds().right + triggerDistance,
+            top: this.getBoxBounds().top + triggerDistance,
+            bottom: this.getBoxBounds().bottom + triggerDistance
+        }
+    }
+
     update = function() {
 
     }
@@ -65,6 +74,11 @@ export class BaseUI {
     storePositionOfPreviousFrame = function() {}
 
     reactToCollision = function() {}
+
+    reactToTrigger = function(triggeringObject: any) {
+
+    }
+
 
     render(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = `${this.backgroundColor || 'black'}`;

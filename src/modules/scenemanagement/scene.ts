@@ -2,7 +2,7 @@ import { BaseGameObj } from "../gameobjs/baseGameObj";
 
 export class Scene {
     sceneName: string;
-    sceneObjects: [];
+    sceneObjects: BaseGameObj[];
 
     init: () => void;
     update: (deltaTime: number) => void;

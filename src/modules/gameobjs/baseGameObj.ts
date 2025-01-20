@@ -16,7 +16,9 @@ export class BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
-    public zOrder: number = 0; // Add zOrder property
+    public zOrder: number = 0;
+
+    public triggerDistance: number = 0;
 
     /// internal properties
     animationData: any = {
@@ -44,6 +46,15 @@ export class BaseGameObj {
             top: this.y,
             bottom: this.y + this.height
         };
+    }
+
+    getTriggerBounds = (triggerDistance: number) => {
+        return {
+            left: this.getBoxBounds().left + triggerDistance,
+            right: this.getBoxBounds().right + triggerDistance,
+            top: this.getBoxBounds().top + triggerDistance,
+            bottom: this.getBoxBounds().bottom + triggerDistance
+        }
     }
 
     getNextSprite = () => {
@@ -133,6 +144,10 @@ export class BaseGameObj {
     }
 
     reactToCollision = function(collidingObject: any) {
+
+    }
+
+    reactToTrigger = function(triggeringObject: any) {
 
     }
 

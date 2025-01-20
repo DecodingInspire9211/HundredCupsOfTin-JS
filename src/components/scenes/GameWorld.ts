@@ -1,6 +1,7 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
 import { Wall } from "../../gameObjects/wall.ts"
 import { Button} from "../ui/button.ts";
+import { Label } from "../ui/label.ts";
 import { TILE_SIZE } from "../../../lib/constants.ts";
 import {Floor} from "../../gameObjects/floor.ts";
 import {global} from "../../modules/global.ts";
@@ -13,12 +14,16 @@ import {Pseudo} from "../../gameObjects/pseudo.ts";
 import {Chair} from "../../gameObjects/chair.ts";
 import {Table} from "../../gameObjects/table.ts";
 import {AudioClass} from "../../modules/internals/audio.ts";
+import {Coffeemachine} from "../../gameObjects/coffeemachine.ts";
+import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 
 export class GameWorld extends Scene {
 
     gap = 12;
     player: Player;
     grid: Grid;
+    coffeemachine: Coffeemachine;
+    sceneObjects: BaseGameObj[];
 
     player_zOrder: number = 2;
 
@@ -27,6 +32,8 @@ export class GameWorld extends Scene {
         this.sceneName = "Game World";
         this.sceneObjects = [];
         this.grid = new Grid(12);
+
+        this.grid.setPos(2, 2);
         this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.player_zOrder);
     }
 
@@ -40,18 +47,41 @@ export class GameWorld extends Scene {
     update = () => {
         this.player.update_player_zOrder(this.grid);
         this.player.update()
+
+        // PLAYER TRIGGER
+        if (this.player.wasTriggered) {
+
+            // BREW COFFEE
+            if(this.player.amountCoffee >= 3) {
+                console.log("you cant hold more but three cups of coffee");
+                this.player.amountCoffee = 3;
+                this.player.wasTriggered = false;
+            }
+            else {
+                this.coffeemachine.brewCoffee();
+
+                if (this.coffeemachine.coffeeReady) {
+                    this.player.hasCoffee = true;
+                    this.player.amountCoffee++;
+                    this.coffeemachine.coffeeReady = false;
+                    this.player.wasTriggered = false;
+                }
+            }
+        }
     }
 
     render = (ctx: CanvasRenderingContext2D) => {
         //this.map.flat().forEach(tile => tile.node.render())
 
         this.player.render(ctx);
+        this.coffeemachine.render(ctx);
 
         for(let i = 0; i < this.sceneObjects.length; i++) {
             if(this.sceneObjects[i]!.active === true)
             {
                 this.sceneObjects[i].storePositionOfPreviousFrame();
                 global.checkCollisionWithAnyOther(this.sceneObjects[i]);
+                global.checkTriggerWithAnyOther(this.sceneObjects[i]);
                 this.sceneObjects[i].render(ctx);
                 //console.log(`Object ${this.sceneObjects[i].name} rendered`);
             }
@@ -70,7 +100,6 @@ export class GameWorld extends Scene {
     createObjects = () => {
         const theme = new AudioClass("tmhcot_nes_fin.mp3", false, 0.5);
         theme.play();
-
 
         //TODO: Implement the game
         const ret =  new Button(this.gap, this.gap, 64, 64, "<-", 20, "black", "beige", () => {
@@ -141,6 +170,9 @@ export class GameWorld extends Scene {
         this.grid.setPos(2, 9);
         let chair5 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 6);
 
+        this.grid.setPos(10, 3.5);
+        this.coffeemachine = new Coffeemachine(`Coffeemachine`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE, 6);
+
         this.sceneObjects.push(chair);
         global.allGameObjects.push(chair);
         this.sceneObjects.push(table);
@@ -163,6 +195,9 @@ export class GameWorld extends Scene {
 
         this.sceneObjects.push(ret);
         global.allGameObjects.push(ret);
+
+        this.sceneObjects.push(this.coffeemachine);
+        global.allGameObjects.push(this.coffeemachine);
 
         this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
 
