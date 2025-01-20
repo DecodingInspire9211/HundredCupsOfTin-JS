@@ -71,6 +71,8 @@ export class BaseUI {
         return this.animationData.animationSprites[this.animationData.currentSpriteIndex];
     };
 
+    destroy = function() {}
+
     storePositionOfPreviousFrame = function() {}
 
     reactToCollision = function() {}

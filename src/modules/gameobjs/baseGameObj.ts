@@ -151,6 +151,11 @@ export class BaseGameObj {
 
     }
 
+    destroy = () => {
+        // Remove the object from the global array
+        delete this.animationData;
+    }
+
     storePositionOfPreviousFrame(): void {
         this.previousX = this.x;
         this.previousY = this.y;

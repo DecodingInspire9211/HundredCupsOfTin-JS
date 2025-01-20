@@ -1,36 +1,39 @@
 export class AudioClass {
     private audioContext: AudioContext;
-    private buffer: AudioBuffer | null = null;
     private source: AudioBufferSourceNode | null = null;
     private gainNode: GainNode;
 
     constructor(private url: string, private loop: boolean = false, private volume: number = 1.0) {
         this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        this.loadAudio().then((v: AudioBuffer) => {this.play(v)}).catch((e) => console.error(`Error loading audio: ${e}`));
         this.gainNode = this.audioContext.createGain();
         this.gainNode.gain.value = this.volume;
         this.gainNode.connect(this.audioContext.destination);
 
-        this.loadAudio().then(() => console.log("Audio loaded")).catch(error => console.error("Error loading audio:", error));
     }
 
     private async loadAudio() {
+        let response = await fetch(this.url);
+
+        const permissibleFormats = ["audio/mpeg", "audio/ogg", "audio/wav"];
+        if(!permissibleFormats.includes(response.headers.get("content-type")!)) {
+            throw new Error(`Invalid audio format! ${response.headers.get("content-type")}`);
+        }
+        const arrayBuffer = await response.arrayBuffer();
         try {
-            const response = await fetch(this.url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const arrayBuffer = await response.arrayBuffer();
-            this.buffer = await this.audioContext.decodeAudioData(arrayBuffer);
-        } catch (error) {
-            console.error("Error decoding audio data:", error);
+            console.log(arrayBuffer);
+            return this.audioContext.decodeAudioData(arrayBuffer);
+        }
+        catch (error) {
             throw error;
         }
+
     }
 
-    public play() {
-        if (this.buffer) {
+    public play(buffer: AudioBuffer) {
+        if (buffer) {
             this.source = this.audioContext.createBufferSource();
-            this.source.buffer = this.buffer;
+            this.source.buffer = buffer;
             this.source.loop = this.loop;
             this.source.connect(this.gainNode);
             this.source.start(0);

@@ -89,21 +89,21 @@ export class GameWorld extends Scene {
     }
 
     destroy = () => {
-        // if (this.destroyObjects()) {
-        //     console.log(`Scene ${this.sceneName} destroyed`);
-        // }
-        // this.sceneObjects.forEach(object => {
-        //     //this.sceneObjects[object].active = false;
-        // });
+        if (this.destroyObjects()) {
+             console.log(`Scene ${this.sceneName} destroyed`);
+        }
+        this.sceneObjects.forEach(object => {
+             object.active = false;
+        });
     }
 
     createObjects = () => {
-        const theme = new AudioClass("tmhcot_nes_fin.mp3", false, 0.5);
-        theme.play();
+        const theme = new AudioClass("/src/components/audio/tmhcot_nes_fin.mp3", true, 0.5);
 
         //TODO: Implement the game
         const ret =  new Button(this.gap, this.gap, 64, 64, "<-", 20, "black", "beige", () => {
-             global.sceneManager.changeScene(new MainMenu());
+            theme.stop();
+            global.sceneManager.changeScene(new MainMenu());
         });
 
         // for(let j = 0; j < 12; j++) {
@@ -119,7 +119,6 @@ export class GameWorld extends Scene {
                 this.grid.setPos(x, y);
                 let floor = new Floor(`Floor`, this.grid.x, this.grid.y, TILE_SIZE, TILE_SIZE);
                 this.sceneObjects.push(floor);
-                global.allGameObjects.push(floor);
             }
         }
 
@@ -127,14 +126,12 @@ export class GameWorld extends Scene {
             this.grid.setPos(x, 0)
             let wall = new Wall(`Wall`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 1);
             this.sceneObjects.push(wall);
-            global.allGameObjects.push(wall);
         }
 
         for(let x = 6; x < this.grid.tiles; x++) {
             this.grid.setPos(x, 0.5)
             let wallCounter = new WallCounter(`WallCounter`, this.grid.x, this.grid.y - (TILE_SIZE * 1.5), TILE_SIZE, TILE_SIZE*2.5, 2);
             this.sceneObjects.push(wallCounter);
-            global.allGameObjects.push(wallCounter);
         }
 
         for(let x = 6; x < this.grid.tiles; x++) {
@@ -143,8 +140,7 @@ export class GameWorld extends Scene {
             let counter = new Counter(`Counter`, this.grid.x, this.grid.y - (TILE_SIZE / 2), TILE_SIZE, TILE_SIZE*1.5, 4);
             this.sceneObjects.push(pseudo)
             this.sceneObjects.push(counter);
-            global.allGameObjects.push(pseudo);
-            global.allGameObjects.push(counter);
+
         }
 
         this.grid.setPos(10, 10);
@@ -174,30 +170,19 @@ export class GameWorld extends Scene {
         this.coffeemachine = new Coffeemachine(`Coffeemachine`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE, 6);
 
         this.sceneObjects.push(chair);
-        global.allGameObjects.push(chair);
         this.sceneObjects.push(table);
-        global.allGameObjects.push(table);
         this.sceneObjects.push(chair1);
-        global.allGameObjects.push(chair1);
         this.sceneObjects.push(chair2);
-        global.allGameObjects.push(chair2);
         this.sceneObjects.push(chair3);
-        global.allGameObjects.push(chair3);
         this.sceneObjects.push(chair4);
-        global.allGameObjects.push(chair4);
         this.sceneObjects.push(table3);
-        global.allGameObjects.push(table3);
         this.sceneObjects.push(chair5);
-        global.allGameObjects.push(chair5);
 
         this.sceneObjects.push(this.player);
-        global.allGameObjects.push(this.player);
 
         this.sceneObjects.push(ret);
-        global.allGameObjects.push(ret);
 
         this.sceneObjects.push(this.coffeemachine);
-        global.allGameObjects.push(this.coffeemachine);
 
         this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
 
@@ -208,19 +193,18 @@ export class GameWorld extends Scene {
         // });
     }
 
-    // destroyObjects = function(sceneObjects) {
-    //     // Check if there are objects in the scene
-    //     if (this.sceneObjects.length > 0) {
-    //         // Destroy each object
-    //         this.sceneObjects.forEach(object => {
-    //             object.destroy();
-    //         });
+     destroyObjects = () => {
+         // Check if there are objects in the scene
+         if (this.sceneObjects.length > 0) {
+             // Destroy each object
+             this.sceneObjects.forEach(object => {
+                 object.destroy();
+             });
 
-    //         // Clear the sceneObjects array
-    //         this.sceneObjects = [];
-    //         theme.stop();
+             // Clear the sceneObjects array
+             this.sceneObjects = [];
 
-    //         return true;
-    //     }
-    // }
+             return true;
+         }
+     }
 }
