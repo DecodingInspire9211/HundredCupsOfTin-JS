@@ -3,7 +3,7 @@ export enum Key {
     Down = 1 << 1,
     Left = 1 << 2,
     Right = 1 << 3,
-    Shift = 1 << 4,
+    Take = 1 << 4,
     Act = 1 << 5
 };
 
@@ -34,6 +34,9 @@ export class KeyHandler {
                 break;
             case "e":
                 this.keyBinary! |= Key.Act;
+                break;
+            case "q":
+                this.keyBinary! |= Key.Take;
                 break;
 
             // case "Shift":

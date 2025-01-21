@@ -1,6 +1,6 @@
-import {BaseGameObj} from "../modules/gameobjs/baseGameObj.ts";
+import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 
-export class WallCounter extends BaseGameObj {
+export class Counter extends BaseGameObj {
     public x: number = 0;
     public y: number = 0;
     public tileX: number = 0;
@@ -16,16 +16,17 @@ export class WallCounter extends BaseGameObj {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.loadImages();
 
         this.collidable = collidable;
         this.triggerable = triggerable;
+
+        this.loadImages();
     }
 
     loadImages = () => {
         /* first load images from path */
         let image1 = new Image();
-        image1.src = "../src/components/imgs/wallcounter.png";
+        image1.src = "../src/components/imgs/counter.png";
 
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
         this.animationData.animationSprites.push(image1);
@@ -39,7 +40,7 @@ export class WallCounter extends BaseGameObj {
         return {
             left: this.x,
             right: this.x + this.width,
-            top: this.y,
+            top: this.y + (this.height / 3),
             bottom: this.y + this.height
         }
     }
@@ -49,9 +50,10 @@ export class WallCounter extends BaseGameObj {
         //ctx.fillStyle = "brown";
         //ctx.fillRect(this.x, this.y, this.width, this.height);
         //ctx.strokeStyle = "red";
-        //ctx.strokeRect(this.x, this.y, (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
+        //ctx.strokeRect(this.x, (this.y + this.height / 3), (this.getBoxBounds().right - this.getBoxBounds().left), (this.getBoxBounds().bottom - this.getBoxBounds().top));
         let sprit = this.getNextSprite();
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(sprit, this.x, this.y, this.width, this.height);
+
     }
 }

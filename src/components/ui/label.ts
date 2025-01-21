@@ -4,7 +4,7 @@ import {global} from "../../modules/global.ts";
 export class Label extends BaseUI {
     active: boolean = true;
 
-    canvas = global.canvas!;
+    canvas = global.ui!;
 
     constructor(
         x: number,

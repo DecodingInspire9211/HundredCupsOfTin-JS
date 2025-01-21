@@ -1,4 +1,4 @@
-import {BaseGameObj} from "../modules/gameobjs/baseGameObj.ts";
+import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 
 export class Table extends BaseGameObj {
     public x: number = 0;

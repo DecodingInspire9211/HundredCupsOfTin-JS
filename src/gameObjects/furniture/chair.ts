@@ -1,4 +1,4 @@
-import {BaseGameObj} from "../modules/gameobjs/baseGameObj.ts";
+import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 
 export class Chair extends BaseGameObj {
     public x: number = 0;
@@ -26,7 +26,7 @@ export class Chair extends BaseGameObj {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.single = typeof single === "number" ? single : 0;
+        this.single = typeof single === "number" ? single : undefined;
 
         if(typeof this.single === "number") {
             this.animationData.firstSpriteIndex = single;

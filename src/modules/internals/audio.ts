@@ -15,6 +15,9 @@ export class AudioClass {
     private async loadAudio() {
         let response = await fetch(this.url);
 
+        console.log(response.headers.get("content-type"));
+        console.log(this.url);
+
         const permissibleFormats = ["audio/mpeg", "audio/ogg", "audio/wav"];
         if(!permissibleFormats.includes(response.headers.get("content-type")!)) {
             throw new Error(`Invalid audio format! ${response.headers.get("content-type")}`);

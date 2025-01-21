@@ -1,4 +1,4 @@
-import {BaseGameObj} from "../modules/gameobjs/baseGameObj.ts";
+import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 
 export class Wall extends BaseGameObj {
     public x: number = 0;
@@ -47,7 +47,7 @@ export class Wall extends BaseGameObj {
     loadImages = () => {
         /* first load images from path */
         let image1 = new Image();
-        image1.src = "../src/components/imgs/wall.png";
+        image1.src = "../src/components/imgs/environment/wall.png";
 
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
         this.animationData.animationSprites.push(image1);

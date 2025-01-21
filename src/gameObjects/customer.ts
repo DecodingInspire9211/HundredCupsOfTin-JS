@@ -4,14 +4,9 @@ import { global } from "../modules/global.ts";
 import { Key } from "../modules/input/keyHandler.ts";
 import { Coffeemachine } from "./furniture/coffeemachine.ts";
 import {Label} from "../components/ui/label.ts";
-import { Economy } from "../modules/gameobjs/economy.ts";
 
-class Player extends BaseGameObj {
-    gap = 12;
-
-    economy: Economy;
-
-    name: string = "Player";
+class Customer extends BaseGameObj {
+    name: string = "Customer";
 
     fullName = {
         nickname: "",
@@ -34,7 +29,7 @@ class Player extends BaseGameObj {
     hasCoffee: boolean = false;
     amountCoffee: number = 0;
 
-    amountLabel: Label = new Label(0, 0, 0, 0, `${this.amountCoffee}`, 0, "");
+    amountLabel: Label = new Label(0, 0, 0, 0, "", 0, "");
     public single: number = 0;
 
 
@@ -46,10 +41,6 @@ class Player extends BaseGameObj {
         "lastSpriteIndex": 2,
         "currentSpriteIndex": 0
     };
-
-    playername: Label;
-    coffeeInHand: Label;
-    money: Label;
 
     constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, single? : any, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
@@ -83,13 +74,6 @@ class Player extends BaseGameObj {
         this.fullName.nickname = nickname;
         this.fullName.surname = surname;
 
-        this.amountCoffee;
-
-        this.economy = new Economy();
-
-        this.playername = new Label(this.gap + 300, global.ui!.height - this.gap - 56, 64, 64, this.getFullName(), 24, "black" );
-        this.coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 0, `Coffee in Hand: ${this.amountCoffee}`, 12, "white" );
-        this.money = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 0, 64, `${this.economy.Currency.symbol} ${this.economy.money}`, 16, "black" );
     };
 
     public getFullName = () => {
@@ -116,6 +100,7 @@ class Player extends BaseGameObj {
 
     update_player_zOrder_by_ytile(grid: Grid) {
         this.zOrder = Math.floor(grid.getCurrentTilePos(this.x, this.y).y);
+        console.log(`Player zOrder: ${this.zOrder}`);
     }
 
     move = () => {
@@ -152,9 +137,15 @@ class Player extends BaseGameObj {
     }
 
     ui = (ctx) => {
-        this.playername.ui(ctx);
-        this.coffeeInHand.ui(ctx);
-        this.money.ui(ctx);
+        if(this.amountCoffee == 1) {
+            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cup`, 20, "white");
+            this.amountLabel.render(ctx);
+        }
+        else
+        {
+            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cups`, 20, "white");
+            this.amountLabel.render(ctx);
+        }
     }
 
     update = (): void => {
@@ -179,16 +170,13 @@ class Player extends BaseGameObj {
 
     reactToTrigger = (triggeringObject: any) => {
         if (triggeringObject instanceof Coffeemachine) {
-            //console.log("Player triggered Coffeemachine");
+            console.log("Player triggered Coffeemachine");
             if (global.handleInput.keyBinary & Key.Act) {
                 triggeringObject.wasTriggered = true;
                 this.wasTriggered = true;
-            } else if(global.handleInput.keyBinary & Key.Take) {
-                this.amountCoffee += triggeringObject.amountCoffee;
-                this.wasTriggered = false;
             } else {
-                triggeringObject.wasTriggered = false;
-                this.wasTriggered = false;            }
+                this.wasTriggered = false;
+            }
         }
     }
 

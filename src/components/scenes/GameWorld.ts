@@ -1,23 +1,24 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
-import { Wall } from "../../gameObjects/wall.ts"
+import { Wall } from "../../gameObjects/env/wall.ts"
 import { Button} from "../ui/button.ts";
 import { Label } from "../ui/label.ts";
 import { TILE_SIZE } from "../../../lib/constants.ts";
-import {Floor} from "../../gameObjects/floor.ts";
+import {Floor} from "../../gameObjects/env/floor.ts";
 import {global} from "../../modules/global.ts";
 import {MainMenu} from "./MainMenu.ts";
 import {Grid} from "../../modules/gameobjs/grid.ts";
 import {Player} from "../../gameObjects/player.ts";
-import {Counter} from "../../gameObjects/counter.ts";
-import {WallCounter} from "../../gameObjects/wallcounter.ts";
+import {Counter} from "../../gameObjects/furniture/counter.ts";
+import {WallCounter} from "../../gameObjects/furniture/wallcounter.ts";
 import {Pseudo} from "../../gameObjects/pseudo.ts";
-import {Chair} from "../../gameObjects/chair.ts";
-import {Table} from "../../gameObjects/table.ts";
+import {Chair} from "../../gameObjects/furniture/chair.ts";
+import {Table} from "../../gameObjects/furniture/table.ts";
 import {AudioClass} from "../../modules/internals/audio.ts";
-import {Coffeemachine} from "../../gameObjects/coffeemachine.ts";
+import {Coffeemachine} from "../../gameObjects/furniture/coffeemachine.ts";
 import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 import {Figtree} from "../../gameObjects/deco/plant1.ts";
 import {ImageCl} from "../ui/image.ts";
+import {Economy} from "../../modules/gameobjs/economy.ts";
 
 export class GameWorld extends Scene {
 
@@ -25,6 +26,7 @@ export class GameWorld extends Scene {
     player: Player;
     grid: Grid;
     coffeemachine: Coffeemachine;
+    economy: Economy;
     sceneObjects: BaseGameObj[];
 
     player_zOrder: number = 2;
@@ -37,6 +39,7 @@ export class GameWorld extends Scene {
 
         this.grid.setPos(2, 2);
         this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.grid.getTilePos().y, 50, 0, true, true);
+        this.economy = new Economy(0, 0, 0, 0);
     }
 
 
@@ -135,7 +138,7 @@ export class GameWorld extends Scene {
     }
 
     createUI = () => {
-        const theme = new AudioClass("/src/components/audio/tmhcot_nes_fin.FIX.ogg", true, 0.5);
+        const theme = new AudioClass("/src/components/audio/tmhcot_theme_nes.ogg", true, 0.5);
 
         //TODO: Implement the game
         const ret =  new Button(this.gap, this.gap, 64, 64, "<-", 20, "black", "beige", () => {
@@ -146,10 +149,13 @@ export class GameWorld extends Scene {
         const profile = new ImageCl("src/components/imgs/profile.png", this.gap , global.ui!.height - this.gap - 256, 256, 256);
 
         const playername = new Label(this.gap + 300, global.ui!.height - this.gap - 56, 64, 64, this.player.getFullName(), 24, "black" );
-        const coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 64, `Coffee in Hand: ${this.player.amountCoffee}`, 12, "black" );
+        const coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 0, `Coffee in Hand: ${this.player.amountCoffee}`, 12, "white" );
+        const money = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 0, 64, `${this.economy.Currency.symbol} ${this.economy.money}`, 16, "black" );
+
 
         this.uiIterator.push(ret);
         this.uiIterator.push(coffeeInHand);
+        this.uiIterator.push(money);
         this.uiIterator.push(profile);
         this.uiIterator.push(playername);
     }
@@ -184,6 +190,11 @@ export class GameWorld extends Scene {
             this.sceneObjects.push(counter);
 
         }
+        this.grid.setPos(3,1);
+        let spinny = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 0, true, true);
+        this.grid.setPos(2,1);
+        let spinny1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 0, true, true);
+
 
         this.grid.setPos(10, 10);
         let chair = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 10, 1, true, true);
@@ -192,7 +203,7 @@ export class GameWorld extends Scene {
         let table = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 10, true, true);
 
         this.grid.setPos(8, 10);
-        let chair1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 10, true, true);
+        let chair1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 10, 0, true, true);
 
         this.grid.setPos(9, 4);
         let chair2 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 4, 3, true, true);
@@ -206,13 +217,16 @@ export class GameWorld extends Scene {
         let table3 = new Table(`Table`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 8, true, true);
 
         this.grid.setPos(2, 8);
-        let chair5 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 8, true, true);
+        let chair5 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 8, 0, true, true);
 
         this.grid.setPos(10, 3);
         this.coffeemachine = new Coffeemachine(`Coffeemachine`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE, 2.5, false, true);
 
         this.grid.setPos(5, -0.5);
         let figtree = new Figtree(`Figtree`, this.grid.x, this.grid.y, TILE_SIZE, TILE_SIZE * 2, 0, false, false);
+
+        this.sceneObjects.push(spinny);
+        this.sceneObjects.push(spinny1);
 
         this.sceneObjects.push(chair);
         this.sceneObjects.push(table);
