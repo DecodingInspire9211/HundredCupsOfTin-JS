@@ -39,7 +39,7 @@ export class GameWorld extends Scene {
 
         this.grid.setPos(2, 2);
         this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.grid.getTilePos().y, 50, 0, true, true);
-        this.economy = new Economy(0, 0, 0, 0);
+        this.economy = new Economy();
     }
 
 
@@ -52,27 +52,7 @@ export class GameWorld extends Scene {
 
     update = () => {
         this.player.update()
-
-        // PLAYER TRIGGER
-        if (this.player.wasTriggered) {
-
-            // BREW COFFEE
-            if(this.player.amountCoffee >= 3) {
-                console.log("you cant hold more but three cups of coffee");
-                this.player.amountCoffee = 3;
-                this.player.wasTriggered = false;
-            }
-            else {
-                this.coffeemachine.brewCoffee();
-
-                if (this.coffeemachine.coffeeReady) {
-                    this.player.hasCoffee = true;
-                    this.player.amountCoffee++;
-                    this.coffeemachine.coffeeReady = false;
-                    this.player.wasTriggered = false;
-                }
-            }
-        }
+        this.coffeemachine.update();
     }
 
     render = (ctx: CanvasRenderingContext2D) => {
@@ -241,7 +221,7 @@ export class GameWorld extends Scene {
         this.sceneObjects.push(this.player);
 
         this.sceneObjects.push(this.coffeemachine);
-        this.uiIterator.push(this.coffeemachine.timerLabel);
+        this.uiIterator.push(this.coffeemachine.timerLabel!);
 
 
 

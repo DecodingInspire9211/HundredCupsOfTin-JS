@@ -1,6 +1,4 @@
-// @ts-ignore
 import {global} from "../global.ts";
-import {Grid} from "../grid.ts";
 
 export class BaseGameObj {
     /// public properties
@@ -13,8 +11,8 @@ export class BaseGameObj {
     public x: number = 0;
     public y: number = 0;
 
-    private previousX: number = 0;
-    private previousY: number = 0;
+    previousX: number = 0;
+    previousY: number = 0;
 
     public width: number = 0;
     public height: number = 0;
@@ -79,7 +77,7 @@ export class BaseGameObj {
         return this.animationData.animationSprites[this.animationData.currentSpriteIndex];
     };
 
-    loadImages = (imageSources) => {
+    loadImages = (imageSources: any) => {
         /* first load images from path */
 
         for (let i = 0; i < imageSources.length; i++) {

@@ -11,9 +11,10 @@ export class Coffeemachine extends BaseGameObj {
 
     radiusTrigger: boolean = false;
 
-    amountCoffee: number = 0;
+    coffeeAtMachine: number = 0;
 
     timer: number = 0;
+    timer2: number = 0;
 
     timerLabel: Label | null;
 
@@ -37,49 +38,59 @@ export class Coffeemachine extends BaseGameObj {
     };
 
     brewCoffee = () => {
-        this.coffeeReady = false;
-        this.brewing = true;
-        console.log("Brewing coffee...");
-        this.timer += global.deltaTime;
-        if (this.timer >= 3) {
-            this.coffeeReady = true;
-            this.brewing = false;
-            this.timer = 0;
+        //console.log(`Player triggered Key.Act: ${this.wasTriggered}\nIs brewing: ${this.brewing}\nCoffee ready: ${this.coffeeReady}\nCoffee at machine: ${this.coffeeAtMachine}`);
+
+        // START BREWING COFFEE AS LONG AS ITS NOT ALREADY BREWING, READY NOR FULL
+        if(this.wasTriggered && !this.brewing && this.coffeeAtMachine <= 3)
+        {
+            global.economy.addExpenses(2.5);
+            this.coffeeReady = false;
+            this.brewing = true;
+        } // IF IT IS BREWING, INCREMENT A TIMER UNTIL IT REACHES 3 SECONDS
+        else if(this.brewing && !this.coffeeReady)
+        {
+            this.timer += global.deltaTime;
+
+            // WHEN TIMER HIT 3 SECONDS; COFFEE IS READY
+            if (this.timer >= 3) {
+                this.coffeeReady = true;
+                this.brewing = false;
+                this.timer = 0;
+                this.coffeeAtMachine++;
+
+                // IF COFFEE IS READY, PLAYER CAN TAKE IT AND HAVE A COOL DOWN OF 2 SECONDS
+                if (this.coffeeReady) {
+                    this.timer2 += global.deltaTime;
+                    if(this.timer2 >= 2) {
+                        this.timer2 = 0;
+                        this.coffeeReady = false;
+                    }
+                }
+            }
         }
 
-        if ((this.timer == 3) && this.coffeeReady) {
-            this.coffeeReady = false;
-            this.amountCoffee++;
-            console.log(`Coffeemachine has ${this.amountCoffee} coffee`);
-        }
+        // if (this.coffeeReady && this.coffeeAtMachine >= 3) {
+        //     this.wasTriggered = false;
+        //     this.coffeeReady = false;
+        //     this.brewing = false;
+        // }
     }
 
     update = () => {
-        if (this.wasTriggered) {
-            this.brewCoffee();
-        }
+        this.brewCoffee();
     };
 
     reactToTrigger = (triggeringObject: any) => {
         if (triggeringObject instanceof Player) {
             this.radiusTrigger = true;
-            //console.log("Player is near coffee machine");
-            if(this.coffeeReady)
-            {
-                console.log("coffee is ready");
-                triggeringObject.hasCoffee = true;
-                triggeringObject.amountCoffee += this.amountCoffee;
-                this.coffeeReady = false;
-                this.wasTriggered = false;
-            }
-            else
-            {
-                triggeringObject.hasCoffee = triggeringObject.hasCoffee;
-                triggeringObject.amountCoffee = triggeringObject.amountCoffee;
-            }
-        }
-
-        if(!(triggeringObject instanceof Player)) {
+            // if (this.coffeeReady) {
+            //     console.log("coffee is ready");
+            //     triggeringObject.hasCoffee = true;
+            //     triggeringObject.amountCoffee += this.amountCoffee;
+            //     this.coffeeReady = false;
+            //     this.wasTriggered = false;
+            // }
+        } else {
             this.radiusTrigger = false;
         }
     }
@@ -87,13 +98,13 @@ export class Coffeemachine extends BaseGameObj {
     ui = (ctx: CanvasRenderingContext2D) => {
         this.timerLabel = new Label(this.x + 20, this.y, 250, 50, this.innerText, 20, "white");
 
-        if(this.radiusTrigger) {
+        if(this.radiusTrigger && !this.brewing && !this.coffeeReady) {
             this.innerText = "Brew (E)"
         }
         if(this.radiusTrigger && this.brewing) {
             this.innerText = `${Math.round(this.timer)} of 3 seconds`
         }
-        if(this.coffeeReady) {
+        if(this.radiusTrigger && this.coffeeReady) {
             this.innerText = "Coffee ready! Take (Q))"
         }
         if(!this.radiusTrigger) {

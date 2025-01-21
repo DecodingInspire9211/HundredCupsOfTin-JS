@@ -7,14 +7,14 @@ export class Chair extends BaseGameObj {
     public width: number = 0;
     public height: number = 0;
 
-    public single: number = 0;
+    public single: number | undefined = 0;
 
     animationData = {
         "animationSprites": [],
         "timePerSprite": 0.08,
         "currentSpriteElapsedTime": 0,
         "firstSpriteIndex": 0,
-        "lastSpriteIndex": 2,
+        "lastSpriteIndex": 3,
         "currentSpriteIndex": 0
     };
 

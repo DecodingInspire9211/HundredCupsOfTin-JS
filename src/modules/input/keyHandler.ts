@@ -10,12 +10,15 @@ export enum Key {
 export class KeyHandler {
 
     keyBinary: number;
+    actKeyProcessed: boolean;
     constructor() {
         document.onkeydown = this.handleKeyDown;
         document.onkeyup = this.handleKeyUp;
         console.log("Event Listener added");
 
         this.keyBinary = 0;
+        this.actKeyProcessed = false;
+
     }
 
     handleKeyDown = (event: KeyboardEvent) => {
@@ -33,7 +36,10 @@ export class KeyHandler {
                 this.keyBinary! |= Key.Right;
                 break;
             case "e":
-                this.keyBinary! |= Key.Act;
+                if (!this.actKeyProcessed) {
+                    this.keyBinary |= Key.Act;
+                    this.actKeyProcessed = true;
+                }
                 break;
             case "q":
                 this.keyBinary! |= Key.Take;
@@ -51,25 +57,22 @@ export class KeyHandler {
         switch (event.key) {
             case "w":
                 this.keyBinary &= ~Key.Up;
-                console.log(this.keyBinary);
                 break;
             case "s":
                 this.keyBinary &= ~Key.Down;
-                console.log(this.keyBinary);
-
                 break;
             case "a":
                 this.keyBinary &= ~Key.Left;
-                console.log(this.keyBinary);
-
                 break;
             case "d":
                 this.keyBinary &= ~Key.Right;
-                console.log(this.keyBinary);
                 break;
             case "e":
                 this.keyBinary &= ~Key.Act;
-                console.log(this.keyBinary);
+                this.actKeyProcessed = false;
+                break;
+            case "q":
+                this.keyBinary! &= ~Key.Take;
                 break;
             // case "Shift":
             //     this.keyBinary &= ~Key.Shift;

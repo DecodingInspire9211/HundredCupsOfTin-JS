@@ -6,6 +6,7 @@ import { SplashScreen} from "../components/scenes/SplashScreen.ts";
 
 import { loadFont } from "./internals/loadFont.ts";
 import {KeyHandler} from "./input/keyHandler.ts";
+import {Economy} from "./gameobjs/economy.ts";
 
 interface Global {
     canvas: HTMLCanvasElement | null;
@@ -35,6 +36,8 @@ interface Global {
 
     handleInput: KeyHandler;
 
+    economy: Economy;
+
     updateFPS: () => void;
     updateDeltaTime: (totalRunningTime: number) => void;
   };
@@ -59,6 +62,7 @@ const global: Global = {
         this.getCanvasBounds();
 
         this.handleInput = new KeyHandler();
+        this.economy = new Economy(1000, 0, 0, 0);
 
         loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
         this.uictx!.font = "16px Pixelify Sans";

@@ -9,8 +9,6 @@ import { Economy } from "../modules/gameobjs/economy.ts";
 class Player extends BaseGameObj {
     gap = 12;
 
-    economy: Economy;
-
     name: string = "Player";
 
     fullName = {
@@ -25,16 +23,16 @@ class Player extends BaseGameObj {
     speed: number = 256;
     velocity: number = 0;
 
-    private previousX: number = 0;
-    private previousY: number = 0;
+    previousX: number = 0;
+    previousY: number = 0;
 
-    private triggerDistance: number = 0;
+    triggerDistance: number = 0;
 
     wasTriggered: boolean = false;
     hasCoffee: boolean = false;
     amountCoffee: number = 0;
 
-    amountLabel: Label = new Label(0, 0, 0, 0, `${this.amountCoffee}`, 0, "");
+    amountCoffeeText: string = `${this.amountCoffee}`;
     public single: number = 0;
 
 
@@ -60,14 +58,8 @@ class Player extends BaseGameObj {
         this.height = height;
         this.single = typeof single === "number" ? single : 0;
 
-        if(typeof this.single === "number") {
-            this.animationData.firstSpriteIndex = single;
-            this.animationData.lastSpriteIndex = single;
-        }
-        else {
-            this.animationData.firstSpriteIndex = 0;
-            this.animationData.lastSpriteIndex = 2;
-        }
+        this.animationData.firstSpriteIndex = single;
+        this.animationData.lastSpriteIndex = single;
         //this.loadImages();
         this.loadImagesFromSpritesheet("../src/components/imgs/playertest.png", 1, 1);
 
@@ -83,13 +75,7 @@ class Player extends BaseGameObj {
         this.fullName.nickname = nickname;
         this.fullName.surname = surname;
 
-        this.amountCoffee;
-
-        this.economy = new Economy();
-
-        this.playername = new Label(this.gap + 300, global.ui!.height - this.gap - 56, 64, 64, this.getFullName(), 24, "black" );
-        this.coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 0, `Coffee in Hand: ${this.amountCoffee}`, 12, "white" );
-        this.money = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 0, 64, `${this.economy.Currency.symbol} ${this.economy.money}`, 16, "black" );
+        this.amountCoffeeText = "";
     };
 
     public getFullName = () => {
@@ -152,6 +138,11 @@ class Player extends BaseGameObj {
     }
 
     ui = (ctx) => {
+        this.playername = new Label(this.gap + 300, global.ui!.height - this.gap - 56, 64, 64, this.getFullName(), 24, "black");
+        this.coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 0, `Coffee in Hand: ${this.amountCoffeeText}`, 12, "white" );
+        this.money = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 0, 64, `${global.economy.getStats().currency.symbol} ${global.economy.getStats().money}`, 16, "black" );
+
+
         this.playername.ui(ctx);
         this.coffeeInHand.ui(ctx);
         this.money.ui(ctx);
@@ -159,38 +150,55 @@ class Player extends BaseGameObj {
 
     update = (): void => {
         this.move();
+        global.economy.update();
     }
 
     render = (ctx: CanvasRenderingContext2D) => {
-        if(typeof this.single === "number") {
+        if (typeof this.single === "number") {
             let stat = this.animationData.animationSprites[this.single];
             ctx.imageSmoothingEnabled = false;
             ctx.drawImage(stat, this.x, this.y, this.width, this.height);
-        }
-        else {
+        } else {
             let sprite = this.getNextSprite();
             ctx.imageSmoothingEnabled = false;
             ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
         }
-
+    }
         //draw triggerbounds
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).top, this.getTriggerBounds(this.triggerDistance).right - this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).bottom - this.getTriggerBounds(this.triggerDistance).top);};
+        // ctx.strokeStyle = "red";
+        // ctx.strokeRect(this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).top, this.getTriggerBounds(this.triggerDistance).right - this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).bottom - this.getTriggerBounds(this.triggerDistance).top);};
 
     reactToTrigger = (triggeringObject: any) => {
         if (triggeringObject instanceof Coffeemachine) {
-            //console.log("Player triggered Coffeemachine");
+
+            // HANDLE KEY PRESS - ACT
             if (global.handleInput.keyBinary & Key.Act) {
                 triggeringObject.wasTriggered = true;
-                this.wasTriggered = true;
-            } else if(global.handleInput.keyBinary & Key.Take) {
-                this.amountCoffee += triggeringObject.amountCoffee;
-                this.wasTriggered = false;
-            } else {
+            } // HANDLE TAKING COFFEE IF "TAKE" KEY IS PRESSED AND IF THE COFFEEMACHINE HAS COFFEE READY
+            else if ((global.handleInput.keyBinary & Key.Take) && triggeringObject.coffeeReady)
+            {
+                if(triggeringObject.coffeeAtMachine > 0) {
+                    const coffeeToTake = Math.min(triggeringObject.coffeeAtMachine, 3 - this.amountCoffee);
+                    triggeringObject.coffeeAtMachine -= coffeeToTake;
+                    this.amountCoffee += coffeeToTake;
+                    this.amountCoffeeText = `Coffee in Hand: ${this.amountCoffee}`;
+                    this.wasTriggered = false;
+                }
+
+                if(this.amountCoffee > 3) {
+                    this.amountCoffee = 3;
+                    triggeringObject.coffeeAtMachine = 0;
+                    this.wasTriggered = false;
+                }
+                this.hasCoffee = true;
+            }
+            else {
                 triggeringObject.wasTriggered = false;
-                this.wasTriggered = false;            }
+                this.wasTriggered = false;
+            }
         }
     }
+
 
     reactToCollision = (collidingObject: any) => {
         switch (collidingObject.name) {

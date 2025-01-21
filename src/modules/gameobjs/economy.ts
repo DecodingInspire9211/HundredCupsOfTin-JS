@@ -17,12 +17,13 @@ export class Economy {
 
     timer = 0;
 
+    moneyadded: boolean = false;
     //
-    constructor(money: number, income: number, expenses: number, profit: number) {
-        this.money = money;
-        this.income = income;
-        this.expenses = expenses;
-        this.profit = profit;
+    constructor() {
+        this.money = 1000;
+        this.income = 0;
+        this.expenses = 0;
+        this.profit = 0;
     }
 
     calculateProfit = () => {
@@ -39,17 +40,39 @@ export class Economy {
 
     addIntoMoney = () => {
         this.money += this.profit;
+        this.moneyadded = true;
+    }
+
+    getStats = () => {
+        return {
+            money: this.money,
+            income: this.income,
+            expenses: this.expenses,
+            profit: this.profit,
+            currency: this.Currency
+        }
     }
 
     update = () => {
         this.timer += global.deltaTime;
 
+        this.getStats();
+
         this.calculateProfit();
 
-        if(this.timer >= 120)
+        //reset every 120 seconds
+        if(this.timer >= 12)
         {
             this.addIntoMoney();
-            this.timer = 0;
+            if(this.moneyadded)
+            {
+                console.log(`Money: ${this.money}`);
+                this.timer = 0;
+                this.income = 0;
+                this.expenses = 0;
+
+                this.moneyadded = false;
+            }
         }
     }
 }
