@@ -21,7 +21,7 @@ export class Wall extends BaseGameObj {
         "lastSpriteIndex": 0,
     }
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single?: number, collidable?: boolean, triggerable?: boolean) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single?: boolean, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;

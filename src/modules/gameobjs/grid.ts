@@ -45,6 +45,10 @@ export class Grid {
         return {x: this.x / TILE_SIZE, y: this.y / TILE_SIZE};
     }
 
+    getCurrentTilePos = (_x: number, _y: number) => {
+        return {x: Math.trunc(_x) / TILE_SIZE, y: Math.trunc(_y) / TILE_SIZE};
+    }
+
     getPos = () => {
         return {x: this.x, y: this.y};
     }

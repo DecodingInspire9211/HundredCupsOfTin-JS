@@ -63,9 +63,9 @@ const global: Global = {
         loadFont('Pixelify Sans', 'src/fonts/PixelifySans-VariableFont_wght.ttf');
         this.uictx!.font = "16px Pixelify Sans";
 
-        this.sceneManager.changeScene(new SplashScreen());
+        //this.sceneManager.changeScene(new SplashScreen());
         //this.sceneManager.changeScene(new MainMenu());
-        //this.sceneManager.changeScene(new GameWorld());
+        this.sceneManager.changeScene(new GameWorld());
     },
 
     clearCanvas: function () {

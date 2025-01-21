@@ -2,8 +2,6 @@ import { BaseGameObj } from "../modules/gameobjs/baseGameObj.ts";
 import {global} from "../modules/global.ts";
 import { Label } from "../components/ui/label.ts";
 import {Player} from "../gameObjects/player.ts";
-import {TILE_SIZE} from "../../lib/constants.ts";
-import {Key} from "../modules/input/keyHandler.ts";
 
 export class Coffeemachine extends BaseGameObj {
 
@@ -15,9 +13,7 @@ export class Coffeemachine extends BaseGameObj {
 
     timer: number = 0;
 
-    player: Player;
-
-    timerLabel: Label | undefined;
+    timerLabel: Label = new Label(0, 0, 0, 0, "", 0, "");
 
     constructor(name: string, x: number, y: number, width: number, height:number, zOrder:number, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
@@ -89,10 +85,7 @@ export class Coffeemachine extends BaseGameObj {
         let sprite = this.getNextSprite();
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
-        //
-        // if(this.triggers) {
-        //     this.timerLabel = new Label(this.x + 20, this.y, 250, 50, `Brew (E)`, 20, "white");
-        //     this.timerLabel.render(ctx);
-        // }
+
+
     };
 }

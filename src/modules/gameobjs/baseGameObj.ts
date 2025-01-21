@@ -1,5 +1,6 @@
 // @ts-ignore
 import {global} from "../global.ts";
+import {Grid} from "../grid.ts";
 
 export class BaseGameObj {
     /// public properties

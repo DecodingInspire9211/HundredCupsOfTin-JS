@@ -74,7 +74,7 @@ export class MainMenu extends Scene {
             window.stop();
         });
 
-        const theme = new AudioClass("/src/components/audio/tmhcot_nes_fin.ogg", true, 0.5);
+        const theme = new AudioClass("/src/components/audio/tmhcot_nes_fin.FIX.ogg", true, 0.5);
 
         //this.uiIterator.push(bg);
         this.uiIterator.push(title);

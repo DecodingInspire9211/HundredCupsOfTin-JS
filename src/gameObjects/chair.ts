@@ -44,6 +44,15 @@ export class Chair extends BaseGameObj {
         this.loadImagesFromSpritesheet("../src/components/imgs/chairspritesheet.png", 4, 1);
     }
 
+    getBoxBounds = () => {
+        return {
+            left: this.x,
+            right: this.x + this.width,
+            top: this.y + (this.height - (this.height / 3)),
+            bottom: this.y + this.height
+        }
+    }
+
     // loadImages = () => {
     //     /* first load images from path */
     //     let image1 = new Image();

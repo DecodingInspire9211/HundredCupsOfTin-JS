@@ -29,7 +29,7 @@ class Player extends BaseGameObj {
     hasCoffee: boolean = false;
     amountCoffee: number = 0;
 
-    amountLabel: Label;
+    amountLabel: Label = new Label(0, 0, 0, 0, "", 0, "");
     public single: number = 0;
 
 
@@ -71,17 +71,20 @@ class Player extends BaseGameObj {
         this.triggerDistance = trigDist;
         this.wasTriggered = false;
 
+        this.fullName.nickname = nickname;
+        this.fullName.surname = surname;
+
     };
 
     public getFullName = () => {
-        return this.fullName;
+        return this.fullName.nickname + " " + this.fullName.surname;
     }
 
     getBoxBounds = () => {
         return {
             left: this.x,
             right: this.x + this.width,
-            top: this.y + (this.height / 2),
+            top: this.y + (this.height - (this.height / 3)),
             bottom: this.y + this.height
         }
     }
@@ -95,13 +98,8 @@ class Player extends BaseGameObj {
         }
     }
 
-    update_player_zOrder(grid: Grid) {
-        if(this.y > ((grid.grid_height / grid.tiles) * 4)) {
-            this.zOrder = 5;
-        } else {
-            this.zOrder = 1;
-        }
-
+    update_player_zOrder_by_ytile(grid: Grid) {
+        this.zOrder = grid.getCurrentTilePos(this.x, this.y).y;
     }
 
     move = () => {
@@ -137,6 +135,18 @@ class Player extends BaseGameObj {
         //global.handleInput.keyBinary = 0 << 0;
     }
 
+    ui = (ctx) => {
+        if(this.amountCoffee == 1) {
+            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cup`, 20, "white");
+            this.amountLabel.render(ctx);
+        }
+        else
+        {
+            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cups`, 20, "white");
+            this.amountLabel.render(ctx);
+        }
+    }
+
     update = (): void => {
         this.move();
     }
@@ -153,22 +163,13 @@ class Player extends BaseGameObj {
             ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
         }
 
-        if(this.amountCoffee == 1) {
-            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cup`, 20, "white");
-            this.amountLabel.render(ctx);
-        }
-        else
-        {
-            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cups`, 20, "white");
-            this.amountLabel.render(ctx);
-        }
-
         //draw triggerbounds
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).top, this.getTriggerBounds(this.triggerDistance).right - this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).bottom - this.getTriggerBounds(this.triggerDistance).top);};
 
     reactToTrigger = (triggeringObject: any) => {
         if (triggeringObject instanceof Coffeemachine) {
+            console.log("Player triggered Coffeemachine");
             if (global.handleInput.keyBinary & Key.Act) {
                 triggeringObject.wasTriggered = true;
                 this.wasTriggered = true;
@@ -184,6 +185,8 @@ class Player extends BaseGameObj {
             case "Counter":
             case "WallCounter":
             case "Pseudo":
+            case "Chair":
+            case "Table":
                 this.velocity = 0;
                 this.x = this.previousX;
                 this.y = this.previousY;

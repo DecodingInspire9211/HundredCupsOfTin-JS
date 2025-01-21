@@ -23,6 +23,7 @@ function gameLoop(totalRunningTime: number) {
 
     // render
     global.allGameObjects.sort((a, b) => a.zOrder - b.zOrder);
+    global.sceneManager.interact();
     global.sceneManager.render(global.ctx!);
     global.sceneManager.ui(global.uictx!);
 
