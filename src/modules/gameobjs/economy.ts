@@ -1,5 +1,7 @@
 import {TILE_SIZE} from "../../../lib/constants.ts";
 import {global} from "../global.ts";
+import {LoseScreen} from "../../components/scenes/LoseScreen.ts";
+import {WinScreen} from "../../components/scenes/WinScreen.ts";
 
 export class Economy {
     // Current Amount of Money you possess
@@ -53,6 +55,10 @@ export class Economy {
         }
     }
 
+    setMoney = (amount: number) => {
+        this.money = amount;
+    }
+
     update = () => {
         this.timer += global.deltaTime;
 
@@ -73,6 +79,16 @@ export class Economy {
 
                 this.moneyadded = false;
             }
+        }
+
+        if(this.money <= 0)
+        {
+            global.sceneManager.changeScene(new LoseScreen());
+        }
+
+        if(this.money >= 2000)
+        {
+            global.sceneManager.changeScene(new WinScreen());
         }
     }
 }

@@ -149,12 +149,14 @@ export class GameWorld extends Scene {
       this.gap,
       64,
       64,
-      "<-",
-      20,
+      "⟳",
+      40,
       "black",
       "beige",
       () => {
-        global.sceneManager.changeScene(new MainMenu());
+        const url = new URL(location.href);
+        url.searchParams.set("skip", "true");
+        location.assign(url.toString());
       },
     );
 

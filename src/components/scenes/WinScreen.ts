@@ -3,7 +3,7 @@ import { global } from "../../modules/global.ts";
 import { GameWorld } from "./GameWorld.ts";
 import {TextClass} from "../ui/text.ts";
 
-export class IntroScreen extends Scene {
+export class WinScreen extends Scene {
 
     gap: number = 12;
     theme: any = null;
@@ -35,7 +35,7 @@ export class IntroScreen extends Scene {
         this.timer += global.deltaTime;
         if (this.timer >= 10) {
             this.timer = 0;
-            global.sceneManager.changeScene(new GameWorld());
+            window.stop();
         }
     }
 
@@ -61,7 +61,7 @@ export class IntroScreen extends Scene {
         }
 
         createObjects = () => {
-            let text = new TextClass("/src/gameObjects/text/Intro.txt", 0, -128, global.ui!.width, global.ui!.height, "", 12, "#000000");
+            let text = new TextClass("/src/gameObjects/text/Win.txt", 0, -128, global.ui!.width, global.ui!.height, "", 12, "#000000");
 
             this.uiIterator.push(text);
         }

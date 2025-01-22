@@ -5,6 +5,7 @@ import { ImageCl } from "../ui/image.ts";
 import { BaseUI } from "../../modules/ui/baseUI.ts";
 import { Label } from "../ui/label.ts";
 import { IntroScreen } from "./IntroScreen.ts";
+import {GameWorld} from "./GameWorld.ts";
 
 export class MainMenu extends Scene {
   gap: number = 12;
@@ -78,7 +79,12 @@ export class MainMenu extends Scene {
       "black",
       "beige",
       () => {
-        global.sceneManager.changeScene(new IntroScreen());
+        if(new URL(location.href).searchParams.has("skip")) {
+          global.sceneManager.changeScene(new GameWorld());
+        }
+        else {
+          global.sceneManager.changeScene(new IntroScreen());
+        }
       },
     );
     const options = new Button(

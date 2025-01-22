@@ -4,6 +4,8 @@ import { global } from "../modules/global.ts";
 import { Key } from "../modules/input/keyHandler.ts";
 import { Coffeemachine } from "./furniture/coffeemachine.ts";
 import {Label} from "../components/ui/label.ts";
+import {WinScreen} from "../components/scenes/WinScreen.ts";
+import {LoseScreen} from "../components/scenes/LoseScreen.ts";
 
 class Player extends BaseGameObj {
     gap = 12;
