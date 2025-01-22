@@ -4,7 +4,6 @@ import { global } from "../modules/global.ts";
 import { Key } from "../modules/input/keyHandler.ts";
 import { Coffeemachine } from "./furniture/coffeemachine.ts";
 import {Label} from "../components/ui/label.ts";
-import { Economy } from "../modules/gameobjs/economy.ts";
 
 class Player extends BaseGameObj {
     gap = 12;
@@ -15,9 +14,6 @@ class Player extends BaseGameObj {
         nickname: "",
         surname: "",
     };
-
-    x: number;
-    y: number;
 
     // SPEED SCALAR
     speed: number = 256;
@@ -51,11 +47,7 @@ class Player extends BaseGameObj {
 
     constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, single? : any, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+
         this.single = typeof single === "number" ? single : 0;
 
         this.animationData.firstSpriteIndex = single;
@@ -146,6 +138,7 @@ class Player extends BaseGameObj {
         this.playername.ui(ctx);
         this.coffeeInHand.ui(ctx);
         this.money.ui(ctx);
+
     }
 
     update = (): void => {
@@ -196,6 +189,9 @@ class Player extends BaseGameObj {
                 triggeringObject.wasTriggered = false;
                 this.wasTriggered = false;
             }
+        }
+        if(triggeringObject.name === "Counter") {
+            console.log("Counter");
         }
     }
 

@@ -4,34 +4,15 @@ import { global } from "../modules/global.ts";
 import { Key } from "../modules/input/keyHandler.ts";
 import { Coffeemachine } from "./furniture/coffeemachine.ts";
 import {Label} from "../components/ui/label.ts";
+import {Player} from "./player.ts";
 
-class Customer extends BaseGameObj {
+export class Customer extends BaseGameObj {
+    gap = 12;
+
     name: string = "Customer";
 
-    fullName = {
-        nickname: "",
-        surname: "",
-    };
-
-    x: number;
-    y: number;
-
-    // SPEED SCALAR
-    speed: number = 256;
-    velocity: number = 0;
-
-    private previousX: number = 0;
-    private previousY: number = 0;
-
-    private triggerDistance: number = 0;
-
-    wasTriggered: boolean = false;
+    triggerDistance: number = 0;
     hasCoffee: boolean = false;
-    amountCoffee: number = 0;
-
-    amountLabel: Label = new Label(0, 0, 0, 0, "", 0, "");
-    public single: number = 0;
-
 
     animationData = {
         "animationSprites": [],
@@ -42,42 +23,24 @@ class Customer extends BaseGameObj {
         "currentSpriteIndex": 0
     };
 
-    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, single? : any, collidable?: boolean, triggerable?: boolean) {
+    actNotice: Label | null;
+    actText: string = "";
+
+    orderTaken: boolean = false;
+    served: boolean = false;
+    earned: number = 0;
+
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.single = typeof single === "number" ? single : 0;
 
-        if(typeof this.single === "number") {
-            this.animationData.firstSpriteIndex = single;
-            this.animationData.lastSpriteIndex = single;
-        }
-        else {
-            this.animationData.firstSpriteIndex = 0;
-            this.animationData.lastSpriteIndex = 2;
-        }
-        //this.loadImages();
         this.loadImagesFromSpritesheet("../src/components/imgs/playertest.png", 1, 1);
-
         this.getBoxBounds();
         this.getTriggerBounds(trigDist);
 
+        this.triggerDistance = trigDist;
+
         this.collidable = collidable;
         this.triggerable = triggerable;
-
-        this.triggerDistance = trigDist;
-        this.wasTriggered = false;
-
-        this.fullName.nickname = nickname;
-        this.fullName.surname = surname;
-
-    };
-
-    public getFullName = () => {
-        return this.fullName.nickname + " " + this.fullName.surname;
     }
 
     getBoxBounds = () => {
@@ -98,103 +61,66 @@ class Customer extends BaseGameObj {
         }
     }
 
-    update_player_zOrder_by_ytile(grid: Grid) {
-        this.zOrder = Math.floor(grid.getCurrentTilePos(this.x, this.y).y);
-        console.log(`Player zOrder: ${this.zOrder}`);
-    }
+    update = () => {
 
-    move = () => {
-        //console.log(`${this.x} and ${this.y}`);
-
-        let moveX = 0;
-        let moveY = 0;
-
-        if ((global.handleInput.keyBinary & Key.Up) === Key.Up) {
-            moveY -= this.speed * global.deltaTime;
-        }
-        if  ((global.handleInput.keyBinary & Key.Down) === Key.Down)  {
-
-            moveY += this.speed * global.deltaTime;
-        }
-        if ((global.handleInput.keyBinary & Key.Left) === Key.Left) {
-            moveX -= this.speed * global.deltaTime;
-        }
-        if ((global.handleInput.keyBinary & Key.Right) === Key.Right) {
-            moveX += this.speed * global.deltaTime;
-        }
-
-        if (moveX !== 0 && moveY !== 0) {
-            moveX /= Math.SQRT2;
-            moveY /= Math.SQRT2;
-        }
-
-        this.x += moveX;
-        this.y += moveY;
-
-        //console.log("No key pressed)");
-
-        //global.handleInput.keyBinary = 0 << 0;
     }
 
     ui = (ctx) => {
-        if(this.amountCoffee == 1) {
-            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cup`, 20, "white");
-            this.amountLabel.render(ctx);
-        }
-        else
-        {
-            this.amountLabel = new Label(global.getCanvasBounds().left + 12, global.getCanvasBounds().bottom - 256, 250, 50, `Carrying ${this.amountCoffee} Coffee Cups`, 20, "white");
-            this.amountLabel.render(ctx);
-        }
+        this.actNotice = new Label(this.x, this.y - 20, 50, 20, `${this.actText}`, 16, "white");
+
+        this.actNotice.ui(ctx);
     }
 
-    update = (): void => {
-        this.move();
+    render = (ctx) => {
+            //let sprite = this.getNextSprite();
+            ctx.imageSmoothingEnabled = false;
+            //ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+
+            ctx.fillStyle = "white";
+            ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    render = (ctx: CanvasRenderingContext2D) => {
-        if(typeof this.single === "number") {
-            let stat = this.animationData.animationSprites[this.single];
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(stat, this.x, this.y, this.width, this.height);
-        }
-        else {
-            let sprite = this.getNextSprite();
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
-        }
+    reactToTrigger = (source) => {
+        if(source instanceof Player) {
 
-        //draw triggerbounds
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).top, this.getTriggerBounds(this.triggerDistance).right - this.getTriggerBounds(this.triggerDistance).left, this.getTriggerBounds(this.triggerDistance).bottom - this.getTriggerBounds(this.triggerDistance).top);};
-
-    reactToTrigger = (triggeringObject: any) => {
-        if (triggeringObject instanceof Coffeemachine) {
-            console.log("Player triggered Coffeemachine");
-            if (global.handleInput.keyBinary & Key.Act) {
-                triggeringObject.wasTriggered = true;
-                this.wasTriggered = true;
-            } else {
-                this.wasTriggered = false;
+            // START TEXT WHEN PLAYER IS NEAR CUSTOMER
+            if(!this.orderTaken)
+            {
+                this.actText = "Take Order (E)";
             }
+
+            // TAKE ORDER
+            if(global.handleInput.keyBinary & Key.Act)
+            {
+                this.actText = "Order taken!";
+                this.orderTaken = true;
+            }
+
+            // IDLE TEXT WHEN ORDER IS TAKEN BUT NOT SERVED YET
+            if(this.orderTaken && !this.served)
+            {
+                this.actText = "Serve Order (E)";
+            }
+
+            // SERVE ORDER
+            if((global.handleInput.keyBinary & Key.Act) && this.orderTaken && !this.served)
+            {
+                this.actText = "Order served!";
+                this.served = true;
+            }
+
+            // EARN MONEY
+            if((global.handleInput.keyBinary & Key.Act) && this.served)
+            {
+                this.earned = 5;
+                global.economy.addIncome(this.earned);
+                this.actText = `Money earned: ${this.earned}`;
+            }
+
+
         }
     }
-
-    reactToCollision = (collidingObject: any) => {
-        switch (collidingObject.name) {
-            case "Wall":
-            case "Counter":
-            case "WallCounter":
-            case "Pseudo":
-            case "Chair":
-            case "Table":
-                this.velocity = 0;
-                this.x = this.previousX;
-                this.y = this.previousY;
-                break;
-
-        }
+    reactToCollision = (source) => {
+        console.log("Customer is collided by: " + source.name);
     }
 }
-
-export { Player };

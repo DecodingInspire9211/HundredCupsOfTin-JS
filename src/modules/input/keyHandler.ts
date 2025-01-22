@@ -24,24 +24,30 @@ export class KeyHandler {
     handleKeyDown = (event: KeyboardEvent) => {
         switch (event.key) {
             case "w":
+            case "W":
                 this.keyBinary! |= Key.Up;
                 break;
             case "s":
+            case "S":
                 this.keyBinary! |= Key.Down;
                 break;
             case "a":
+            case "A":
                 this.keyBinary! |= Key.Left;
                 break;
             case "d":
+            case "D":
                 this.keyBinary! |= Key.Right;
                 break;
             case "e":
+            case "E":
                 if (!this.actKeyProcessed) {
                     this.keyBinary |= Key.Act;
                     this.actKeyProcessed = true;
                 }
                 break;
             case "q":
+            case "Q":
                 this.keyBinary! |= Key.Take;
                 break;
 
@@ -56,22 +62,28 @@ export class KeyHandler {
     handleKeyUp = (event: KeyboardEvent) => {
         switch (event.key) {
             case "w":
+            case "W":
                 this.keyBinary &= ~Key.Up;
                 break;
             case "s":
+            case "S":
                 this.keyBinary &= ~Key.Down;
                 break;
             case "a":
+            case "A":
                 this.keyBinary &= ~Key.Left;
                 break;
             case "d":
+            case "D":
                 this.keyBinary &= ~Key.Right;
                 break;
             case "e":
+            case "E":
                 this.keyBinary &= ~Key.Act;
                 this.actKeyProcessed = false;
                 break;
             case "q":
+            case "Q":
                 this.keyBinary! &= ~Key.Take;
                 break;
             // case "Shift":

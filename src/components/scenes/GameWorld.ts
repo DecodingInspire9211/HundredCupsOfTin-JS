@@ -19,11 +19,14 @@ import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 import {Figtree} from "../../gameObjects/deco/plant1.ts";
 import {ImageCl} from "../ui/image.ts";
 import {Economy} from "../../modules/gameobjs/economy.ts";
+import {Customer} from "../../gameObjects/customer.ts";
 
 export class GameWorld extends Scene {
 
     gap = 12;
     player: Player;
+    customer1: Customer;
+    customer2: Customer;
     grid: Grid;
     coffeemachine: Coffeemachine;
     economy: Economy;
@@ -40,6 +43,9 @@ export class GameWorld extends Scene {
         this.grid.setPos(2, 2);
         this.player = new Player("Player", "Knox", "Janáček", this.grid.margin_x, this.grid.margin_y, TILE_SIZE, TILE_SIZE * 2, this.grid.getTilePos().y, 50, 0, true, true);
         this.economy = new Economy();
+
+        this.customer1;
+        this.customer2;
     }
 
 
@@ -185,6 +191,7 @@ export class GameWorld extends Scene {
         this.grid.setPos(8, 10);
         let chair1 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 10, 0, true, true);
 
+
         this.grid.setPos(9, 4);
         let chair2 = new Chair(`Chair`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 4, 3, true, true);
 
@@ -205,10 +212,18 @@ export class GameWorld extends Scene {
         this.grid.setPos(5, -0.5);
         let figtree = new Figtree(`Figtree`, this.grid.x, this.grid.y, TILE_SIZE, TILE_SIZE * 2, 0, false, false);
 
+        this.grid.setPos(10, 10);
+        this.customer1 = new Customer(`Customer`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 10, 10, true, true);
+
+        this.grid.setPos(8, 10);
+        this.customer2 = new Customer(`Customer`, this.grid.x, this.grid.y - TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, 10, 10, true, true);
+
+
         this.sceneObjects.push(spinny);
         this.sceneObjects.push(spinny1);
 
         this.sceneObjects.push(chair);
+
         this.sceneObjects.push(table);
         this.sceneObjects.push(chair1);
         this.sceneObjects.push(chair2);
@@ -222,6 +237,11 @@ export class GameWorld extends Scene {
 
         this.sceneObjects.push(this.coffeemachine);
         this.uiIterator.push(this.coffeemachine.timerLabel!);
+
+        this.sceneObjects.push(this.customer1);
+        this.sceneObjects.push(this.customer2);
+        this.uiIterator.push(this.customer1);
+        this.uiIterator.push(this.customer2);
 
 
 
