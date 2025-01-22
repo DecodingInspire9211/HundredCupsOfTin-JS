@@ -33,10 +33,10 @@ export class Label extends BaseUI {
     }
 
 
-    isClicked = (mouseX: number, mouseY: number): boolean => {
-        return mouseX >= this.x &&
-        mouseY >= this.y &&
-        mouseX <= this.x + this.width &&
-        mouseY <= this.y + this.height;
-    }
+    // isClicked = (mouseX: number, mouseY: number): boolean => {
+    //     return mouseX >= this.x &&
+    //     mouseY >= this.y &&
+    //     mouseX <= this.x + this.width &&
+    //     mouseY <= this.y + this.height;
+    // }
 }
