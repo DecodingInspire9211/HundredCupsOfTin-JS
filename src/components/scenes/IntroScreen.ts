@@ -67,7 +67,7 @@ export class IntroScreen extends Scene {
         }
 
         createObjects = () => {
-            let text = new TextClass("/src/gameObjects/text/Intro.txt", 0, 0, global.ui!.width, global.ui!.height, "", 12, "#000000");
+            let text = new TextClass("/src/gameObjects/text/Intro.txt", 0, -128, global.ui!.width, global.ui!.height, "", 12, "#000000");
 
             this.uiIterator.push(text);
         }
@@ -84,7 +84,6 @@ export class IntroScreen extends Scene {
 
                 // Clear the sceneObjects array
                 this.sceneObjects = [];
-                theme.stop();
             }
         };
     };

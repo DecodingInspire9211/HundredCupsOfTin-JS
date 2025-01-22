@@ -13,7 +13,6 @@ import { WallCounter } from "../../gameObjects/furniture/wallcounter.ts";
 import { Pseudo } from "../../gameObjects/pseudo.ts";
 import { Chair } from "../../gameObjects/furniture/chair.ts";
 import { Table } from "../../gameObjects/furniture/table.ts";
-import { AudioClass } from "../../modules/internals/audio.ts";
 import { Coffeemachine } from "../../gameObjects/furniture/coffeemachine.ts";
 import { BaseGameObj } from "../../modules/gameobjs/baseGameObj.ts";
 import { Figtree } from "../../gameObjects/deco/plant1.ts";
@@ -23,7 +22,6 @@ import { Customer } from "../../gameObjects/customer.ts";
 
 export class GameWorld extends Scene {
   gap = 12;
-  theme: AudioClass;
   player: Player;
   customer1: Customer;
   customer2: Customer;
@@ -132,7 +130,6 @@ export class GameWorld extends Scene {
   };
 
   destroy = () => {
-    this.theme.stop();
     if (this.destroyObjects()) {
       console.debug(`Scene ${this.sceneName} destroyed`);
     }
@@ -142,11 +139,9 @@ export class GameWorld extends Scene {
   };
 
   createUI = () => {
-    this.theme = new AudioClass(
-      "/src/components/audio/tmhcot_theme_nes.ogg",
-      true,
-      0.5,
-    );
+    global.audioManager.addTrack("/src/components/audio/tmhcot_theme_nes.ogg", {
+      loop: true,
+    });
 
     //TODO: Implement the game
     const ret = new Button(

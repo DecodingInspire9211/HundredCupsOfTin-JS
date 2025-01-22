@@ -45,12 +45,12 @@ export class TextClass extends BaseUI {
             for(let i = 0; i < this.textfile.length; i++) {
                 if(i === 0) {
                     ctx.fillStyle = `${this.fontColor}`;
-                    ctx.font = `24px Pixelify Sans`;
+                    ctx.font = `32px Pixelify Sans`;
                     ctx.fillText(this.textfile[i], this.x + this.width / 2 - ctx.measureText(this.textfile[i]).width / 2, this.y + this.height / 2 + (i * 24));
                 } else if (i >= 1)
                 {
                     ctx.fillStyle = `${this.fontColor}`;
-                    ctx.font = `12px Pixelify Sans`;
+                    ctx.font = `16px Pixelify Sans`;
                     ctx.fillText(this.textfile[i], this.x + this.width / 2 - ctx.measureText(this.textfile[i]).width / 2, this.y + this.height / 2 + (i * 16));
 
                 }

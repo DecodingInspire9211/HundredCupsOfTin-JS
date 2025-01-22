@@ -1,5 +1,5 @@
 import { Scene } from "./scene.ts"; // Adjust the import path as necessary
-
+import { global } from "../global.ts";
 export class SceneManager {
   private activeScenes: Scene[] = [];
 
@@ -25,10 +25,11 @@ export class SceneManager {
     }
 
     if (namesOfActiveScenes.includes(newScene.sceneName)) {
-      console.debug(
-        "%c BE AWARE:\n A scene with the same name is loaded already",
+      console.error(
+        "%c ERROR:\n A scene with the same name is loaded already",
         "background: #222; color: #bada55",
       );
+      return;
     }
 
     // if there is a loaded scene (and not the initial "null")
@@ -41,6 +42,7 @@ export class SceneManager {
         activeScene.destroy();
       });
       this.activeScenes = [];
+      global.audioManager.stopAll();
     }
 
     newScene.init();

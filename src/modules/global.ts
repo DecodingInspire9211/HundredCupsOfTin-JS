@@ -7,6 +7,7 @@ import { SplashScreen } from "../components/scenes/SplashScreen.ts";
 import { loadFont } from "./internals/loadFont.ts";
 import { KeyHandler } from "./input/keyHandler.ts";
 import { Economy } from "./gameobjs/economy.ts";
+import { AudioManager } from "./internals/audio.ts";
 
 interface Global {
   canvas: HTMLCanvasElement | null;
@@ -19,6 +20,7 @@ interface Global {
   allGameObjects: BaseGameObj[];
   playerObject: {};
 
+  audioManager: AudioManager;
   sceneManager: SceneManager;
 
   init: () => void;
@@ -61,6 +63,7 @@ const global: Global = {
   fps: 0,
   allGameObjects: [] as any[],
   playerObject: {},
+  audioManager: new AudioManager(),
   sceneManager: new SceneManager(),
 
   //handleInput : new KeyHandler(),

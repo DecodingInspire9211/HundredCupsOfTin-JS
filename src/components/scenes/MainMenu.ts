@@ -1,16 +1,13 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
 import { global } from "../../modules/global.ts";
-import { AudioClass } from "../../modules/internals/audio.ts";
 import { Button } from "../ui/button.ts";
-import { GameWorld } from "./GameWorld.ts";
 import { ImageCl } from "../ui/image.ts";
 import { BaseUI } from "../../modules/ui/baseUI.ts";
 import { Label } from "../ui/label.ts";
-import {IntroScreen} from "./IntroScreen.ts";
+import { IntroScreen } from "./IntroScreen.ts";
 
 export class MainMenu extends Scene {
   gap: number = 12;
-  theme: AudioClass;
   uiIterator: BaseUI[] = [];
 
   constructor() {
@@ -24,7 +21,6 @@ export class MainMenu extends Scene {
   init = () => {
     this.createObjects();
 
-    console.log(this.theme);
     console.log(`Scene ${this.sceneName} initialized`);
   };
 
@@ -44,7 +40,6 @@ export class MainMenu extends Scene {
   };
 
   destroy = () => {
-    this.theme.stop();
     this.destroyObjects();
 
     // TODO are there even sceneObjects in the MainMenu?
@@ -83,7 +78,6 @@ export class MainMenu extends Scene {
       "black",
       "beige",
       () => {
-        this.theme.stop();
         global.sceneManager.changeScene(new IntroScreen());
       },
     );
@@ -116,11 +110,10 @@ export class MainMenu extends Scene {
       },
     );
 
-    this.theme = new AudioClass(
-      "/src/components/audio/tmhcot_theme_nes.ogg",
-      true,
-      0.5,
-    );
+    global.audioManager.addTrack("/src/components/audio/tmhcot_theme_nes.ogg", {
+      loop: true,
+    });
+
     //this.uiIterator.push(bg);
     this.uiIterator.push(title);
     this.uiIterator.push(copy);
