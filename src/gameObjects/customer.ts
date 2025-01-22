@@ -86,40 +86,75 @@ export class Customer extends BaseGameObj {
             // START TEXT WHEN PLAYER IS NEAR CUSTOMER
             if(!this.orderTaken)
             {
-                this.actText = "Take Order (E)";
+                this.checkForOrder();
             }
 
             // TAKE ORDER
             if(global.handleInput.keyBinary & Key.Act)
             {
-                this.actText = "Order taken!";
-                this.orderTaken = true;
+                this.takeOrder();
+
+                // IDLE TEXT WHEN ORDER IS TAKEN BUT NOT SERVED YET
+                if(this.orderTaken && !this.served)
+                {
+                    this.checkForServe();
+                }
             }
 
-            // IDLE TEXT WHEN ORDER IS TAKEN BUT NOT SERVED YET
-            if(this.orderTaken && !this.served)
-            {
-                this.actText = "Serve Order (E)";
-            }
+
 
             // SERVE ORDER
-            if((global.handleInput.keyBinary & Key.Act) && this.orderTaken && !this.served)
+            if(this.orderTaken && (global.handleInput.keyBinary & Key.Act) && !this.served && !this.hasCoffee)
             {
-                this.actText = "Order served!";
-                this.served = true;
+                this.serveOrder(source);
             }
 
             // EARN MONEY
-            if((global.handleInput.keyBinary & Key.Act) && this.served)
+            if((global.handleInput.keyBinary & Key.Act) && this.served && this.hasCoffee)
             {
-                this.earned = 5;
-                global.economy.addIncome(this.earned);
-                this.actText = `Money earned: ${this.earned}`;
+                this.earnMoney();
             }
 
 
         }
     }
+
+    checkForOrder = () => {
+        this.actText = "Take Order (E)";
+    }
+
+    takeOrder = () => {
+        this.actText = "Order taken!";
+        this.orderTaken = true;
+    }
+
+    checkForServe = () => {
+        this.actText = "Serve Order (E)";
+    }
+
+    serveOrder = (player: Player) => {
+        this.actText = "Order served!";
+        this.served = true;
+
+        //CHECK IF PLAYER HAS COFFEE
+        // IF YES, REMOVE COFFEE FROM PLAYER
+        // AND SET CUSTOMER TO SERVED STATUS
+        if(player.amountCoffee > 0)
+        {
+            player.amountCoffee--;
+            this.hasCoffee = true;
+        }
+    }
+
+    earnMoney = () => {
+        if(this.hasCoffee)
+        {
+            this.earned = 5;
+            global.economy.addIncome(this.earned);
+            this.actText = `Money earned: ${this.earned}`;
+        }
+    }
+
     reactToCollision = (source) => {
         console.log("Customer is collided by: " + source.name);
     }

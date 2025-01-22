@@ -8,7 +8,7 @@ import {BaseUI} from "../../modules/ui/baseUI.ts";
 import {MainMenu} from "./MainMenu.ts";
 import {Label} from "../ui/label.ts";
 
-export class SplashScreen extends Scene {
+export class IntroScreen extends Scene {
 
     gap: number = 12;
     theme: any = null;
@@ -19,7 +19,7 @@ export class SplashScreen extends Scene {
 
     constructor() {
         super();
-        this.sceneName = "Splash Screen";
+        this.sceneName = "Intro Screen";
         this.sceneObjects = [];
 
         this.uiIterator = [];
@@ -40,7 +40,7 @@ export class SplashScreen extends Scene {
         this.timer += global.deltaTime;
         if (this.timer >= 5) {
             this.timer = 0;
-            global.sceneManager.changeScene(new MainMenu());
+            global.sceneManager.changeScene(new GameWorld());
         }
     }
 
@@ -66,8 +66,8 @@ export class SplashScreen extends Scene {
         }
 
         createObjects = () => {
-            let author = new Label((global.ui!.width / 2) - 128, (global.ui!.height / 2)-32, 256, 64, "Kenneth William Beier", 40, "white");
-            let presents = new Label((global.ui!.width / 2) - 128, (global.ui!.height / 2), 256, 64, "alias DecoWolfdoggo   presents", 20, "white");
+            let author = new Label((global.ui!.width / 2) - 128, (global.ui!.height / 2)-32, 256, 64, "PLOT", 40, "white");
+            let presents = new Label((global.ui!.width / 2) - 128, (global.ui!.height / 2), 256, 64, "Coffee Owner, rents you the café!", 20, "white");
 
             this.uiIterator.push(author);
             this.uiIterator.push(presents);

@@ -1,45 +1,74 @@
-import { Scene } from './scene.ts'; // Adjust the import path as necessary
+import { Scene } from "./scene.ts"; // Adjust the import path as necessary
 
 export class SceneManager {
-    private currScene: Scene | null = null;
-    private activeScenes: Scene[] = [];
+  private activeScenes: Scene[] = [];
 
-    changeScene(newScene: Scene) {
-        if(this.currScene == newScene) {
-            console.log("Scene already active");
-        } else if (this.currScene) {
-            console.log(this.activeScenes);
-            this.activeScenes.pop();
-            this.currScene.destroy();
-        }
-        this.currScene = newScene;
-        this.currScene.init();
-        this.activeScenes.push(this.currScene);
-        console.log(this.activeScenes);
+  changeScene(
+    newScene: Scene,
+    // define whether the scenes should be allowed to stack on top of another
+    // default value - false
+    stackOn: boolean = false,
+  ) {
+    const namesOfActiveScenes = this.activeScenes.map(
+      (activeScene) => activeScene.sceneName,
+    );
+
+    console.log("The new scene is", newScene);
+    // log for awareness purposes
+    if (this.activeScenes.length > 1) {
+      console.debug(
+        // use %c to make the output use CSS (next argument)
+        "%c BE AWARE:\n Multiple scenes loaded\n They are:",
+        "background: #222; color: #bada55",
+        this.activeScenes,
+      );
     }
 
-    update(deltaTime: number) {
-        if (this.currScene) {
-            this.currScene.update(deltaTime);
-        }
+    if (namesOfActiveScenes.includes(newScene.sceneName)) {
+      console.debug(
+        "%c BE AWARE:\n A scene with the same name is loaded already",
+        "background: #222; color: #bada55",
+      );
     }
 
-    render(ctx: CanvasRenderingContext2D) {
-        if (this.currScene) {
-            this.currScene.render(ctx);
-        }
+    // if there is a loaded scene (and not the initial "null")
+    // AND stackOn is not permitted
+    if (this.activeScenes.length && !stackOn) {
+      // delete all scenes, as with stackOn disallowed the next loaded scene should be the only one
+      this.activeScenes.forEach((activeScene) => {
+        console.log(activeScene);
+        // cleanly destroy (one of the) active scene(s)
+        activeScene.destroy();
+      });
+      this.activeScenes = [];
     }
 
-    ui(uictx: CanvasRenderingContext2D)
-    {
-        if (this.currScene) {
-            this.currScene.ui(uictx)
-        }
-    }
+    newScene.init();
+    this.activeScenes.push(newScene);
+  }
 
-    interact() {
-        if (this.currScene) {
-            this.currScene.interact();
-        }
+  update(deltaTime: number) {
+    if (this.activeScenes.length) {
+      // on last element
+      this.activeScenes[this.activeScenes.length - 1].update(deltaTime);
     }
+  }
+
+  render(ctx: CanvasRenderingContext2D) {
+    if (this.activeScenes.length) {
+      this.activeScenes[this.activeScenes.length - 1].render(ctx);
+    }
+  }
+
+  ui(uictx: CanvasRenderingContext2D) {
+    if (this.activeScenes.length) {
+      this.activeScenes[this.activeScenes.length - 1].ui(uictx);
+    }
+  }
+
+  interact() {
+    if (this.activeScenes.length) {
+      this.activeScenes[this.activeScenes.length - 1].interact();
+    }
+  }
 }
