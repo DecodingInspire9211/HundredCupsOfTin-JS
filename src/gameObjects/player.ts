@@ -6,6 +6,7 @@ import { Coffeemachine } from "./furniture/coffeemachine.ts";
 import {Label} from "../components/ui/label.ts";
 import {ImageCl} from "../components/ui/image.ts";
 import {Customer} from "./customer.ts";
+import {Anim} from "../components/ui/anim.ts";
 
 class Player extends BaseGameObj {
     gap = 12;
@@ -33,7 +34,7 @@ class Player extends BaseGameObj {
     amountCoffeeText: string = `${this.amountCoffee}`;
     public single: number = 0;
 
-    profile: ImageCl;
+    profile: Anim;
     profitdisplay: Label;
 
     animationData = {
@@ -73,7 +74,7 @@ class Player extends BaseGameObj {
 
         this.amountCoffeeText = "";
 
-        this.profile = new ImageCl(
+        this.profile = new Anim(
             "src/components/imgs/profile.png",
             this.gap,
             global.ui!.height - this.gap - 256,
@@ -157,8 +158,8 @@ class Player extends BaseGameObj {
         this.playername.ui(uictx);
         this.coffeeInHand.ui(uictx);
         this.money.ui(uictx);
-        this.profile.ui(uictx);
         this.profitdisplay.ui(uictx);
+        this.profile.ui(uictx);
 
     }
 

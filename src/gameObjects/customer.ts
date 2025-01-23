@@ -1,8 +1,6 @@
 import {BaseGameObj} from "../modules/gameobjs/baseGameObj.ts";
-import {Grid} from "../modules/gameobjs/grid.ts";
 import {global} from "../modules/global.ts";
 import {Key} from "../modules/input/keyHandler.ts";
-import {Coffeemachine} from "./furniture/coffeemachine.ts";
 import {Label} from "../components/ui/label.ts";
 import {Player} from "./player.ts";
 

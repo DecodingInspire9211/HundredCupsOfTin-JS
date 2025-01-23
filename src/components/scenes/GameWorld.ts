@@ -19,6 +19,7 @@ import { Figtree } from "../../gameObjects/deco/plant1.ts";
 import { ImageCl } from "../ui/image.ts";
 import { Economy } from "../../modules/gameobjs/economy.ts";
 import { Customer } from "../../gameObjects/customer.ts";
+import {Anim} from "../ui/anim.ts";
 
 export class GameWorld extends Scene {
   gap = 12;
@@ -29,6 +30,8 @@ export class GameWorld extends Scene {
   coffeemachine: Coffeemachine;
   economy: Economy;
   sceneObjects: BaseGameObj[];
+
+  profile: Anim;
 
   player_zOrder: number = 2;
 
@@ -53,10 +56,8 @@ export class GameWorld extends Scene {
       true,
       true,
     );
-    this.economy = new Economy();
 
-    this.customer1;
-    this.customer2;
+    this.economy = new Economy();
   }
 
   init = () => {
@@ -79,7 +80,9 @@ export class GameWorld extends Scene {
     this.player.render(ctx);
     this.coffeemachine.render(ctx);
 
+
     this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
+
 
 
     for (let i = 0; i < this.sceneObjects.length; i++) {
