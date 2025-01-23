@@ -13,6 +13,8 @@ export class Customer extends BaseGameObj {
 
     triggerDistance: number = 0;
     hasCoffee: boolean = false;
+    keyPressed: boolean = false;
+
 
     animationData = {
         "animationSprites": [],
@@ -130,9 +132,17 @@ export class Customer extends BaseGameObj {
             {
                 this.actNotice.text = "Earn Money (E)";
                 if(global.handleInput.keyBinary & Key.Act) {
-                    this.earnMoney();
-                    this.served = false;
-                    this.orderTaken = false;
+                    if(!this.keyPressed) {
+                        this.earnMoney();
+                        this.served = false;
+                        this.orderTaken = false;
+                        this.keyPressed = true;
+                    }
+                    else
+                    {
+                        this.keyPressed = false;
+                    }
+
                 }
             }
 
