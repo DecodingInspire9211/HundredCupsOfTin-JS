@@ -79,7 +79,7 @@ enum Key {          // BINARY NUMS
 
 MINOR IMPROVEMENTS
 ==================
-18. Jänner 2025
+18. Jänner 2025 - 10:40
 
 searching for bugs, implementing the main theme
 implementing spritesheets and **DANCING CHAIRS!**
@@ -102,6 +102,16 @@ IMPLEMENTING THE ECONOMY
 Implementing a simple economy system
 including a simple UI for the player to see their money.
 
+THE ALLNIGHTER
+=========================
+21. Jänner 2025
+
+Implementing fixes to scenemanagement
+Implementing fixes to the Audio again
+Implementing fixes to the collision
+Implementing fixes to the triggering
+
+
 PLOT AND STRUCTURAL FIXES
 =========================
 22. Jänner 2025
@@ -109,3 +119,13 @@ PLOT AND STRUCTURAL FIXES
 Adding a "plot" to the game
 including Winning Conditions and Losing Conditions
 based on the economical status of the player.
+
+Starting to fix the behaviour of
+"taking order, serve coffee, earn money" - not finished by that point
+
+Implementing the official ingame profile sprite,
+doesn't animate for some reason...
+
+FINISHING THE GAME MECHANICS TO THE PLAYABLE STATE
+==================================================
+23. Jänner 2025
