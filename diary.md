@@ -95,3 +95,17 @@ Added a test spritesheet for the player.
 
 Fixing the audio system
 
+IMPLEMENTING THE ECONOMY
+========================
+20. Jänner 2025
+
+Implementing a simple economy system
+including a simple UI for the player to see their money.
+
+PLOT AND STRUCTURAL FIXES
+=========================
+22. Jänner 2025
+
+Adding a "plot" to the game
+including Winning Conditions and Losing Conditions
+based on the economical status of the player.
