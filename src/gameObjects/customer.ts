@@ -35,7 +35,7 @@ export class Customer extends BaseGameObj {
 
     timer: number = 0;
 
-    constructor(source: string, name: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, collidable?: boolean, triggerable?: boolean) {
+    constructor(source: string, name: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 15, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
 
         this.source = source;
@@ -47,7 +47,7 @@ export class Customer extends BaseGameObj {
 
         this.collidable = collidable;
         this.triggerable = triggerable;
-        this.actNotice = new Label(this.x, this.y - 20, 50, 20, "", 16, "white");
+        this.actNotice = new Label(this.x, this.y - 20, 50, 20, "", 16, "white", "center");
     }
 
     getBoxBounds = () => {
@@ -79,6 +79,8 @@ export class Customer extends BaseGameObj {
             this.actNotice.text = `Waiting... ${this.timer.toFixed(0)}s/12s`;
             if(this.served) {
                 this.actNotice.text = "Thank you!";
+                this.orderTaken = false;
+                this.served = true;
                 this.timer = 0;
             }
 
@@ -119,7 +121,7 @@ export class Customer extends BaseGameObj {
                 if(global.handleInput.keyBinary & Key.Act) {
                     this.actNotice.text = "Thank you!";
                     this.served = true;
-                    this.orderTaken = false;
+                    this.orderTaken = true;
                     source.amountCoffee--;
 
                     if(source.amountCoffee < 0) {
@@ -210,7 +212,7 @@ export class Customer extends BaseGameObj {
 
     earnMoney = () => {
         if (this.hasCoffee) {
-            this.earned = 5;
+            this.earned = 4.50;
             global.economy.addIncome(this.earned);
             this.actNotice.text = `Money earned: ${this.earned}`;
 
@@ -220,7 +222,7 @@ export class Customer extends BaseGameObj {
     }
 
     loseMoney = () => {
-        this.earned = -5;
+        this.earned = 3.5;
         global.economy.addExpenses(this.earned);
         this.actNotice.text  = `Money lost: ${this.earned}`;
 

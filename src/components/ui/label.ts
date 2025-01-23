@@ -6,6 +6,8 @@ export class Label extends BaseUI {
 
     canvas = global.ui!;
 
+    justification: string = "center";
+
     constructor(
         x: number,
         y: number, 
@@ -13,9 +15,11 @@ export class Label extends BaseUI {
         height: number, 
         text: string, 
         fontSize: number, 
-        fontColor: string, 
+        fontColor: string,
+        justification: string
     ) {
         super(x, y, width, height, text, fontSize, fontColor, "");
+        this.justification = justification;
     }
 
 
@@ -24,7 +28,21 @@ export class Label extends BaseUI {
         {
             ctx.fillStyle = `${this.fontColor}`;
             ctx.font = `${this.fontSize}px Pixelify Sans`;
-            ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
+            switch (this.justification)
+            {
+                case "center":
+                    ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
+                    break;
+                case "left":
+                    ctx.fillText(this.text, this.x, this.y + this.height / 2 + 6);
+                    break;
+                case "right":
+                    ctx.fillText(this.text, this.x + this.width - ctx.measureText(this.text).width, this.y + this.height / 2 + 6);
+                    break;
+                default:
+                    ctx.fillText(this.text, this.x + this.width / 2 - ctx.measureText(this.text).width / 2, this.y + this.height / 2 + 6);
+                    break;
+            }
         }
     }
 

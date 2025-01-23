@@ -16,7 +16,7 @@ export class ImageCl extends BaseUI {
         "elapsedSpriteTime": 0,
         "currentSpriteIndex": 0,
         "firstSpriteIndex": 0,
-        "lastSpriteIndex": 0,
+        "lastSpriteIndex": 24,
     }
 
     columns: number | undefined;

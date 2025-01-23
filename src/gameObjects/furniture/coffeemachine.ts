@@ -26,13 +26,15 @@ export class Coffeemachine extends BaseGameObj {
         this.collidable = collidable;
         this.triggerable = triggerable;
 
-        this.timerLabel = new Label(this.x + 20, this.y, 250, 50, "", 20, "white");
+        this.timerLabel = new Label(this.x + 20, this.y, 250, 50, "", 20, "gold", "left");
 
         this.loadImages();
     }
     loadImages = () => {
         /* first load images from path */
         let image1 = new Image();
+
+        // TODO: BREWING ANIMATION
         image1.src = "../src/components/imgs/cafemach.png";
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
         this.animationData.animationSprites.push(image1);
@@ -99,7 +101,7 @@ export class Coffeemachine extends BaseGameObj {
             this.timerLabel.text = `${Math.round(this.timer)} of 3 seconds`
         }
         if(this.radiusTrigger && this.coffeeReady) {
-            this.timerLabel.text = "Coffee ready! Take (Q))"
+            //this.timerLabel.text = `${this.coffeeAtMachine} cups ready! Take (Q)`
         }
 
         // if(!this.radiusTrigger) {
@@ -126,7 +128,7 @@ export class Coffeemachine extends BaseGameObj {
 
             if(this.coffeeReady)
             {
-                this.timerLabel.text = "Coffee ready! Take (Q)";
+                this.timerLabel.text = `${this.coffeeAtMachine} cups ready! Take (Q)`
                 if(global.handleInput.keyBinary & Key.Take) {
                     if(this.coffeeAtMachine < 0) {
                         this.timerLabel.text = "Brew (E)";

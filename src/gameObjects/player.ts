@@ -34,6 +34,7 @@ class Player extends BaseGameObj {
     public single: number = 0;
 
     profile: ImageCl;
+    profitdisplay: Label;
 
     animationData = {
         "animationSprites": [],
@@ -48,7 +49,7 @@ class Player extends BaseGameObj {
     coffeeInHand: Label;
     money: Label;
 
-    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 50, single? : any, collidable?: boolean, triggerable?: boolean) {
+    constructor(name: string, nickname: string, surname: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 15, single? : any, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
 
         this.single = typeof single === "number" ? single : 0;
@@ -144,15 +145,20 @@ class Player extends BaseGameObj {
     }
 
     ui = (uictx) => {
-        this.playername = new Label(this.gap + 300, global.ui!.height - this.gap - 56, 64, 64, this.getFullName(), 24, "black");
-        this.coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 0, `${this.amountCoffeeText}`, 12, "white" );
-        this.money = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 0, 64, `${global.economy.getStats().currency.symbol} ${global.economy.getStats().money}`, 16, "black" );
+        global.economy.getStats();
+
+        this.profitdisplay = new Label(global.ui!.width - 96, global.ui!.height - 64, 64, 64, `Income: ${global.economy.getStats().income}\n\rExpenses: ${global.economy.getStats().expenses}`, 16, "white", "right");
+
+        this.playername = new Label(this.gap + 256, global.ui!.height - this.gap - 56, 64, 64, this.getFullName(), 24, "black", "left");
+        this.coffeeInHand = new Label(this.gap + 256, global.ui!.height - (this.gap * 7.25), 64, 0, `${this.amountCoffeeText}`, 12, "white", "left" );
+        this.money = new Label(this.gap + 256, global.ui!.height - (this.gap * 7.25), 0, 64, `${global.economy.getStats().currency.symbol} ${global.economy.getStats().money}`, 16, "black", "left");
 
 
         this.playername.ui(uictx);
         this.coffeeInHand.ui(uictx);
         this.money.ui(uictx);
         this.profile.ui(uictx);
+        this.profitdisplay.ui(uictx);
 
     }
 
@@ -186,8 +192,10 @@ class Player extends BaseGameObj {
             else if ((global.handleInput.keyBinary & Key.Take) && triggeringObject.coffeeReady)
             {
                 if(triggeringObject.coffeeAtMachine > 0) {
+                    // Player can't take more than 3 coffee cups at once
                     const coffeeToTake = Math.min(triggeringObject.coffeeAtMachine, 3 - this.amountCoffee);
                     triggeringObject.coffeeAtMachine -= coffeeToTake;
+
                     this.amountCoffee += coffeeToTake;
                     this.amountCoffeeText = `Coffee in Hand: ${this.amountCoffee}`;
                     this.wasTriggered = false;
@@ -216,10 +224,16 @@ class Player extends BaseGameObj {
         if(triggeringObject instanceof Customer) {
             // HANDLE GIVING COFFEE TO CUSTOMER
             if ((global.handleInput.keyBinary & Key.Act) && this.hasCoffee && !triggeringObject.hasCoffee) {
-                    triggeringObject.receiveCoffee();
+                // Only remove coffee from player if the customer has more than 0
+                if(this.amountCoffee > 0) {
                     this.amountCoffee--;
-                    this.amountCoffeeText = `Coffee in Hand: ${this.amountCoffee}`;
-                if (this.amountCoffee === 0) {
+                    triggeringObject.receiveCoffee();
+                }
+                
+                this.amountCoffeeText = `Coffee in Hand: ${this.amountCoffee}`;
+
+                if (this.amountCoffee <= 0) {
+                    this.amountCoffee = 0;
                     this.hasCoffee = false;
                 }
             }
