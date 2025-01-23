@@ -61,7 +61,7 @@ export class LoseScreen extends Scene {
         }
 
         createObjects = () => {
-            let text = new TextClass("/src/gameObjects/text/Lose.txt", 0, -128, global.ui!.width, global.ui!.height, "", 12, "#000000");
+            let text = new TextClass("/src/gameObjects/text/Lose.txt", 0, -128, global.ui!.width, global.ui!.height, 12, "#ffffff");
 
             this.uiIterator.push(text);
         }

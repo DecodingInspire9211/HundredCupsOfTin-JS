@@ -20,7 +20,7 @@ export class IntroScreen extends Scene {
 
         this.timer = 0;
 
-        this.text = new TextClass("/src/gameObjects/text/Intro.txt", 0, -128, global.ui!.width, global.ui!.height, 12, "#000000");
+        this.text = new TextClass("/src/gameObjects/text/Intro.txt", 0, -128, global.ui!.width, global.ui!.height, 12, "#FFFFFF");
 
         console.log(`Scene ${this.sceneName} constructed`);
 
