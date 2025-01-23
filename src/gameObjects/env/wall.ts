@@ -21,7 +21,7 @@ export class Wall extends BaseGameObj {
         "lastSpriteIndex": 0,
     }
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single?: boolean, collidable?: boolean, triggerable?: boolean) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, single?: any, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
         this.name = name;
         this.x = x;
@@ -32,26 +32,28 @@ export class Wall extends BaseGameObj {
         this.collidable = collidable;
         this.triggerable = triggerable;
 
+        this.single = typeof single === "number" ? single : undefined;
+
         if(typeof this.single === "number") {
             this.animationData.firstSpriteIndex = single;
             this.animationData.lastSpriteIndex = single;
         }
         else {
             this.animationData.firstSpriteIndex = 0;
-            this.animationData.lastSpriteIndex = 2;
+            this.animationData.lastSpriteIndex = 8;
         }
 
-        this.loadImages();
+        this.loadImagesFromSpritesheet("../src/components/imgs/walltestnew.png", 9, 1);
     }
 
-    loadImages = () => {
-        /* first load images from path */
-        let image1 = new Image();
-        image1.src = "../src/components/imgs/environment/wall.png";
-
-        /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
-        this.animationData.animationSprites.push(image1);
-    };
+    // loadImages = () => {
+    //     /* first load images from path */
+    //     let image1 = new Image();
+    //     image1.src = "../src/components/imgs/environment/wall.png";
+    //
+    //     /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
+    //     this.animationData.animationSprites.push(image1);
+    // };
 
     update = () => {
 
@@ -59,11 +61,16 @@ export class Wall extends BaseGameObj {
 
 
     render = (ctx: CanvasRenderingContext2D) => {
-        //ctx.fillStyle = "green";
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
-        let sprite = this.getNextSprite();
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        if(typeof this.single === "number") {
+            let stat = this.animationData.animationSprites[this.single];
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(stat, this.x, this.y, this.width, this.height);
+        }
+        else {
+            let sprite = this.getNextSprite();
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        }
 
     }
 }

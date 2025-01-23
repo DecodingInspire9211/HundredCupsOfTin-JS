@@ -65,7 +65,7 @@ export class BaseGameObj {
     }
 
     getNextSprite = () => {
-        this.animationData.currentSpriteElapsedTime += global.deltaTime;
+        this.animationData.currentSpriteElapsedTime += global.deltaTime!;
 
         if (this.animationData.currentSpriteElapsedTime >= this.animationData.timePerSprite) {
             this.animationData.currentSpriteIndex++;
@@ -144,7 +144,7 @@ export class BaseGameObj {
         });
     }
 
-    switchCurrentSprites = function (firstSpriteIndex, lastSpriteIndex) {
+    switchCurrentSprites = (firstSpriteIndex, lastSpriteIndex) => {
         this.animationData.currentSpriteIndex = firstSpriteIndex;
         this.animationData.firstSpriteIndex = firstSpriteIndex;
         this.animationData.lastSpriteIndex = lastSpriteIndex;

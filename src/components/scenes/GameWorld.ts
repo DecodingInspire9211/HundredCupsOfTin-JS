@@ -68,15 +68,19 @@ export class GameWorld extends Scene {
   update = () => {
     this.player.update();
     this.coffeemachine.update();
+    this.customer1.update();
+    this.customer2.update();
   };
 
   render = (ctx: CanvasRenderingContext2D) => {
     //this.map.flat().forEach(tile => tile.node.render())
     this.player.update_player_zOrder_by_ytile(this.grid);
-    this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
 
     this.player.render(ctx);
     this.coffeemachine.render(ctx);
+
+    this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
+
 
     for (let i = 0; i < this.sceneObjects.length; i++) {
       if (this.sceneObjects[i]!.active) {
@@ -102,8 +106,7 @@ export class GameWorld extends Scene {
   };
 
   ui = (uictx: CanvasRenderingContext2D) => {
-    this.player.ui(uictx);
-    this.coffeemachine.ui(uictx);
+
 
     //global.uictx!.fillStyle = "beige";
     //global.uictx!.fillRect(this.gap, global.ui!.height - this.gap - 256, 256, 256);
@@ -124,6 +127,9 @@ export class GameWorld extends Scene {
       64,
     );
 
+    this.player.ui(uictx);
+    this.coffeemachine.ui(uictx);
+
     for (let i = 0; i < this.uiIterator.length; i++) {
       this.uiIterator[i].ui(uictx);
     }
@@ -139,7 +145,7 @@ export class GameWorld extends Scene {
   };
 
   createUI = () => {
-    global.audioManager.addTrack("/src/components/audio/tmhcot_theme_nes.ogg", {
+    global.audioManager.addTrack("/src/components/audio/tmhcot_nes_ingame.ogg", {
       loop: true,
     });
 
@@ -160,47 +166,40 @@ export class GameWorld extends Scene {
       },
     );
 
-    const profile = new ImageCl(
-      "src/components/imgs/profile.png",
-      this.gap,
-      global.ui!.height - this.gap - 256,
-      256,
-      256,
-    );
-
-    const playername = new Label(
-      this.gap + 300,
-      global.ui!.height - this.gap - 56,
-      64,
-      64,
-      this.player.getFullName(),
-      24,
-      "black",
-    );
-    const coffeeInHand = new Label(
-      this.gap + 266,
-      global.ui!.height - this.gap * 7.25,
-      64,
-      0,
-      `Coffee in Hand: ${this.player.amountCoffee}`,
-      12,
-      "white",
-    );
-    const money = new Label(
-      this.gap + 266,
-      global.ui!.height - this.gap * 7.25,
-      0,
-      64,
-      `${this.economy.Currency.symbol} ${this.economy.money}`,
-      16,
-      "black",
-    );
+    // const playername = new Label(
+    //   this.gap + 300,
+    //   global.ui!.height - this.gap - 56,
+    //   64,
+    //   64,
+    //   this.player.getFullName(),
+    //   24,
+    //   "black",
+    // );
+    // const coffeeInHand = new Label(
+    //   this.gap + 266,
+    //   global.ui!.height - this.gap * 7.25,
+    //   64,
+    //   0,
+    //   `Coffee in Hand: ${this.player.amountCoffee}`,
+    //   12,
+    //   "white",
+    // );
+    // const money = new Label(
+    //   this.gap + 266,
+    //   global.ui!.height - this.gap * 7.25,
+    //   0,
+    //   64,
+    //   `${this.economy.Currency.symbol} ${this.economy.money}`,
+    //   16,
+    //   "black",
+    // );
 
     this.uiIterator.push(ret);
-    this.uiIterator.push(coffeeInHand);
-    this.uiIterator.push(money);
-    this.uiIterator.push(profile);
-    this.uiIterator.push(playername);
+    // this.uiIterator.push(coffeeInHand);
+    // this.uiIterator.push(money);
+    // this.uiIterator.push(playername);
+    //this.uiIterator.push(profile);
+
   };
 
   createObjects = () => {
@@ -218,20 +217,113 @@ export class GameWorld extends Scene {
       }
     }
 
-    for (let x = 0; x < this.grid.tiles; x++) {
-      this.grid.setPos(x, 0);
-      let wall = new Wall(
+    for (let y = 0; y < this.grid.tiles; y += 2) {
+      this.grid.setPos(-1, y);
+      let left = new Wall(
         `Wall`,
         this.grid.x,
-        this.grid.y - TILE_SIZE,
+        this.grid.y + TILE_SIZE,
         TILE_SIZE,
         TILE_SIZE * 2,
         -1,
-        undefined,
+        5,
         true,
         false,
       );
-      this.sceneObjects.push(wall);
+      this.sceneObjects.push(left);
+
+      this.grid.setPos(12, y);
+      let right = new Wall(
+          `Wall`,
+          this.grid.x,
+          this.grid.y + TILE_SIZE,
+          TILE_SIZE,
+          TILE_SIZE * 2,
+          -1,
+          6,
+          true,
+          false,
+      );
+      this.sceneObjects.push(right);
+    }
+
+    for (let x = 0; x < this.grid.tiles+2; x++) {
+      this.grid.setPos(x-1, 0);
+      if(x == 0)
+      {
+        let cornerl = new Wall(
+            `Wall`,
+            this.grid.x,
+            this.grid.y - TILE_SIZE,
+            TILE_SIZE,
+            TILE_SIZE * 2,
+            -1,
+            4,
+            true,
+            false,
+        );
+        this.sceneObjects.push(cornerl);
+      }
+      else if(x == 13)
+      {
+        let cornerr = new Wall(
+            `Wall`,
+            this.grid.x,
+            this.grid.y - TILE_SIZE,
+            TILE_SIZE,
+            TILE_SIZE * 2,
+            -1,
+            7,
+            true,
+            false,
+        );
+        this.sceneObjects.push(cornerr);
+      }
+      else if(x == 3 || x == 4)
+      {
+        let window = new Wall(
+            `Wall`,
+            this.grid.x,
+            this.grid.y - TILE_SIZE,
+            TILE_SIZE,
+            TILE_SIZE * 2,
+            -1,
+            3,
+            true,
+            false,
+        );
+        this.sceneObjects.push(window);
+      }
+      else {
+        let wall = new Wall(
+            `Wall`,
+            this.grid.x,
+            this.grid.y - TILE_SIZE,
+            TILE_SIZE,
+            TILE_SIZE * 2,
+            -1,
+            undefined,
+            true,
+            false,
+        );
+        this.sceneObjects.push(wall);
+      }
+
+      this.grid.setPos(x-1, 12);
+      let border = new Wall(
+          `Wall`,
+          this.grid.x,
+          this.grid.y,
+          TILE_SIZE,
+          TILE_SIZE,
+          -1,
+          8,
+          true,
+          false,
+      );
+      this.sceneObjects.push(border);
+
+
     }
 
     for (let x = 6; x < this.grid.tiles; x++) {
@@ -422,8 +514,9 @@ export class GameWorld extends Scene {
       false,
     );
 
-    this.grid.setPos(10, 10);
+    this.grid.setPos(10, 9.5);
     this.customer1 = new Customer(
+        "../src/components/imgs/zer.png",
       `Customer`,
       this.grid.x,
       this.grid.y - TILE_SIZE,
@@ -435,10 +528,11 @@ export class GameWorld extends Scene {
       true,
     );
 
-    this.grid.setPos(8, 10);
+    this.grid.setPos(8, 9.5);
     this.customer2 = new Customer(
+        "../src/components/imgs/decdec.png",
       `Customer`,
-      this.grid.x,
+        this.grid.x,
       this.grid.y - TILE_SIZE,
       TILE_SIZE,
       TILE_SIZE * 2,
@@ -447,6 +541,8 @@ export class GameWorld extends Scene {
       true,
       true,
     );
+
+
 
     this.sceneObjects.push(spinny);
     this.sceneObjects.push(spinny1);
@@ -469,8 +565,8 @@ export class GameWorld extends Scene {
 
     this.sceneObjects.push(this.customer1);
     this.sceneObjects.push(this.customer2);
-    this.uiIterator.push(this.customer1!);
-    this.uiIterator.push(this.customer2!);
+    this.uiIterator.push(this.customer1);
+    this.uiIterator.push(this.customer2);
 
     this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
 

@@ -4,8 +4,8 @@ import { global } from "../modules/global.ts";
 import { Key } from "../modules/input/keyHandler.ts";
 import { Coffeemachine } from "./furniture/coffeemachine.ts";
 import {Label} from "../components/ui/label.ts";
-import {WinScreen} from "../components/scenes/WinScreen.ts";
-import {LoseScreen} from "../components/scenes/LoseScreen.ts";
+import {ImageCl} from "../components/ui/image.ts";
+import {Customer} from "./customer.ts";
 
 class Player extends BaseGameObj {
     gap = 12;
@@ -33,6 +33,7 @@ class Player extends BaseGameObj {
     amountCoffeeText: string = `${this.amountCoffee}`;
     public single: number = 0;
 
+    profile: ImageCl;
 
     animationData = {
         "animationSprites": [],
@@ -70,6 +71,16 @@ class Player extends BaseGameObj {
         this.fullName.surname = surname;
 
         this.amountCoffeeText = "";
+
+        this.profile = new ImageCl(
+            "src/components/imgs/profile.png",
+            this.gap,
+            global.ui!.height - this.gap - 256,
+            256,
+            256,
+            24,
+            1
+        );
     };
 
     public getFullName = () => {
@@ -78,8 +89,8 @@ class Player extends BaseGameObj {
 
     getBoxBounds = () => {
         return {
-            left: this.x,
-            right: this.x + this.width,
+            left: this.x+4,
+            right: this.x + this.width-4,
             top: this.y + (this.height - (this.height / 3)),
             bottom: this.y + this.height
         }
@@ -96,6 +107,7 @@ class Player extends BaseGameObj {
 
     update_player_zOrder_by_ytile(grid: Grid) {
         this.zOrder = Math.floor(grid.getCurrentTilePos(this.x, this.y).y);
+        //console.log(this.zOrder);
     }
 
     move = () => {
@@ -131,15 +143,16 @@ class Player extends BaseGameObj {
         //global.handleInput.keyBinary = 0 << 0;
     }
 
-    ui = (ctx) => {
+    ui = (uictx) => {
         this.playername = new Label(this.gap + 300, global.ui!.height - this.gap - 56, 64, 64, this.getFullName(), 24, "black");
-        this.coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 0, `Coffee in Hand: ${this.amountCoffeeText}`, 12, "white" );
+        this.coffeeInHand = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 64, 0, `${this.amountCoffeeText}`, 12, "white" );
         this.money = new Label(this.gap + 266, global.ui!.height - (this.gap * 7.25), 0, 64, `${global.economy.getStats().currency.symbol} ${global.economy.getStats().money}`, 16, "black" );
 
 
-        this.playername.ui(ctx);
-        this.coffeeInHand.ui(ctx);
-        this.money.ui(ctx);
+        this.playername.ui(uictx);
+        this.coffeeInHand.ui(uictx);
+        this.money.ui(uictx);
+        this.profile.ui(uictx);
 
     }
 
@@ -185,15 +198,31 @@ class Player extends BaseGameObj {
                     triggeringObject.coffeeAtMachine = 0;
                     this.wasTriggered = false;
                 }
-                this.hasCoffee = true;
+
+                if(this.amountCoffee >= 1)
+                {
+                    this.hasCoffee = true;
+                }
+                else {
+                    this.hasCoffee = false;
+                }
             }
             else {
                 triggeringObject.wasTriggered = false;
                 this.wasTriggered = false;
             }
         }
-        if(triggeringObject.name === "Counter") {
-            console.log("Counter");
+        //TODO: PLAYER GIVES MORE THAN 1 COFFEE TO CUSTOMER
+        if(triggeringObject instanceof Customer) {
+            // HANDLE GIVING COFFEE TO CUSTOMER
+            if ((global.handleInput.keyBinary & Key.Act) && this.hasCoffee && !triggeringObject.hasCoffee) {
+                    triggeringObject.receiveCoffee();
+                    this.amountCoffee--;
+                    this.amountCoffeeText = `Coffee in Hand: ${this.amountCoffee}`;
+                if (this.amountCoffee === 0) {
+                    this.hasCoffee = false;
+                }
+            }
         }
     }
 

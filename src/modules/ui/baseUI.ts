@@ -58,20 +58,19 @@ export class BaseUI {
         "lastSpriteIndex": 0,
     };
 
-    getNextSprite = () => {
-        this.animationData.currentSpriteElapsedTime += global.deltaTime;
+    loadImages = (source) => {
+        /* first load images from path */
+        let img = new Image();
+        img.src = source;
 
-        if (this.animationData.currentSpriteElapsedTime >= this.animationData.timePerSprite) {
-            this.animationData.currentSpriteIndex++;
-            this.animationData.currentSpriteElapsedTime = 0;
-            if (this.animationData.currentSpriteIndex > this.animationData.lastSpriteIndex) {
-                this.animationData.currentSpriteIndex = this.animationData.firstSpriteIndex
-            }
-        }
-        return this.animationData.animationSprites[this.animationData.currentSpriteIndex];
+        /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
+        this.animationData.animationSprites.push(img);
     };
 
-    destroy = function() {}
+
+
+    destroy = function() {
+    }
 
     storePositionOfPreviousFrame = function() {}
 

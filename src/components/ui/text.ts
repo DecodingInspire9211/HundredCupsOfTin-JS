@@ -59,7 +59,7 @@ export class TextClass extends BaseUI {
     }
 
     destroy = (): void => {
-        this.active = false;
+        //this.active = false;
     }
 
 }

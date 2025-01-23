@@ -8,18 +8,20 @@ export class IntroScreen extends Scene {
     gap: number = 12;
     theme: any = null;
     sceneObjects: [] = [];
-    uiIterator: [] = [];
+    uiIterator: any[] = [];
 
     timer: number = 0;
+    text: TextClass;
 
     constructor() {
         super();
         this.sceneName = "Intro Screen";
         this.sceneObjects = [];
 
-        this.uiIterator = [];
-
         this.timer = 0;
+
+        this.text = new TextClass("/src/gameObjects/text/Intro.txt", 0, -128, global.ui!.width, global.ui!.height, 12, "#000000");
+
         console.log(`Scene ${this.sceneName} constructed`);
 
     }
@@ -61,9 +63,7 @@ export class IntroScreen extends Scene {
         }
 
         createObjects = () => {
-            let text = new TextClass("/src/gameObjects/text/Intro.txt", 0, -128, global.ui!.width, global.ui!.height, "", 12, "#000000");
-
-            this.uiIterator.push(text);
+            this.uiIterator.push(this.text);
         }
 
         destroyObjects = () => {
