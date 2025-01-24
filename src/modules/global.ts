@@ -73,14 +73,14 @@ const global: Global = {
     this.getCanvasBounds();
 
     this.handleInput = new KeyHandler();
-    this.economy = new Economy(1000, 0, 0, 0);
+    this.economy = new Economy();
 
     loadFont("Pixelify Sans", "src/fonts/PixelifySans-VariableFont_wght.ttf");
     this.uictx!.font = "16px Pixelify Sans";
 
-    //this.sceneManager.changeScene(new SplashScreen());
+    this.sceneManager.changeScene(new SplashScreen());
     //this.sceneManager.changeScene(new MainMenu());
-    this.sceneManager.changeScene(new GameWorld());
+    //this.sceneManager.changeScene(new GameWorld());
   },
 
   clearCanvas: function () {

@@ -20,6 +20,15 @@ export class Coffeemachine extends BaseGameObj {
 
     timerLabel: Label;
 
+    animationData = {
+        "animationSprites": [],
+        "timePerSprite": 0.08,
+        "currentSpriteElapsedTime": 0,
+        "firstSpriteIndex": 0,
+        "lastSpriteIndex": 5,
+        "currentSpriteIndex": 0
+    };
+
     constructor(name: string, x: number, y: number, width: number, height:number, zOrder:number, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
 
@@ -28,17 +37,11 @@ export class Coffeemachine extends BaseGameObj {
 
         this.timerLabel = new Label(this.x + 20, this.y, 250, 50, "", 20, "gold", "left");
 
-        this.loadImages();
-    }
-    loadImages = () => {
-        /* first load images from path */
-        let image1 = new Image();
+        this.loadImagesFromSpritesheet("../src/components/imgs/coffeemachine_spritesheet.png", 2, 3);
+        this.animationData.timePerSprite = 0.5;
 
-        // TODO: BREWING ANIMATION
-        image1.src = "../src/components/imgs/cafemach.png";
-        /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
-        this.animationData.animationSprites.push(image1);
-    };
+        this.switchCurrentSprites(0, 1);
+    }
 
     brewCoffee = () => {
         //console.log(`Player triggered Key.Act: ${this.wasTriggered}\nIs brewing: ${this.brewing}\nCoffee ready: ${this.coffeeReady}\nCoffee at machine: ${this.coffeeAtMachine}`);
@@ -46,6 +49,8 @@ export class Coffeemachine extends BaseGameObj {
         // START BREWING COFFEE AS LONG AS ITS NOT ALREADY BREWING, READY NOR FULL
         if(this.wasTriggered && !this.brewing && this.coffeeAtMachine < 3)
         {
+            this.switchCurrentSprites(2, 3);
+
             global.economy.addExpenses(2.5);
             this.coffeeReady = false;
             this.brewing = true;
@@ -80,12 +85,21 @@ export class Coffeemachine extends BaseGameObj {
     }
 
     update = () => {
-        // if(!this.brewing) {
-        //     this.timerLabel.text = "";
-        // }
+
+        if(this.brewing)
+        {
+            this.timerLabel.text = `${Math.round(this.timer)} of 3 seconds`
+            this.switchCurrentSprites(2, 3);
+        }
+        if(this.coffeeReady)
+        {
+            this.switchCurrentSprites(4, 5);
+        }
+
+
 
         if(this.radiusTrigger && !this.brewing) {
-            this.timerLabel.text = "Brew (E)"
+            //this.timerLabel.text = "Brew (E)"
         }
 
         this.brewCoffee();
@@ -97,33 +111,24 @@ export class Coffeemachine extends BaseGameObj {
             this.timerLabel.text = "";
         }
 
-        if(this.brewing) {
-            this.timerLabel.text = `${Math.round(this.timer)} of 3 seconds`
-        }
-        if(this.radiusTrigger && this.coffeeReady) {
-            //this.timerLabel.text = `${this.coffeeAtMachine} cups ready! Take (Q)`
-        }
-
-        // if(!this.radiusTrigger) {
-        //     this.timerLabel.text = "";
-        // }
-
         this.timerLabel.text = "";
-
-
-
 
     }
 
     reactToTrigger = (triggeringObject: any) => {
         if (triggeringObject instanceof Player) {
-            if(!this.brewing)
+            if(this.coffeeAtMachine <= 0)
+            {
+                this.coffeeReady = false;
+            }
+
+            if(this.coffeeAtMachine <= 0 || !this.brewing)
             {
                 this.timerLabel.text = "Brew (E)";
             }
-            if(this.brewing) {
-                //this.timerLabel.text = "Brewing...";
-                this.timerLabel.text = `${Math.round(this.timer)} of 3 seconds`
+            else
+            {
+                this.timerLabel.text = `${this.coffeeAtMachine} cups ready! Take (Q)`
             }
 
             if(this.coffeeReady)
@@ -135,6 +140,10 @@ export class Coffeemachine extends BaseGameObj {
                         this.coffeeReady = false;
                     }
                 }
+            }
+
+            if(this.brewing) {
+                this.timerLabel.text = `${Math.round(this.timer)} of 3 seconds`
             }
 
             if(this.coffeeAtMachine >= 3 && !this.brewing) {
@@ -159,8 +168,12 @@ export class Coffeemachine extends BaseGameObj {
 
     render = (ctx: CanvasRenderingContext2D) => {
         let sprite = this.getNextSprite();
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        if (sprite instanceof HTMLImageElement) {
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        } else {
+            console.error("Invalid sprite type:", sprite);
+        }
 
     };
 }

@@ -22,7 +22,7 @@ export class Economy {
     moneyadded: boolean = false;
     //
     constructor() {
-        this.money = 1000;
+        this.money = 250;
         this.income = 0;
         this.expenses = 0;
         this.profit = 0;
@@ -66,8 +66,8 @@ export class Economy {
 
         this.calculateProfit();
 
-        //reset every 120 seconds
-        if(this.timer >= 120)
+        //reset every 60 seconds
+        if(this.timer >= 60)
         {
             this.addIntoMoney();
             if(this.moneyadded)
@@ -86,7 +86,7 @@ export class Economy {
             global.sceneManager.changeScene(new LoseScreen());
         }
 
-        if(this.money >= 2000)
+        if(this.money >= 500)
         {
             global.sceneManager.changeScene(new WinScreen());
         }
