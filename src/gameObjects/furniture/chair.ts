@@ -34,7 +34,7 @@ export class Chair extends BaseGameObj {
         }
         else {
             this.animationData.firstSpriteIndex = 0;
-            this.animationData.lastSpriteIndex = 2;
+            this.animationData.lastSpriteIndex = 3;
         }
 
         this.collidable = collidable;

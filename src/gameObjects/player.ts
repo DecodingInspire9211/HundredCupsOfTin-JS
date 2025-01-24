@@ -7,6 +7,9 @@ import {Label} from "../components/ui/label.ts";
 import {ImageCl} from "../components/ui/image.ts";
 import {Customer} from "./customer.ts";
 import {Anim} from "../components/ui/anim.ts";
+import {Economy} from "../modules/gameobjs/economy.ts";
+
+import { KWB_Maths} from "../../lib/math.ts";
 
 class Player extends BaseGameObj {
     gap = 12;
@@ -46,6 +49,12 @@ class Player extends BaseGameObj {
         "currentSpriteIndex": 0
     };
 
+    activeOrders: any[];
+    timer: number = 0;
+    newtimer: number = 0;
+
+    economy: Economy;
+
     playername: Label;
     coffeeInHand: Label;
     money: Label;
@@ -73,6 +82,11 @@ class Player extends BaseGameObj {
         this.fullName.surname = surname;
 
         this.amountCoffeeText = "";
+
+        this.activeOrders = [];
+        this.economy = global.economy;
+
+        this.newtimer = 0;
 
         this.profile = new Anim(
             "src/components/imgs/profile.png",
@@ -166,6 +180,84 @@ class Player extends BaseGameObj {
     update = (): void => {
         this.move();
         global.economy.update();
+
+        this.newtimer += global.deltaTime;
+
+        if(this.newtimer >= 1) {
+            console.log(this.activeOrders);
+            this.activeOrders = this.activeOrders
+                //.filter(order => {
+            //    return order !== null;
+            //})
+                .map((order) => {
+                    if(order !== null) {
+                        order.timer++;
+
+                        if(order.timer <= order.maxTimer) {
+                            return order;
+                        }
+                        this.economy.addExpenses(order.loseMoney);
+                    }
+
+                //order.loseMoney = 0;
+                return null;
+            });
+            this.newtimer = 0;
+        }
+    }
+
+    // completeOrder = (orderID: number) => {
+    //     let index = this.activeOrders.indexOf((o : any) => o.id === orderID);
+    //
+    //
+    //     if(index !== -1) {
+    //         const order = this.activeOrders[index];
+    //         this.economy.addIncome(order.earnMoney);
+    //         this.activeOrders[index] = null;
+    //     }
+    //     else
+    //     {
+    //         console.error(`Order with ID ${orderID} not found.`);
+    //     }
+    //
+    // }
+
+    completeOrder = (order: any) => {
+        //let index = this.activeOrders.indexOf((o : any) => o.id === orderID);
+
+        const index = this.activeOrders.indexOf(order);
+        const currOrder = this.activeOrders[index];
+
+        this.economy.addIncome(currOrder.earnMoney);
+        this.activeOrders[index] = null;
+    }
+
+    // addOrder = () => {
+    //     const order = {
+    //         id: KWB_Maths.getRandomIntInclusive(0, 1000),
+    //         timer: 0,
+    //         maxTimer: 12,
+    //         loseMoney: 3.5,
+    //         earnMoney: 4.5
+    //     };
+    //
+    //     this.activeOrders.push(order);
+    //     console.log(`Order ${order.id} at ${this.activeOrders.indexOf(order)} taken!`);
+    //     return order.id;
+    // }
+
+    addOrder = () => {
+        const order = {
+            id: KWB_Maths.getRandomIntInclusive(0, 1000),
+            timer: 0,
+            maxTimer: 12,
+            loseMoney: 3.5,
+            earnMoney: 4.5
+        };
+
+        this.activeOrders.push(order);
+        console.log(`Order ${order.id} at ${this.activeOrders.indexOf(order)} taken!`);
+        return order;
     }
 
     render = (ctx: CanvasRenderingContext2D) => {

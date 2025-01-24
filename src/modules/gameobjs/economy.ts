@@ -67,7 +67,7 @@ export class Economy {
         this.calculateProfit();
 
         //reset every 120 seconds
-        if(this.timer >= 12)
+        if(this.timer >= 120)
         {
             this.addIntoMoney();
             if(this.moneyadded)

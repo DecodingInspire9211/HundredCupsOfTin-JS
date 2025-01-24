@@ -32,6 +32,8 @@ export class Customer extends BaseGameObj {
     source: string;
 
     timer: number = 0;
+    orderID: number = 0;
+    order: any;
 
     constructor(source: string, name: string, x: number, y: number, width: number, height: number, zOrder: number, trigDist: number = 15, collidable?: boolean, triggerable?: boolean) {
         super(name, x, y, width, height, zOrder);
@@ -71,22 +73,22 @@ export class Customer extends BaseGameObj {
             this.actNotice.text = "";
         }
 
-        if (this.orderTaken && !this.served) {
-            this.timer += global.deltaTime;
-
-            this.actNotice.text = `Waiting... ${this.timer.toFixed(0)}s/12s`;
-            if(this.served) {
-                this.actNotice.text = "Thank you!";
-                this.orderTaken = false;
-                this.served = true;
-                this.timer = 0;
-            }
-
-            if (this.timer > 12) {
-                this.actNotice.text = "Took too long... Lost money";
-                this.loseMoney();
-            }
-        }
+        // if (this.orderTaken && !this.served) {
+        //     this.timer += global.deltaTime;
+        //
+        //     this.actNotice.text = `Waiting... ${this.timer.toFixed(0)}s/12s`;
+        //     if(this.served) {
+        //         this.actNotice.text = "Thank you!";
+        //         this.orderTaken = false;
+        //         this.served = true;
+        //         this.timer = 0;
+        //     }
+        //
+        //     if (this.timer > 12) {
+        //         this.actNotice.text = "Took too long... Lost money";
+        //         this.loseMoney();
+        //     }
+        // }
     }
 
     ui = (ctx) => {
@@ -105,21 +107,24 @@ export class Customer extends BaseGameObj {
             if(!this.orderTaken) {
                 this.actNotice.text = "Take Order (E)";
                 if(global.handleInput.keyBinary & Key.Act) {
+                    //this.orderID = source.addOrder();     // ADD ORDER BY ID
+                    this.order = source.addOrder();         // ADD ORDER BY OBJECT
                     this.actNotice.text = "Order taken!";
                     this.orderTaken = true;
                 }
             }
 
             if(this.orderTaken && !source.hasCoffee) {
-                this.actNotice.text = "Where is my coffee?";
+                this.actNotice.text = `Where is my coffee?`;
             }
 
             if(this.orderTaken && source.hasCoffee && !this.served) {
                 this.actNotice.text = "Serve Order (E)";
                 if(global.handleInput.keyBinary & Key.Act) {
                     this.actNotice.text = "Thank you!";
-                    this.served = true;
-                    this.orderTaken = true;
+                    //source.completeOrder(this.orderID);   // COMPLETE ORDER BY ID
+                    source.completeOrder(this.order);       // COMPLETE ORDER BY OBJECT
+                    this.orderTaken = false;
                     source.amountCoffee--;
 
                     if(source.amountCoffee < 0) {

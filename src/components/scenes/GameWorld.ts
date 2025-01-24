@@ -400,7 +400,7 @@ export class GameWorld extends Scene {
       TILE_SIZE,
       TILE_SIZE * 2,
       10,
-      1,
+      2,
       true,
       true,
     );
@@ -438,7 +438,7 @@ export class GameWorld extends Scene {
       TILE_SIZE,
       TILE_SIZE * 2,
       4,
-      3,
+      1,
       true,
       true,
     );
@@ -451,7 +451,7 @@ export class GameWorld extends Scene {
       TILE_SIZE,
       TILE_SIZE * 2,
       4,
-      3,
+      1,
       true,
       true,
     );
@@ -464,7 +464,7 @@ export class GameWorld extends Scene {
       TILE_SIZE,
       TILE_SIZE * 2,
       8,
-      1,
+      2,
       true,
       true,
     );
