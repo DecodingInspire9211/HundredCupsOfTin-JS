@@ -20,10 +20,10 @@ import {Anim} from "../ui/anim.ts";
 export class GameWorld extends Scene {
   gap = 12;
   player: Player;
-  customer1: Customer;
-  customer2: Customer;
+  customer1: Customer | undefined;
+  customer2: Customer | undefined;
   grid: Grid;
-  coffeemachine: Coffeemachine;
+  coffeemachine: Coffeemachine | undefined;
   economy: Economy;
 
   profile: Anim;
