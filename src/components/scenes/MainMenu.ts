@@ -52,7 +52,7 @@ export class MainMenu extends Scene {
   createObjects = () => {
     //const bg = new ImageCl("src/components/imgs/splash.png", 0, 0, global.ui!.width, global.ui!.height);
     const title = new ImageCl(
-      "src/components/imgs/title.png",
+      "src/components/imgs/PixelTitle.png",
       global.ui!.width / 2 - 256,
       global.canvas!.height / 2 - 256 - 64 + this.gap,
       512,
