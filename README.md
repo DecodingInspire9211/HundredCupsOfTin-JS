@@ -15,8 +15,8 @@
 
 ---
 
-## 🌐 **Play the Game**
-[Click here to play the game!](https://decodinginspire9211.github.io/HundredCupsOfTin-JS)
+## Play the Game
+[Twelve Months: Hundred Cups of Tin](https://decodinginspire9211.github.io/HundredCupsOfTin-JS)
 
 
 ## Scenes
