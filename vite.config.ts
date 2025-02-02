@@ -11,5 +11,7 @@ export default defineConfig({
                 main: 'index.html', // Entry point for the build
             },
         },
+        copyPublicDir: true,
     },
+    publicDir: 'src', // Ensures all src files are included
 })
