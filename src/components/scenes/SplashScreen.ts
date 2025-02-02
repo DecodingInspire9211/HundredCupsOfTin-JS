@@ -1,18 +1,14 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
 import { global } from "../../modules/global.ts";
-import { AudioClass } from "../../modules/internals/audio.ts";
-import { Button } from "../ui/button.ts";
-import { GameWorld } from "./GameWorld.ts";
-import { ImageCl } from "../ui/image.ts";
-import { BaseUI } from "../../modules/ui/baseUI.ts";
+
 import { MainMenu } from "./MainMenu.ts";
 import { Label } from "../ui/label.ts";
 
 export class SplashScreen extends Scene {
   gap: number = 12;
   // theme: any = null;
-  sceneObjects: [] = [];
-  uiIterator: [] = [];
+  sceneObjects: any[] = [];
+  uiIterator: any[] = [];
 
   timer: number = 0;
 

@@ -16,10 +16,10 @@ export class Label extends BaseUI {
         text: string, 
         fontSize: number, 
         fontColor: string,
-        justification: string
+        justification?: string
     ) {
         super(x, y, width, height, text, fontSize, fontColor, "");
-        this.justification = justification;
+        this.justification = justification || "center";
     }
 
 

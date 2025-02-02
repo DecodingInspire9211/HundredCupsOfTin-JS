@@ -1,6 +1,5 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
 import { global } from "../../modules/global.ts";
-import { GameWorld } from "./GameWorld.ts";
 import {TextClass} from "../ui/text.ts";
 
 export class LoseScreen extends Scene {
