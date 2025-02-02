@@ -1,12 +1,23 @@
-# Twelve Months: Hundred Cups of Tin
-**Kenneth William BEIER**
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2em">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="src/components/imgs/PixelTitle.png" alt="Player - Knox" width="1024" style="image-rendering: pixelated;">
+    </div>
+</div>
 
 ---
 
-> Twelve Months: Hundred Cups of Tin is a game
->
->
->
+> ### Take Orders, Brew Coffee, Serve Customers, Earn Money
+> 
+> In this tycoon-like game, that's the task of a young anthropomorphic canine called Knox Janáček who moved to Raudsborough.
+> You, the player, will play as him and help him reaching the goal of running his own café.
+> 
+> Will you manage to help him reach his goal, or will you cause him to lose his chance?
+
+---
+
+## 🌐 **Play the Game**
+[Click here to play the game!](https://decodinginspire9211.github.io/HundredCupsOfTin-JS)
+
 
 ## Scenes
 ### **Main Menu**
@@ -28,9 +39,6 @@
 ## Audio
 ### **Main Theme**
 [tmhcot_theme_nes.ogg](src/components/audio/tmhcot_theme_nes.ogg)
-<audio controls>
-    <source src="src/components/audio/tmhcot_theme_nes.ogg" type="audio/ogg">
-    Your browser does not support the audio element.
 
 ### **Ingame Theme**
 [tmhcot_theme_nes.ogg](src/components/audio/tmhcot_nes_ingame.ogg)
