@@ -170,7 +170,7 @@ export class BaseGameObj {
         this.previousY = this.y;
     }
 
-    constructor(name: string, x: number, y: number, width: number, height: number, zOrder: number, collidable: boolean = false, triggerable: boolean = false) {
+    constructor(name: string, x: number, y: number, width: number, height: number, zOrder?: number, collidable: boolean = false, triggerable: boolean = false) {
         this.name = name;
 
         this.x = x;
@@ -181,7 +181,7 @@ export class BaseGameObj {
         this.previousX = x;
         this.previousY = y;
 
-        this.zOrder = zOrder; // Initialize zOrder
+        this.zOrder = zOrder || -1; // Initialize zOrder
         this.collidable = collidable; // Initialize collidable
         this.triggerable = triggerable
 

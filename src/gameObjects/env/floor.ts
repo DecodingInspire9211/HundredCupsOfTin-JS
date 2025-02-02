@@ -10,7 +10,7 @@ export class Floor extends BaseGameObj {
     public height: number = 0;
 
     constructor(name: string, x: number, y: number, width: number, height: number) {
-        super(name, x, y, width, height, 0);
+        super(name, x, y, width, height);
         this.name = name;
         this.x = x;
         this.y = y;
