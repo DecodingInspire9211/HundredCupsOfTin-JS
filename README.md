@@ -134,7 +134,7 @@ Below are the sprites and spritesheets used in the game.
         <p><b>Wall</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0;">
-        <img src="publicpublic/imgs/environment/floor.png" alt="Floor" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/environment/floor.png" alt="Floor" width="64" style="image-rendering: pixelated">
         <p><b>A single floor tile</b></p>
     </div>
 </div>
