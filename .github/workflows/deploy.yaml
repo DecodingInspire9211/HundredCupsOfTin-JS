@@ -22,14 +22,12 @@ jobs:
         cache: 'pnpm'
     - name: Install dependencies
       run: pnpm install
-    - name: Run development server
-      run: pnpm run dev
-        #    - name: Build
-        #      run: pnpm run build
-        #    - name: Upload artifacts
-        #      uses: actions/upload-pages-artifact@v3
-        #      with:
-        #        path: 'dist/.'
+    - name: Build
+      run: pnpm run build
+    - name: Upload artifacts
+      uses: actions/upload-pages-artifact@v3
+      with:
+          path: 'dist/.'
 
   deploy:
     needs: build
