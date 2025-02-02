@@ -7,7 +7,7 @@ export class IntroScreen extends Scene {
 
     gap: number = 12;
     theme: any = null;
-    sceneObjects: [] = [];
+    sceneObjects: any[] = [];
     uiIterator: any[] = [];
 
     timer: number = 0;

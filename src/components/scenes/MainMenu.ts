@@ -67,6 +67,7 @@ export class MainMenu extends Scene {
       "Kenneth William Beier (C) 2025",
       20,
       "white",
+        "center"
     );
 
     const start = new Button(

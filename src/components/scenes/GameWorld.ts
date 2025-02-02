@@ -15,7 +15,6 @@ import { Coffeemachine } from "../../gameObjects/furniture/coffeemachine.ts";
 import { Figtree } from "../../gameObjects/deco/plant1.ts";
 import { Economy } from "../../modules/gameobjs/economy.ts";
 import { Customer } from "../../gameObjects/customer.ts";
-import {Anim} from "../ui/anim.ts";
 
 export class GameWorld extends Scene {
   gap = 12;
@@ -25,8 +24,6 @@ export class GameWorld extends Scene {
   grid: Grid;
   coffeemachine: Coffeemachine | undefined;
   economy: Economy;
-
-  profile: Anim;
 
   player_zOrder: number = 2;
 
@@ -63,9 +60,9 @@ export class GameWorld extends Scene {
 
   update = () => {
     this.player.update();
-    this.coffeemachine.update();
-    this.customer1.update();
-    this.customer2.update();
+    this.coffeemachine!.update();
+    this.customer1!.update();
+    this.customer2!.update();
   };
 
   render = (ctx: CanvasRenderingContext2D) => {
@@ -73,7 +70,7 @@ export class GameWorld extends Scene {
     this.player.update_player_zOrder_by_ytile(this.grid);
 
     this.player.render(ctx);
-    this.coffeemachine.render(ctx);
+    this.coffeemachine!.render(ctx);
 
 
     this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
@@ -126,7 +123,7 @@ export class GameWorld extends Scene {
     );
 
     this.player.ui(uictx);
-    this.coffeemachine.ui(uictx);
+    this.coffeemachine!.ui(uictx);
 
     for (let i = 0; i < this.uiIterator.length; i++) {
       this.uiIterator[i].ui(uictx);
@@ -558,15 +555,15 @@ export class GameWorld extends Scene {
 
     this.sceneObjects.push(this.player);
 
-    this.sceneObjects.push(this.coffeemachine);
+    this.sceneObjects.push(this.coffeemachine!);
     this.uiIterator.push(this.coffeemachine.timerLabel!);
 
-    this.sceneObjects.push(this.customer1);
-    this.sceneObjects.push(this.customer2);
+    this.sceneObjects.push(this.customer1!);
+    this.sceneObjects.push(this.customer2!);
     // @ts-ignore
-    this.uiIterator.push(this.customer1);
+    this.uiIterator.push(this.customer1!);
     // @ts-ignore
-    this.uiIterator.push(this.customer2);
+    this.uiIterator.push(this.customer2!);
 
     this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
 

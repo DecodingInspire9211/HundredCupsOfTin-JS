@@ -6,12 +6,12 @@ export class Scene {
     sceneObjects: BaseGameObj[];
     uiIterator: BaseUI[];
 
-    init: () => void;
-    update: (deltaTime: number) => void;
-    render: (ctx: CanvasRenderingContext2D) => void;
-    interact: () => void;
-    ui: (uictx: CanvasRenderingContext2D) => void;
-    destroy: () => void;
+    init: () => void | any;
+    update: (deltaTime: number) => void | any;
+    render: (ctx: CanvasRenderingContext2D) => void | any;
+    interact: () => void | any;
+    ui: (uictx: CanvasRenderingContext2D) => void | any;
+    destroy: () => void | any;
 
     constructor() {
         this.sceneName = "";

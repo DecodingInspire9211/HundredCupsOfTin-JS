@@ -7,8 +7,8 @@ export class LoseScreen extends Scene {
 
     gap: number = 12;
     theme: any = null;
-    sceneObjects: [] = [];
-    uiIterator: [] = [];
+    sceneObjects: any[] = [];
+    uiIterator: any[] = [];
 
     timer: number = 0;
 
