@@ -1,6 +1,6 @@
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2em">
     <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="src/components/imgs/PixelTitle.png" alt="Player - Knox" width="1024" style="image-rendering: pixelated;">
+        <img src="public/imgs/PixelTitle.png" alt="Player - Knox" width="1024" style="image-rendering: pixelated;">
     </div>
 </div>
 
@@ -16,7 +16,27 @@
 ---
 
 ## Play the Game
-[Twelve Months: Hundred Cups of Tin](https://decodinginspire9211.github.io/HundredCupsOfTin-JS)
+[Play the game "Twelve Months: Hundred Cups of Tin" here!](https://decodinginspire9211.github.io/HundredCupsOfTin-JS)
+
+## Controls
+<div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: column; gap: 0; line-height: 0">
+        <p><b>WASD Keys</b></p>
+        -----------------
+        <p>W - Move Up</p>
+        <p>A - Move Left</p>
+        <p>S - Move Down</p>
+        <p>D - Move Right</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0; line-height: 0">
+        <p><b>Action Keys</b></p>
+        ------------------
+        <p>E - Interact (Take orders, brew coffee, serve order)</p>
+        <p>Q - Interact (Take coffee out of the machine)</p>
+    </div>
+
+</div>
+
 
 
 ## Scenes
@@ -38,10 +58,10 @@
 
 ## Audio
 ### **Main Theme**
-[tmhcot_theme_nes.ogg](src/components/audio/tmhcot_theme_nes.ogg)
+[tmhcot_theme_nes.ogg](public/audio/tmhcot_theme_nes.ogg)
 
 ### **Ingame Theme**
-[tmhcot_theme_nes.ogg](src/components/audio/tmhcot_nes_ingame.ogg)
+[tmhcot_theme_nes.ogg](public/audio/tmhcot_nes_ingame.ogg)
 
 ## Sprites / Spritesheets
 Below are the sprites and spritesheets used in the game.
@@ -49,11 +69,11 @@ Below are the sprites and spritesheets used in the game.
 ### **The Player - Knox Janáček**
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2em">
     <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="src/components/imgs/profile.png" alt="Player - Knox" width="" style="image-rendering: pixelated">
+        <img src="public/imgs/profile.png" alt="Player - Knox" width="" style="image-rendering: pixelated">
         <p><b>Animated Profile Window</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="src/components/imgs/playertest.png" alt="Player - Knox" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/playertest.png" alt="Player - Knox" width="64" style="image-rendering: pixelated">
         <p><b>Knox Janáček</b></p>
     </div>
 </div>
@@ -61,11 +81,11 @@ Below are the sprites and spritesheets used in the game.
 ### **NPCs**
 <div style="display: flex; flex-direction: row; align-items: center;">
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0">
-        <img src="src/components/imgs/decdec.png" alt="NPC - Deco" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/decdec.png" alt="NPC - Deco" width="64" style="image-rendering: pixelated">
         <p><b>NPC 1</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0">
-        <img src="src/components/imgs/zer.png" alt="NPC - Zergal" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/zer.png" alt="NPC - Zergal" width="64" style="image-rendering: pixelated">
         <p><b>NPC 2</b></p>
     </div>
 </div>
@@ -73,30 +93,30 @@ Below are the sprites and spritesheets used in the game.
 ### **Objects**
 <div style="display: flex; flex-direction: row; align-items: baseline;">
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0">
-        <img src="src/components/imgs/wallcounter.png" alt="Wallcounter" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/wallcounter.png" alt="Wallcounter" width="64" style="image-rendering: pixelated">
         <p><b>Wallcounter</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0">
-        <img src="src/components/imgs/counter.png" alt="Counter" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/counter.png" alt="Counter" width="64" style="image-rendering: pixelated">
         <p><b>Counter</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0;">
-        <img src="src/components/imgs/table.png" alt="Table" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/table.png" alt="Table" width="64" style="image-rendering: pixelated">
         <p><b>Table</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0;">
-        <img src="src/components/imgs/plant1.png" alt="Plant" width="64" style="image-rendering: pixelated">
+        <img src="public/imgs/plant1.png" alt="Plant" width="64" style="image-rendering: pixelated">
         <p><b>Plant</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; flex: 3 1 0;">
-        <img src="src/components/imgs/chairspritesheet.png" alt="Chair" width="256" style="image-rendering: pixelated">
+        <img src="public/imgs/chairspritesheet.png" alt="Chair" width="256" style="image-rendering: pixelated">
         <p><b>Chair & its orientations</b></p>
     </div>
 </div>
 <div style="display: flex; flex-direction: row; align-items: baseline; justify-content: center;">
     <div style="display: flex; flex-direction: row; align-items: center; gap: 4em;">
         <div style="display: flex; flex-direction: column; gap: 0; flex: 1 1 0; align-items: center">
-            <img src="src/components/imgs/coffeemachine_spritesheet.png" alt="Chair" width="128" style="image-rendering: pixelated">
+            <img src="public/imgs/coffeemachine_spritesheet.png" alt="Chair" width="128" style="image-rendering: pixelated">
             <p><b>Coffee Machine</b></p>
         </div>
         <div style="display: flex; flex-direction: column; gap: 0; line-height: 0; margin: 0; align-items: flex-start">
@@ -110,11 +130,11 @@ Below are the sprites and spritesheets used in the game.
 ### **Environment**
 <div style="display: flex; flex-direction: row; align-items: baseline;">
     <div style="display: flex; flex-direction: column; align-items: center; flex: 6 1 0">
-        <img src="src/components/imgs/walltestnew.png" alt="Wall" width="576" style="image-rendering: pixelated">
+        <img src="public/imgs/walltestnew.png" alt="Wall" width="576" style="image-rendering: pixelated">
         <p><b>Wall</b></p>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; flex: 1 1 0;">
-        <img src="src/components/imgs/environment/floor.png" alt="Floor" width="64" style="image-rendering: pixelated">
+        <img src="publicpublic/imgs/environment/floor.png" alt="Floor" width="64" style="image-rendering: pixelated">
         <p><b>A single floor tile</b></p>
     </div>
 </div>

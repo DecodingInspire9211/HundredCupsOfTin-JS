@@ -129,3 +129,12 @@ doesn't animate for some reason...
 FINISHING THE GAME MECHANICS TO THE PLAYABLE STATE
 ==================================================
 23. Jänner 2025
+
+As the title says, this day was about finishing the game mechanics
+to a playable state. The player can now take orders, serve coffee,
+and earn money. The player can also lose the game by running out of money.
+
+There are bugs left, but the two weeks are over
+and I have to submit the project.
+
+END OF DEVELOPMENT
