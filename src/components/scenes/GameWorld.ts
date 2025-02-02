@@ -1,11 +1,9 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
 import { Wall } from "../../gameObjects/env/wall.ts";
 import { Button } from "../ui/button.ts";
-import { Label } from "../ui/label.ts";
 import { TILE_SIZE } from "../../../lib/constants.ts";
 import { Floor } from "../../gameObjects/env/floor.ts";
 import { global } from "../../modules/global.ts";
-import { MainMenu } from "./MainMenu.ts";
 import { Grid } from "../../modules/gameobjs/grid.ts";
 import { Player } from "../../gameObjects/player.ts";
 import { Counter } from "../../gameObjects/furniture/counter.ts";
@@ -14,9 +12,7 @@ import { Pseudo } from "../../gameObjects/pseudo.ts";
 import { Chair } from "../../gameObjects/furniture/chair.ts";
 import { Table } from "../../gameObjects/furniture/table.ts";
 import { Coffeemachine } from "../../gameObjects/furniture/coffeemachine.ts";
-import { BaseGameObj } from "../../modules/gameobjs/baseGameObj.ts";
 import { Figtree } from "../../gameObjects/deco/plant1.ts";
-import { ImageCl } from "../ui/image.ts";
 import { Economy } from "../../modules/gameobjs/economy.ts";
 import { Customer } from "../../gameObjects/customer.ts";
 import {Anim} from "../ui/anim.ts";
@@ -29,7 +25,6 @@ export class GameWorld extends Scene {
   grid: Grid;
   coffeemachine: Coffeemachine;
   economy: Economy;
-  sceneObjects: BaseGameObj[];
 
   profile: Anim;
 
@@ -568,7 +563,9 @@ export class GameWorld extends Scene {
 
     this.sceneObjects.push(this.customer1);
     this.sceneObjects.push(this.customer2);
+    // @ts-ignore
     this.uiIterator.push(this.customer1);
+    // @ts-ignore
     this.uiIterator.push(this.customer2);
 
     this.sceneObjects.sort((a, b) => a.zOrder - b.zOrder);
