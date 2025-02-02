@@ -4,12 +4,9 @@ import { global } from "../modules/global.ts";
 import { Key } from "../modules/input/keyHandler.ts";
 import { Coffeemachine } from "./furniture/coffeemachine.ts";
 import { Label } from "../components/ui/label.ts";
-import { ImageCl } from "../components/ui/image.ts";
 import { Customer } from "./customer.ts";
 import { Anim } from "../components/ui/anim.ts";
 import { Economy } from "../modules/gameobjs/economy.ts";
-
-import { KWB_Maths } from "../../lib/math.ts";
 
 class Player extends BaseGameObj {
   gap = 12;
@@ -38,7 +35,7 @@ class Player extends BaseGameObj {
   public single: number = 0;
 
   profile: Anim;
-  profitdisplay: Label;
+  profitdisplay: Label | undefined;
 
   animationData = {
     animationSprites: [],
@@ -55,9 +52,9 @@ class Player extends BaseGameObj {
 
   economy: Economy;
 
-  playername: Label;
-  coffeeInHand: Label;
-  money: Label;
+  playername: Label | undefined;
+  coffeeInHand: Label | undefined;
+  money: Label | undefined;
 
   constructor(
     name: string,
@@ -175,7 +172,7 @@ class Player extends BaseGameObj {
     //global.handleInput.keyBinary = 0 << 0;
   };
 
-  ui = (uictx) => {
+  ui = (uictx : any) => {
     global.economy.getStats();
 
     this.profitdisplay = new Label(

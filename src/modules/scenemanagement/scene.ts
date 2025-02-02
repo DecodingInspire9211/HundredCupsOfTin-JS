@@ -20,8 +20,11 @@ export class Scene {
 
         this.init = () => {};
         this.update = () => {};
+        //@ts-ignore
         this.render = (ctx: CanvasRenderingContext2D) => {};
         this.interact = () => {};
+
+        //@ts-ignore
         this.ui = (uictx: CanvasRenderingContext2D) => {};
         this.destroy = () => {};
 

@@ -1,7 +1,5 @@
-import { BaseGameObj } from "./baseGameObj.ts";
 import { SceneManager } from "./scenemanagement/scenemanager.ts";
 
-import { GameWorld } from "../components/scenes/GameWorld.ts";
 import { SplashScreen } from "../components/scenes/SplashScreen.ts";
 
 import { loadFont } from "./internals/loadFont.ts";
@@ -17,7 +15,7 @@ interface Global {
   previousTRT: number;
   fps: number;
   deltaTime: number;
-  allGameObjects: BaseGameObj[];
+  allGameObjects: any[];
   playerObject: {};
 
   audioManager: AudioManager;
@@ -42,7 +40,6 @@ interface Global {
   detectBoxTrigger: (gameObject1: any, gameObject2: any) => boolean;
 
   handleInput: KeyHandler;
-
   economy: Economy;
 
   updateFPS: () => void;
@@ -66,7 +63,8 @@ const global: Global = {
   audioManager: new AudioManager(),
   sceneManager: new SceneManager(),
 
-  //handleInput : new KeyHandler(),
+  handleInput: {} as KeyHandler,
+  economy: {} as Economy,
 
   init: function () {
     this.updateCanvasSize();

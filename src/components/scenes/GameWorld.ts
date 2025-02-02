@@ -553,7 +553,7 @@ export class GameWorld extends Scene {
     this.sceneObjects.push(chair5);
     this.sceneObjects.push(figtree);
 
-    this.sceneObjects.push(this.player);
+    this.sceneObjects.push(this.player!);
 
     this.sceneObjects.push(this.coffeemachine!);
     this.uiIterator.push(this.coffeemachine.timerLabel!);

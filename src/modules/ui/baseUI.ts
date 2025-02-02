@@ -49,7 +49,7 @@ export class BaseUI {
     }
 
     //only added because of time constraints from project
-    animationData = {
+    animationData : any = {
         "animationSprites": [],
         "timePerSprite": 0.08,
         "currentSpriteElapsedTime": 0,
@@ -117,8 +117,8 @@ export class BaseUI {
                 for (let col = 0; col < cols; col++) {
 
                     // Clear the temporary canvas and draw the specific sprite region from the spritesheet
-                    tempSpritesheetCtx.clearRect(0, 0, singleSpriteWidth, singleSpriteHeight);
-                    tempSpritesheetCtx.drawImage(
+                    tempSpritesheetCtx!.clearRect(0, 0, singleSpriteWidth, singleSpriteHeight);
+                    tempSpritesheetCtx!.drawImage(
                         spritesheet,
                         col * singleSpriteWidth,
                         row * singleSpriteHeight,
@@ -138,7 +138,7 @@ export class BaseUI {
         });
     }
 
-    switchCurrentSprites = (firstSpriteIndex, lastSpriteIndex) => {
+    switchCurrentSprites = (firstSpriteIndex : any, lastSpriteIndex : any) => {
         this.animationData.currentSpriteIndex = firstSpriteIndex;
         this.animationData.firstSpriteIndex = firstSpriteIndex;
         this.animationData.lastSpriteIndex = lastSpriteIndex;
@@ -154,6 +154,7 @@ export class BaseUI {
 
     reactToCollision = function() {}
 
+    //@ts-ignore
     reactToTrigger = function(triggeringObject: any) {
 
     }

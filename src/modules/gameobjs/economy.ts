@@ -1,4 +1,3 @@
-import {TILE_SIZE} from "../../../lib/constants.ts";
 import {global} from "../global.ts";
 import {LoseScreen} from "../../components/scenes/LoseScreen.ts";
 import {WinScreen} from "../../components/scenes/WinScreen.ts";

@@ -10,9 +10,11 @@ export class AudioManager {
 
   constructor(
     firstSourceURL?: string,
+    //@ts-ignore
     audioManagerTrackOptions: AudioManagerTrackOptions = {
       loop: false,
     },
+    //@ts-ignore
     volume: number = 1.0,
   ) {
     // set up an audiocontext to be used with several different sources
@@ -70,6 +72,7 @@ export class AudioManager {
       loop: false,
     },
     // TODO make track volume actually apply
+    //@ts-ignore
     volume: number = 0.5,
   ) {
     // TODO make track volume changeable

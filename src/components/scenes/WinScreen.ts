@@ -1,14 +1,13 @@
 import { Scene } from "../../modules/scenemanagement/scene.ts";
 import { global } from "../../modules/global.ts";
-import { GameWorld } from "./GameWorld.ts";
 import {TextClass} from "../ui/text.ts";
 
 export class WinScreen extends Scene {
 
     gap: number = 12;
     theme: any = null;
-    sceneObjects: [] = [];
-    uiIterator: [] = [];
+    sceneObjects: any[] = [];
+    uiIterator: any[] = [];
 
     timer: number = 0;
 

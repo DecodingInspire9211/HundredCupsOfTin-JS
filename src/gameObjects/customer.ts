@@ -132,11 +132,11 @@ export class Customer extends BaseGameObj {
     // }
   };
 
-  ui = (ctx) => {
+  ui = (ctx : any) => {
     this.actNotice.ui(ctx);
   };
 
-  render = (ctx) => {
+  render = (ctx : any) => {
     let sprite = this.getNextSprite();
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
@@ -168,7 +168,7 @@ export class Customer extends BaseGameObj {
     this.order = order;
   };
 
-  reactToTrigger = (source) => {
+  reactToTrigger = (source : any) => {
     if (source instanceof Player) {
 
         // IF NO ORDER WAS TAKEN
@@ -252,7 +252,7 @@ export class Customer extends BaseGameObj {
     //console.log("Customer received coffee");
   };
 
-  reactToCollision = (source) => {
+  reactToCollision = () => {
 
   };
 }

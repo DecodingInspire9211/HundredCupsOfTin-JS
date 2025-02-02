@@ -1,6 +1,4 @@
 import { BaseUI } from "../../modules/ui/baseUI.ts";
-import {global} from "../../modules/global.ts";
-import {BaseGameObj} from "../../modules/gameobjs/baseGameObj.ts";
 
 export class Anim extends BaseUI {
     active = true;

@@ -123,8 +123,8 @@ export class BaseGameObj {
                 for (let col = 0; col < cols; col++) {
 
                     // Clear the temporary canvas and draw the specific sprite region from the spritesheet
-                    tempSpritesheetCtx.clearRect(0, 0, singleSpriteWidth, singleSpriteHeight);
-                    tempSpritesheetCtx.drawImage(
+                    tempSpritesheetCtx!.clearRect(0, 0, singleSpriteWidth, singleSpriteHeight);
+                    tempSpritesheetCtx!.drawImage(
                         spritesheet,
                         col * singleSpriteWidth,
                         row * singleSpriteHeight,
@@ -144,16 +144,18 @@ export class BaseGameObj {
         });
     }
 
-    switchCurrentSprites = (firstSpriteIndex, lastSpriteIndex) => {
+    switchCurrentSprites = (firstSpriteIndex : any, lastSpriteIndex : any) => {
         this.animationData.currentSpriteIndex = firstSpriteIndex;
         this.animationData.firstSpriteIndex = firstSpriteIndex;
         this.animationData.lastSpriteIndex = lastSpriteIndex;
     }
 
+    //@ts-ignore
     reactToCollision = function(collidingObject: any) {
 
     }
 
+    //@ts-ignore
     reactToTrigger = function(triggeringObject: any) {
 
     }
