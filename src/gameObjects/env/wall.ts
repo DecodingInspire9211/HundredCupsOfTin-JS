@@ -43,7 +43,7 @@ export class Wall extends BaseGameObj {
             this.animationData.lastSpriteIndex = 8;
         }
 
-        this.loadImagesFromSpritesheet("../src/components/imgs/walltestnew.png", 9, 1);
+        this.loadImagesFromSpritesheet("imgs/walltestnew.png", 9, 1);
     }
 
     // loadImages = () => {

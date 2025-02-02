@@ -41,7 +41,7 @@ export class Chair extends BaseGameObj {
         this.triggerable = triggerable;
 
         //this.loadImages();
-        this.loadImagesFromSpritesheet("../src/components/imgs/chairspritesheet.png", 4, 1);
+        this.loadImagesFromSpritesheet("imgs/chairspritesheet.png", 4, 1);
     }
 
     getBoxBounds = () => {

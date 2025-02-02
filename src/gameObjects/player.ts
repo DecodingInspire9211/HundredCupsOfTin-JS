@@ -78,7 +78,7 @@ class Player extends BaseGameObj {
     this.animationData.lastSpriteIndex = single;
     //this.loadImages();
     this.loadImagesFromSpritesheet(
-      "../src/components/imgs/playertest.png",
+      "imgs/playertest.png",
       1,
       1,
     );
@@ -103,7 +103,7 @@ class Player extends BaseGameObj {
     this.newtimer = 0;
 
     this.profile = new Anim(
-      "src/components/imgs/profile.png",
+      "imgs/profile.png",
       this.gap,
       global.ui!.height - this.gap - 256,
       256,

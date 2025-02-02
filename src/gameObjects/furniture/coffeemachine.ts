@@ -37,7 +37,7 @@ export class Coffeemachine extends BaseGameObj {
 
         this.timerLabel = new Label(this.x + 20, this.y, 250, 50, "", 20, "gold", "left");
 
-        this.loadImagesFromSpritesheet("../src/components/imgs/coffeemachine_spritesheet.png", 2, 3);
+        this.loadImagesFromSpritesheet("imgs/coffeemachine_spritesheet.png", 2, 3);
         this.animationData.timePerSprite = 0.5;
 
         this.switchCurrentSprites(0, 1);

@@ -140,7 +140,7 @@ export class GameWorld extends Scene {
   };
 
   createUI = () => {
-    global.audioManager.addTrack("/src/components/audio/tmhcot_nes_ingame.ogg", {
+    global.audioManager.addTrack("audio/tmhcot_nes_ingame.ogg", {
       loop: true,
     });
 
@@ -511,7 +511,7 @@ export class GameWorld extends Scene {
 
     this.grid.setPos(10, 9.5);
     this.customer1 = new Customer(
-        "../src/components/imgs/zer.png",
+        "imgs/zer.png",
       `Customer`,
       this.grid.x,
       this.grid.y - TILE_SIZE,
@@ -525,7 +525,7 @@ export class GameWorld extends Scene {
 
     this.grid.setPos(8, 9.5);
     this.customer2 = new Customer(
-        "../src/components/imgs/decdec.png",
+        "imgs/decdec.png",
       `Customer`,
         this.grid.x,
       this.grid.y - TILE_SIZE,

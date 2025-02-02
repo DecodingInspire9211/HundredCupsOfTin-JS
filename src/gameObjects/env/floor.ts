@@ -22,7 +22,7 @@ export class Floor extends BaseGameObj {
     loadImages = () => {
         /* first load images from path */
         let image1 = new Image();
-        image1.src = "../src/components/imgs/environment/floor.png";
+        image1.src = "imgs/environment/floor.png";
 
         /* after images have been loaded, they are added to an array that consists of each single sprite for our animation */
         this.animationData.animationSprites.push(image1);
